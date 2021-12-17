@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Paya-n Japan メール</title>
+    <link rel="stylesheet" href="reset.css">
+    <script src="jquery-3.4.1.min.js"></script>
+
+    <style>
+
+        img {
+            margin: auto;
+            display: block;
+            width: 100%;
+        }
+
+        .img--pop {
+            position: absolute;
+            width: 100%;
+            top: 0;
+            left: 0;
+            z-index: 200;
+        }
+
+        input, input:focus, textarea {
+            background: none;
+            border: none;
+            outline: none;
+            display: block;
+            position: absolute;
+            z-index: 100;
+            font-family: 'ヒラギノ角ゴ Pro W3', 'Hiragino Kaku Gothic Pro', 'メイリオ', Meiryo, 'ＭＳ Ｐゴシック', sans-serif;
+            font-size: 0.88vw;
+        }
+
+        .button {
+            cursor: pointer;
+            position: absolute;
+            z-index: 100;
+            top: 39vw;
+            left: 12vw;
+            width: 10vw;
+            height: 5vw;
+
+        }
+        .col {
+            font-weight: bold;
+            font-size: 0.78vw;
+        }
+
+        .tf {
+            top: 12.5vw;
+            left: 17.2vw;
+            width: 17vw;
+        }
+
+        .tf2 {
+            top: 12.5vw;
+            left: 35.4vw;
+            width:41.8vw;
+        }
+
+        .tf3 {
+            top: 12.5vw;
+            left: 78vw;
+            width: 21vw;
+        }
+
+        .tf4 {
+            top: 24.5vw;
+            left: 17vw;
+            width: 32vw;
+        }
+
+        .tf5 {
+            top: 26.3vw;
+            left: 17vw;
+            width: 32vw;
+        }
+
+        .tfmain {
+            top: 28.6vw;
+            left: 12vw;
+            height: 8vw;
+            width: 88vw;
+
+        }
+
+
+        .vcontainer {
+            text-align: center;
+            display: block;
+            position: absolute;
+            margin: auto;
+            width: 100%;
+            top: 20%;
+            z-index: 300;
+        }
+
+    </style>
+
+    <script>
+        $(function () {
+            $(".vcontainer").hide();
+
+            $(".col").each(function () {
+                let w = $(window).width();
+
+                for (let i = 0; i < 5; i++) {
+                    $(this).parent().append(
+                        $(this).clone().css({
+                            top: $(this).position().top + w * 0.0158 * i
+                        })
+                    )
+                }
+            });
+
+            $(".img--pop").hide();
+            $(".button").click(function () {
+                $(".img--main").css("opacity", 0.5)
+                $(".vcontainer").show();
+            });
+
+            $(".vcontainer").click(function () {
+                $(".vcontainer").off("click");
+                $("video").get(0).play();
+                $(".vcontainer").click(function(){
+                    $("video").get(0).pause();
+                    $(".vcontainer").off("click");
+                    $(".vcontainer").click(function(){
+                        window.location.href = 'index3.html';
+                    });
+                });
+
+            });
+
+
+        });
+    </script>
+
+</head>
+<body>
+<div class="button"></div>
+<img class="img--main" src="img/b1.png">
+<img class="img--pop" src="img/pop.png">
+<input type="text" class="tf col">
+<input type="text" class="tf2 col">
+<input type="text" class="tf3 col">
+<input type="text" class="tf4">
+<input type="text" class="tf5">
+<textarea type="text" class="tfmain"></textarea>
+<div class="vcontainer">
+    <video src="img/video.mp4"></video>
+</div>
+</body>
+</html>

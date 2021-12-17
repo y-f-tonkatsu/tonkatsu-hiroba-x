@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+
+    <meta name="viewport"
+          content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi"/>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+
+    <meta charset="UTF-8">
+    <title><元恋人が告白> 家内更紗ちゃん事件再び</title>
+
+    <link rel="stylesheet" href="reset.css">
+
+    <style>
+
+        body{
+            background-image: url("s100.png");
+            height: 2000px;
+            width: 100%;
+            background-repeat: no-repeat;
+            background-size: 100%;        }
+
+        .test {
+            background: rgba(255, 0, 0, 0.2);
+        }
+
+        .full {
+            width: 100%;
+            position: absolute;
+            top:0;
+            left: 0;
+        }
+
+        .container {
+            width: 100%;
+            position: absolute;
+        }
+
+        input, input:focus {
+            font-size: 5.5vw;
+            background: none;
+            border: none;
+            outline: none;
+            display: block;
+            position: absolute;
+            z-index: 100;
+            font-family: 'ヒラギノ角ゴ Pro W3', 'Hiragino Kaku Gothic Pro', 'メイリオ', Meiryo, 'ＭＳ Ｐゴシック', sans-serif;
+        }
+
+        .v0 {
+            position: absolute;
+            top: 35vw;
+            left: 11vw;
+            width: 80vw;
+            height: 3vw;
+        }
+
+        .text2 {
+            top: 45.0vw;
+            left: 11vw;
+            width: 80vw;
+            height: 3vw;
+        }
+
+        .overlay {
+            position: absolute;
+            left: 0;
+            top: 49vw;
+            z-index: 100;
+            width: 100vw;
+            height: 50vw;
+        }
+
+        .container{
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4);
+        }
+
+        .v {
+            margin: 10% 12%;
+            max-width: 80%;
+        }
+
+        .vz {
+            margin: 21vw 0 0 15.6vw;
+            width: 50vw;
+
+        }
+
+    </style>
+
+    <script src="jquery-3.4.1.min.js"></script>
+    <script type="application/javascript">
+        $(function () {
+            $(".container").hide();
+            $(".vz").click(function (e) {
+                e.preventDefault();
+                $("video").removeClass("vz").addClass("v");
+                $(".container").show().append($("video"));
+            });
+        });
+    </script>
+
+</head>
+<body>
+<div class="container">
+</div>
+<video src="s100.mp4" class="vz" controls preload="auto"></video>
+</body>
+</html>

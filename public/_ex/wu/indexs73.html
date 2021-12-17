@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+
+    <meta name="viewport"
+          content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi"/>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+
+    <meta charset="UTF-8">
+    <title>s73</title>
+
+    <link rel="stylesheet" href="reset.css">
+
+    <style>
+        .test {
+            background: rgba(255, 0, 0, 0.2);
+        }
+
+        .full {
+            width: 100%;
+        }
+
+        .top {
+            width: 100%;
+            position: fixed;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .bottom {
+            width: 100%;
+            position: fixed;
+            bottom: 0;
+            z-index: 1000;
+        }
+
+        .container {
+            width: 100%;
+            position: absolute;
+        }
+
+        input, input:focus {
+            font-size: 5.5vw;
+            background: none;
+            border: none;
+            outline: none;
+            display: block;
+            position: absolute;
+            z-index: 100;
+            font-family: 'ヒラギノ角ゴ Pro W3', 'Hiragino Kaku Gothic Pro', 'メイリオ', Meiryo, 'ＭＳ Ｐゴシック', sans-serif;
+        }
+
+        .text1 {
+            top: 133vw;
+            left: 6vw;
+            width: 71vw;
+            height: 10vw;
+            font-size: 4vw;
+            color: #778;
+        }
+
+        .text2 {
+            top: 147.8vw;
+            left: 5vw;
+            width: 71vw;
+            height: 10vw;
+            color: #778;
+            font-size: 3.3vw;
+            font-weight: bold;
+        }
+
+        .text3 {
+            top: 147.8vw;
+            left: 41vw;
+            width: 71vw;
+            height: 10vw;
+            color: #778;
+            font-size: 3.3vw;
+            font-weight: bold;
+        }
+
+        .text4 {
+            top: 156.2vw;
+            left: 5vw;
+            width: 71vw;
+            height: 10vw;
+            color: #778;
+            font-size: 3.3vw;
+            font-weight: bold;
+        }
+
+        .overlay {
+            position: absolute;
+            left: 0;
+            top: 50vw;
+            z-index: 100;
+            width: 17vw;
+            height: 80vw;
+        }
+    </style>
+
+    <script src="jquery-3.4.1.min.js"></script>
+    <script type="application/javascript">
+
+        function format(num) {
+            let str = num.toString();
+            if (str.length <= 4) return str;
+            let i = str.length % 3;
+            return str.slice(0, i) + "," + str.slice(i)
+        }
+
+        let t1, t2, t3, t4;
+
+        $(function () {
+            let view = 23215;
+            let rt = 1513;
+            let qrt = 238;
+            let good = 5062;
+
+            let first = true;
+
+            [
+                {
+                    num: 23215,
+                    elem: $(".view"),
+                    nextF: function () {
+                        return Math.floor(Math.random() * 400) + 400;
+                    }
+                },
+                {
+                    num: 1513,
+                    elem: $(".rt"),
+                    nextF: function () {
+                        return Math.floor(Math.random() * 1000) + 1500;
+                    }
+                },
+                {
+                    num: 238,
+                    elem: $(".qrt"),
+                    nextF: function () {
+                        return Math.floor(Math.random() * 1000) + 2500;
+                    }
+                },
+                {
+                    num: 5062,
+                    elem: $(".good"),
+                    nextF: function () {
+                        return Math.floor(Math.random() * 400) + 400;
+                    }
+                },
+            ].forEach(function (item) {
+                let set = function (next) {
+                    $(item.elem).val(format(item.num++));
+                    setTimeout(function () {
+                        set(item.nextF());
+                    }, next);
+                }
+                set(item.nextF());
+            });
+
+        });
+    </script>
+
+</head>
+<body>
+<img src="s73_bottom.png" class="bottom"/>
+<img src="s73.png" class="full img1"/>
+<input type="text" class="text1 view" value="">
+<input type="text" class="text2 rt" value="">
+<input type="text" class="text3 qrt" value="">
+<input type="text" class="text4 good" value="">
+</body>
+</html>

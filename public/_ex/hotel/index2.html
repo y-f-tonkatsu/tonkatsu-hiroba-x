@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <title>Coogle</title>
+
+    <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/3.18.1/build/cssreset/cssreset-min.css">
+    <script src="jquery-3.4.1.slim.min.js"></script>
+
+    <style>
+
+        input, input:focus {
+            background: none;
+            border: none;
+            outline: none;
+            display: block;
+            position: absolute;
+            z-index: 100;
+            font-family: 'ヒラギノ角ゴ Pro W3', 'Hiragino Kaku Gothic Pro', 'メイリオ', Meiryo, 'ＭＳ Ｐゴシック', sans-serif;
+        }
+
+        .main {
+            position: fixed;
+            height: 100%;
+        }
+
+        .linker {
+            position: fixed;
+            height: 7%;
+            width: 100%;
+            top: 93%;
+            cursor: pointer;
+        }
+
+        .tf {
+            position: absolute;
+        }
+    </style>
+
+    <script>
+
+        $(function () {
+
+            let w = $(".main").width();
+            let h = $(".main").height();
+
+            $(".tf").css({
+                width: w * 0.4,
+                height: h * 0.05,
+                left: w * 0.325,
+                top: h * 0.49,
+            });
+            var list = [
+                'ｔ',
+                'た',
+                'たｔ',
+                'たて',
+                'たてｓ',
+                'たてし',
+                'たてしｎ',
+                'たてしな',
+                '蓼科',
+                '蓼科　',
+                '蓼科　ｐ',
+                '蓼科　ぺ',
+                '蓼科　ぺｎ',
+                '蓼科　ぺん',
+                '蓼科　ぺんｓ',
+                '蓼科　ぺんｓｙ',
+                '蓼科　ぺんしょ',
+                '蓼科　ぺんしょｎ',
+                '蓼科　ぺんしょん',
+                '蓼科　ペンション',
+            ];
+
+            var i = 0;
+            $(window).on("keypress", function (e) {
+
+                e.preventDefault();
+
+                var keycode = (event.keyCode ? event.keyCode : event.which);
+                if (keycode == '13') {
+                    next();
+                } else {
+                    if (list[i]) {
+                        $(".tf").attr('value', list[i]).get(0).setSelectionRange(list[i].length, list[i].length);
+                        i++;
+                    } else {
+                        next();
+                    }
+                }
+
+            });
+
+            $(".main").click(function(){
+                next();
+            });
+
+            var next = function () {
+                next = function(){};
+                $(".main").attr("src", "img/coogle2.jpg");
+                $(".tf").hide();
+            };
+
+        })
+
+
+    </script>
+</head>
+<body>
+<img class="main" src="img/coogle.jpg">
+<input type="text" class="tf">
+<a class="linker" href="index3.html"></a>
+</body>
+</html>

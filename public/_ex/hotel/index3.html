@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>蓼科のペンション検索</title>
+
+    <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/3.18.1/build/cssreset/cssreset-min.css">
+    <script src="jquery-3.4.1.slim.min.js"></script>
+
+    <style>
+        body {
+        }
+
+        .main {
+            position: fixed;
+            height: 100%;
+        }
+
+        .list {
+            z-index: 10;
+            position: fixed;
+            overflow-y: scroll;
+        }
+
+        .base {
+            z-index: 1;
+        }
+
+        .icons {
+            z-index: 2;
+        }
+        
+        .basetop {
+            z-index: 3;
+        }
+
+        .f {
+            z-index: 3;
+        }
+
+        .top {
+            z-index: 10;
+        }
+
+        .item {
+            width: 100%;
+        }
+
+        .pop {
+            background: black;
+            z-index: 20;
+            position: fixed;
+            width: 100%;
+            height: 100%;
+        }
+
+        .popimg{
+            display: block;
+            position: relative;
+            height: 70%;
+            margin: 80px auto;
+        }
+
+        .close{
+            display: block;
+            position: fixed;
+            width: 14px;
+            height: 14px;
+            right: 16px;
+            top: 16px;
+        }
+
+        .prev{
+            display: block;
+            position: fixed;
+            width: 53px;
+            height: 53px;
+            left: 16px;
+            top: 49%;
+        }
+
+        .next{
+            display: block;
+            position: fixed;
+            width: 53px;
+            height: 53px;
+            right: 16px;
+            top: 49%;
+        }
+
+    </style>
+
+    <script>
+        $(function () {
+
+            $(".f").hide();
+            $(".pop").hide();
+
+            let w = $(".base").width();
+            let h = $(".base").height();
+
+            $(".list").css({
+                width: w * 0.315,
+                height: h * 0.59,
+                left: w * 0.07,
+                top: h * 0.39,
+            });
+
+            $(".item").click(function () {
+                $(".popimg").attr("src", '').show();
+                let src = "img/c" + $(this).attr("data-i") + ".jpg";
+                $(".popimg").attr("src", src).show();
+                $(".pop").show();
+            });
+
+            $(".item").hover(function () {
+                let src = "img/g" + $(this).attr("data-i") + ".png";
+                $(".f").attr('src', src)
+                    .show();
+            }, function () {
+                $(".f").hide();
+            });
+
+            $(".pop").click(function () {
+                $(".pop").hide();
+                $(".popimg").hide();
+            });
+
+        });
+    </script>
+
+</head>
+<body>
+
+<img class="main base" src="img/base2.png">
+<img class="main basetop" src="img/base2_top.png">
+<img class="main base" src="img/jcons2.png">
+<img class="main top" src="img/top.png">
+
+<img class="main f" src="img/g01.png">
+<img class="main f" src="img/g02.png">
+<img class="main f" src="img/g03.png">
+<img class="main f" src="img/g04.png">
+<img class="main f" src="img/g05.png">
+<img class="main f" src="img/g06.png">
+<img class="main f" src="img/g07.png">
+<img class="main f" src="img/g08.png">
+<img class="main f" src="img/g09.png">
+<img class="main f" src="img/g10.png">
+<img class="main f" src="img/g11.png">
+<img class="main f" src="img/g12.png">
+<img class="main f" src="img/g13.png">
+<img class="main f" src="img/g14.png">
+<img class="main f" src="img/g15.png">
+<img class="main f" src="img/g16.png">
+<img class="main f" src="img/g17.png">
+<img class="main f" src="img/g18.png">
+<img class="main f" src="img/g19.png">
+<img class="main f" src="img/g20.png">
+<img class="main f" src="img/g21.png">
+<img class="main f" src="img/g22.png">
+<img class="main f" src="img/g23.png">
+<img class="main f" src="img/g24.png">
+<img class="main f" src="img/g25.png">
+<img class="main f" src="img/g26.png">
+<img class="main f" src="img/g27.png">
+<img class="main f" src="img/g28.png">
+<img class="main f" src="img/g29.png">
+<img class="main f" src="img/g30.png">
+
+<div class="list">
+    <img class="item" src="img/j01.png" data-i="01">
+    <img class="item" src="img/j02.png" data-i="02">
+    <img class="item" src="img/j03.png" data-i="03">
+    <img class="item" src="img/j04.png" data-i="04">
+    <img class="item" src="img/j05.png" data-i="05">
+    <img class="item" src="img/j06.png" data-i="06">
+    <img class="item" src="img/j07.png" data-i="07">
+    <img class="item" src="img/j08.png" data-i="08">
+    <img class="item" src="img/j09.png" data-i="09">
+    <img class="item" src="img/j10.png" data-i="10">
+    <img class="item" src="img/j11.png" data-i="11">
+    <img class="item" src="img/j12.png" data-i="12">
+    <img class="item" src="img/j13.png" data-i="13">
+    <img class="item" src="img/j14.png" data-i="14">
+    <img class="item" src="img/j15.png" data-i="15">
+    <img class="item" src="img/j16.png" data-i="16">
+    <img class="item" src="img/j17.png" data-i="17">
+    <img class="item" src="img/j18.png" data-i="18">
+    <img class="item" src="img/j19.png" data-i="19">
+    <img class="item" src="img/j20.png" data-i="20">
+    <img class="item" src="img/j21.png" data-i="21">
+    <img class="item" src="img/j22.png" data-i="22">
+    <img class="item" src="img/j23.png" data-i="23">
+    <img class="item" src="img/j24.png" data-i="24">
+    <img class="item" src="img/j25.png" data-i="25">
+    <img class="item" src="img/j26.png" data-i="26">
+    <img class="item" src="img/j27.png" data-i="27">
+    <img class="item" src="img/j28.png" data-i="28">
+    <img class="item" src="img/j29.png" data-i="29">
+    <img class="item" src="img/j30.png" data-i="30">
+    <img class="item" src="img/j31.png" data-i="31">
+</div>
+
+<div class="pop">
+    <img class="close" src="img/close.png">
+    <img class="prev" src="img/prev.png">
+    <img class="next" src="img/next.png">
+    <img class="popimg">
+</div>
+
+</body>
+</html>

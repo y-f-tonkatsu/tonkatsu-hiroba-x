@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+
+    <meta charset="UTF-8">
+    <title></title>
+
+    <link rel="stylesheet" href="reset.css">
+
+    <style>
+        .test{
+            background: rgba(255, 0, 0, 0.2);
+        }
+
+        .full {
+            width: 100%;
+        }
+
+        .container{
+            display: flex;
+            height: 100%;
+            position: absolute;
+            overflow: hidden;
+        }
+
+        .col{
+            display: inline;
+        }
+
+        .center{
+            height: 100%;
+            overflow-y: scroll;
+            overflow-x: visible;
+            -ms-overflow-style: none;  /* IE and Edge */
+            scrollbar-width: none;  /* Firefox */
+        }
+
+
+        ::-webkit-scrollbar {
+            display: none;
+        }
+
+
+        .text1 {
+            top: 35.2%;
+            left : 11%;
+            width: 80%;
+            height: 3%;
+        }
+        .text2 {
+            top: 45.0%;
+            left : 11%;
+            width: 80%;
+            height: 3%;
+        }
+
+        .overlay {
+            position: absolute;
+            left: 0;
+            top: 49%;
+            z-index: 100;
+            width: 100%;
+            height: 50%;
+        }
+    </style>
+
+    <script src="jquery-3.4.1.min.js"></script>
+    <script type="application/javascript">
+        $(function () {
+
+        });
+    </script>
+
+</head>
+<body>
+
+<div class="container">
+    <div class="left col">
+        <img src="img/left.png">
+    </div>
+    <div class="center col">
+        <img src="img/center.png">
+    </div>
+    <div class="right col">
+        <img src="img/right.png">
+    </div>
+</div>
+
+</body>
+</html>

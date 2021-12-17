@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Paya-n Japan メール</title>
+    <link rel="stylesheet" href="reset.css">
+    <script src="jquery-3.4.1.min.js"></script>
+
+    <style>
+
+        img {
+            margin: auto;
+            display: block;
+            width: 100%;
+        }
+
+        .img--pop {
+            position: absolute;
+            width: 100%;
+            top: 0;
+            left: 0;
+            z-index: 200;
+        }
+
+        input, input:focus, textarea {
+            background: none;
+            border: none;
+            outline: none;
+            display: block;
+            position: absolute;
+            z-index: 100;
+            font-family: 'ヒラギノ角ゴ Pro W3', 'Hiragino Kaku Gothic Pro', 'メイリオ', Meiryo, 'ＭＳ Ｐゴシック', sans-serif;
+            font-size: 0.88vw;
+        }
+
+        .tf {
+            top: 9.4vw;
+            left: 17vw;
+            width: 28vw;
+        }
+
+        .tf2 {
+            top: 11.4vw;
+            left: 17vw;
+            width: 28vw;
+        }
+
+        .tf3 {
+            top: 15vw;
+            left: 11.5vw;
+            height: 80vw;
+            width: 88vw;
+
+        }
+
+    </style>
+
+    <script>
+        $(function(){
+            $(".img--pop").hide();
+            $(".img--main").click(function(){
+                $(".img--pop").show();
+            });
+        });
+    </script>
+
+</head>
+<body>
+<img class="img--main" src="img/img.png">
+<img class="img--pop" src="img/pop.png">
+<input type="text" class="tf">
+<input type="text" class="tf2">
+<textarea type="text" class="tf3"></textarea>
+</body>
+</html>

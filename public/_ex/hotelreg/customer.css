@@ -1,0 +1,164 @@
+
+select {
+    font-size: 1.9vh;
+    border-radius: 6px;
+}
+
+label{
+    padding-right: 0.5em;
+}
+
+body {
+    font-size: 2vh;
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+    background: #dddddd;
+}
+
+header {
+    padding:0.5em 3em;
+    font-size: 1.4em;
+    width: 100%;
+    height: 10%;
+    background: #454555;
+    color: #EEEEEE;
+    font-weight: bold;
+}
+
+.cont {
+    margin-left: 2em;
+    display: flex;
+    position: relative;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    padding-top: 2em;
+}
+
+.col {
+    width: 50%;
+    height: 100%;
+}
+
+.full {
+    text-align: right;
+    display: block;
+    margin-right: 10.8vw;
+    margin-top: 0.5em;
+}
+
+.full input, .full textarea {
+    display: inline-block;
+    width: 29.5vw;
+    vertical-align: top;
+}
+
+.half {
+    text-align: right;
+    display: inline-block;
+    width: 24vw;
+    overflow-y: visible;
+    margin-top: 0.5em;
+}
+
+.half select {
+    width: 16vw;
+}
+
+.halfL {
+    text-align: left;
+    display: inline-block;
+    width: 20vw;
+}
+
+p {
+    margin: 0.1em 0.1em;
+}
+
+textarea {
+    height: 24vh;
+    overflow-y: scroll;
+}
+
+input {
+    width: 16vw;
+    overflow-y: visible;
+    border-radius: 6px;
+}
+
+td input {
+    margin-left: 0.5vw;
+    width: 4vw;
+}
+
+td .his_input {
+    margin: 0;
+    text-align: center;
+    font-size:2vh;
+    background: none;
+    outline: none;
+    height: 100%;
+    width: 100%;
+    border: none;
+}
+
+td .his_input:focus {
+    outline: none;
+}
+
+
+td {
+    text-align: center;
+    width: 8vw;
+    vertical-align: middle;
+}
+
+td:first-child {
+    text-align: right;
+}
+
+td:nth-child(4) {
+    width: 16vw;
+}
+
+
+th {
+    text-align: center;
+    background: #cccccc;
+}
+
+tr:nth-child(odd) {
+    background: #eeeeee;
+}
+
+tr:nth-child(even) {
+    background: #e5e5e5;
+}
+
+td {
+    padding: 0.5vw;
+}
+
+.table-wrap {
+    margin-top: 0.5em;
+    overflow-y: scroll;
+    height: 30vh;
+    border: solid;
+    width: 40vw;
+}
+
+.history {
+    margin-top: 4vh;
+}
+
+.inkan-wrap{
+    position: absolute;
+    text-align: center;
+    padding-top: 10vh;
+    z-index: 100;
+}
+
+.inkan {
+    width: 80%;
+}

@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+
+    <meta name="viewport"
+          content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi"/>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+
+    <meta charset="UTF-8">
+    <title></title>
+
+    <link rel="stylesheet" href="reset.css">
+
+    <style>
+        body {
+            overflow: hidden;
+            height: 100vh;
+            width: 100vw;
+        }
+
+        .test {
+            background: rgba(255, 0, 0, 0.2);
+        }
+
+        .full {
+            display: block;
+            width: 100%;
+            position: absolute;
+        }
+
+        .rel {
+            display: none;
+            width: 100%;
+            position: relative;
+        }
+
+
+        .fill {
+            display: block;
+            width: 100%;
+        }
+
+        .main {
+            pointer-events: none;
+        }
+
+        .container {
+            width: 100%;
+            position: absolute;
+            overflow-y: scroll;
+            margin: 0;
+        }
+
+        input, input:focus {
+            font-size: 1.4vw;
+            background: none;
+            border: none;
+            outline: none;
+            display: block;
+            position: absolute;
+            z-index: 100;
+            font-family: 'ヒラギノ角ゴ Pro W3', 'Hiragino Kaku Gothic Pro', 'メイリオ', Meiryo, 'ＭＳ Ｐゴシック', sans-serif;
+        }
+
+        .text1 {
+            position: absolute;
+            top: 31.1vw;
+            left: 33.8vw;
+            width: 60vw;
+        }
+
+        .text2 {
+            top: 45.0vw;
+            left: 11vw;
+            width: 80vw;
+            height: 3vw;
+        }
+
+        .overlay {
+            position: absolute;
+            right: 3vw;
+            bottom: 4vw;
+            z-index: 100;
+            display: none;
+        }
+
+        .overlay2 {
+            display: none;
+            position: absolute;
+            left: 18vw;
+            top: 10vw;
+            z-index: -100;
+            width: 82vw;
+            height: 68vw;
+            overflow-y: scroll;
+        }
+
+        .notification {
+            position: absolute;
+            display: none;
+        }
+
+        .notification2 {
+            position: absolute;
+            top: 10vw;
+            display: none;
+        }
+
+        .noaction {
+            display: none;
+            z-index: 1000;
+        }
+    </style>
+
+    <script src="jquery-3.4.1.min.js"></script>
+    <script type="application/javascript">
+
+        $(function () {
+            let i = 1;
+            const base = "img3/s5_0";
+
+            function change() {
+                i++;
+                if (i === 6) window.location.href = window.location.href;
+                if (i === 5) {
+                    $(".overlay").animate({
+                        width: "36vw",
+                    });
+                    return;
+                }
+                if (i === 2) {
+                    $(".text1").hide();
+                    $(".main").hide();
+                    $(".extra").show();
+                    const h = $("body").height() - $(".top").height();
+                    $(".container").css({
+                        top: $(".top").height(),
+                        height: h,
+                    }).show();
+                } else {
+                    $(".main")
+                        .off("load").on("load", function () {
+                        $(".text1").hide();
+                        $(".extra").hide();
+                        $(".container").hide();
+                        $(".main").show();
+                        if (i === 4) {
+                            $(".overlay").show();
+                            $(".overlay").css({
+                                width: "18vw",
+                            });
+                        }
+                    }).attr("src", base + i + ".png")
+                }
+
+
+            }
+
+            $(document).on("keydown", function (e) {
+                if (e.key === "Enter") change();
+                $(document).off("click").on("click", change);
+            })
+        });
+    </script>
+
+</head>
+<body>
+<img src="img3/s5_01.png" class="full main"/>
+<img src="img3/chat.png" class="overlay"/>
+<img src="img3/top.png" class="full rel top extra"/>
+<div class="container">
+    <img src="img3/s5_02_m.png" class="full rel extra"/>
+</div>
+<input type="text" class="text1">
+</body>
+</html>

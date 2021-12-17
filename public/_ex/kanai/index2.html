@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+
+    <meta name="viewport"
+          content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi"/>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+
+    <meta charset="UTF-8">
+    <title>佐伯文の現在3（事件から15年）</title>
+
+    <link rel="stylesheet" href="reset.css">
+
+    <style>
+        html {
+            margin: 0;
+            padding: 0;
+        }
+
+        .test {
+            background: rgba(255, 0, 0, 0.2);
+        }
+
+        .full {
+            width: 100%;
+            display: block;
+        }
+
+        .container {
+            width: 100%;
+            position: absolute;
+        }
+
+        input, input:focus {
+            font-size: 5.5vw;
+            background: none;
+            border: none;
+            outline: none;
+            display: block;
+            position: absolute;
+            z-index: 100;
+            font-family: 'ヒラギノ角ゴ Pro W3', 'Hiragino Kaku Gothic Pro', 'メイリオ', Meiryo, 'ＭＳ Ｐゴシック', sans-serif;
+        }
+
+        .text1 {
+            top: 35vw;
+            left: 11vw;
+            width: 80vw;
+            height: 3vw;
+        }
+
+        .text2 {
+            top: 45.0vw;
+            left: 11vw;
+            width: 80vw;
+            height: 3vw;
+        }
+
+        .overlay {
+            position: absolute;
+            top: 122vw;
+            z-index: 100;
+            width: 17.6vw;
+            height: 30vw;
+        }
+
+        .overlay1 {
+            left: 8vw;
+        }
+
+        .overlay2 {
+            left: 26vw;
+        }
+
+        .overlay3 {
+            left: 44vw;
+        }
+
+        .overlay4 {
+            left: 62vw;
+        }
+
+        .box {
+            top: 0;
+            left: 0;
+            position: fixed;
+            z-index: 1000;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+        }
+
+        .boxImg {
+            margin: 6% auto auto auto;
+            display: block;
+            height: 88%;
+        }
+
+        .boxBG {
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.01);
+            position: fixed;
+            top: 0;
+            left: 0;
+        }
+
+        .close {
+            position: fixed;
+            display: block;
+            right: 20px;
+            top: 20px;
+            width: 40px;
+            height: 40px;
+        }
+
+        .next {
+            position: fixed;
+            display: block;
+            right: 20px;
+            top: 49%;
+            width: 40px;
+            height: 40px;
+        }
+
+        .prev {
+            position: fixed;
+            display: block;
+            left: 20px;
+            top: 49%;
+            width: 40px;
+            height: 40px;
+        }
+    </style>
+
+    <script src="jquery-3.4.1.min.js"></script>
+    <script type="application/javascript">
+        $(function () {
+            $(".box").hide().click(function () {
+            });
+
+            function showBox() {
+                $(".box").show();
+                $(".boxImg").attr("src", num + ".jpg");
+                if (num == 1) {
+                    $(".prev").hide();
+                } else {
+                    $(".prev").show();
+                }
+                if (num == 4) {
+                    $(".next").hide();
+                } else {
+                    $(".next").show();
+                }
+            }
+
+            let num;
+            $(".overlay").click(function () {
+                num = parseInt($(this).attr("data-num"));
+                showBox();
+            });
+
+            $(".close, .boxBG").click(function () {
+                $(".box").toggle();
+            });
+
+            $(".next").click(function () {
+                num++;
+                showBox();
+            })
+            $(".prev").click(function () {
+                num--;
+                showBox();
+            })
+        });
+    </script>
+
+</head>
+<body>
+<img src="a2.png" class="full main"/>
+<div class="overlay overlay1" data-num="1"></div>
+<div class="overlay overlay2" data-num="2"></div>
+<div class="overlay overlay3" data-num="3"></div>
+<div class="overlay overlay4" data-num="4"></div>
+
+<div class="box">
+    <img class="boxBG">
+    <img class="boxImg">
+    <img src="close.png" class="close">
+    <img src="next.png" class="next">
+    <img src="prev.png" class="prev">
+</div>
+</body>
+</html>

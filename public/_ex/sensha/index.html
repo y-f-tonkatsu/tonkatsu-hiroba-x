@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+
+    <meta name="viewport"
+          content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi"/>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+
+    <meta charset="UTF-8">
+    <title></title>
+
+    <link rel="stylesheet" href="reset.css">
+
+    <style>
+
+        body {
+            position: relative;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .test {
+            background: rgba(255, 0, 0, 0.2);
+        }
+
+        .full {
+            display: block;
+            width: 100%;
+        }
+
+        .container {
+            position: relative;
+            width: 100%;
+            height: 50%;
+            overflow-y: scroll;
+        }
+
+        input, input:focus {
+            font-size: 5.5vw;
+            background: none;
+            border: none;
+            outline: none;
+            display: block;
+            position: absolute;
+            z-index: 100;
+            font-family: 'ヒラギノ角ゴ Pro W3', 'Hiragino Kaku Gothic Pro', 'メイリオ', Meiryo, 'ＭＳ Ｐゴシック', sans-serif;
+        }
+
+        .text1 {
+            top: 35vw;
+            left: 11vw;
+            width: 80vw;
+            height: 3vw;
+        }
+
+        .text2 {
+            top: 45.0vw;
+            left: 11vw;
+            width: 80vw;
+            height: 3vw;
+        }
+
+        .overlay {
+            position: absolute;
+            left: 0;
+            top: 49vw;
+            z-index: 100;
+            width: 100vw;
+            height: 50vw;
+        }
+
+        .top {
+            width: 100%;
+        }
+    </style>
+
+    <script src="jquery-3.4.1.min.js"></script>
+    <script type="application/javascript">
+        function resize() {
+            const h = $("body").height() - $(".top").height();
+            $(".container").css({
+                height: h,
+            })
+        }
+
+        $(function () {
+            resize();
+            $(window).on("resize", function(){
+                resize();
+            });
+        });
+    </script>
+
+</head>
+<body>
+<img src="top.png" class="top">
+<div class="container">
+    <img src="img.png" class="full">
+</div>
+</body>
+</html>

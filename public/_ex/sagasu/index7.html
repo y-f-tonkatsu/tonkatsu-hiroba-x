@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+
+    <meta name="viewport"
+          content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi"/>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+
+    <meta charset="UTF-8">
+    <title>Pigeon</title>
+
+    <link rel="stylesheet" href="reset.css">
+    <link rel="stylesheet" href="full-img.css">
+
+    <style>
+        .test{
+            background: rgba(255, 0, 0, 0.2);
+        }
+
+        .full {
+            width: 100%;
+        }
+
+        .container{
+            width: 100%;
+            position: absolute;
+        }
+
+        input, input:focus {
+            font-size: 3vw;
+            background: none;
+            border: none;
+            outline: none;
+            display: block;
+            position: absolute;
+            z-index: 100;
+            font-family:'ヒラギノ角ゴ Pro W3','Hiragino Kaku Gothic Pro','メイリオ',Meiryo,'ＭＳ Ｐゴシック',sans-serif;
+        }
+
+        .text1 {
+            top: 92.9%;
+            left : 17%;
+            width: 66%;
+            height: 3.2%;
+        }
+        .text2 {
+            top: 45.0%;
+            left : 11%;
+            width: 80%;
+            height: 3%;
+        }
+
+        .overlay {
+            position: absolute;
+            left: 0;
+            top: 49%;
+            z-index: 100;
+            width: 100%;
+            height: 50%;
+        }
+    </style>
+
+    <script src="jquery-3.4.1.min.js"></script>
+    <script type="application/javascript">
+        $(function () {
+            $(".main").on("click", function () {
+                $(".main").attr("src", "img/m2.png")
+
+            });
+
+        });
+    </script>
+
+</head>
+<body>
+
+<div class="container">
+    <img src="img/m1.png" class="main full"/>
+    <input class="text1" type="text"/>
+</div>
+
+</body>
+</html>

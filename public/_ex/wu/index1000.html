@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+
+  <meta name="viewport"
+        content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi"/>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+
+  <meta charset="UTF-8">
+  <title>Locolon</title>
+
+  <link rel="stylesheet" href="reset.css">
+
+  <style>
+
+    body {
+      background: #eee;
+    }
+
+    .test {
+      background: rgba(255, 0, 0, 0.2);
+    }
+
+    .full {
+      width: 100%;
+    }
+
+    .container {
+      background: #eee;
+      bottom: 0px;
+      width: 100%;
+      position: absolute;
+    }
+
+    img {
+      overflow: hidden;
+    }
+
+    textarea, textarea:focus {
+      border: none;
+      outline: none;
+      display: block;
+      z-index: 100;
+      position: absolute;
+      resize: none;
+      overflow: hidden;
+      background: #eee;
+      font-family: 'ヒラギノ角ゴ Pro W3', 'Hiragino Kaku Gothic Pro', 'メイリオ', Meiryo, 'ＭＳ Ｐゴシック', sans-serif;
+    }
+
+    .top {
+      position: fixed;
+      top: 0;
+      width: 100vw;
+    }
+
+    .text1, .text1:focus {
+      bottom: 0px;
+      left: 12vw;
+      width: 66vw;
+      font-size: 3.8vw;
+      background: #f6f6f6;
+      border-radius: 16px;
+      padding: 1.5vw 4vw;
+      z-index: 100;
+      margin-bottom: 12vw;
+    }
+
+
+    .bg {
+      background: white;
+      bottom: 0px;
+      left: 0vw;
+      z-index: 90;
+      width: 100vw;
+      border-top: solid #ccc thin;
+    }
+
+    .bbg {
+      background: #eee;
+      z-index: -10;
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 100%;
+    }
+
+    .img1 {
+      bottom: 0px;
+    }
+
+    .img2 {
+      position: fixed;
+      bottom: 0px;
+      left: 0;
+      z-index: 10000;
+      pointer-events: none;
+    }
+
+    .stop {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 10000;
+      pointer-events: none;
+    }
+
+    .overlay {
+      position: fixed;
+      left: 83vw;
+      bottom: 0px;
+      z-index: 100;
+      width: 17vw;
+      height: 200vw;
+    }
+
+    .bottomer{
+      bottom: 0px;
+    }
+  </style>
+
+  <script src="jquery-3.4.1.min.js"></script>
+  <script type="application/javascript">
+    $(function () {
+
+      $("textArea").on("focus", function(){
+        $(".bottomer").css("bottom", "270px");
+      });
+
+      $("textArea").on("blur", function(){
+        $(".bottomer").css("bottom", "0px");
+      });
+
+      $(".img1").attr("src", "s1000.png").on("load", function () {
+
+        $(".img1").off();
+
+        let h = 0;
+        $("textarea").attr("rows", 1).on("input change keyup keydown", e => {
+          $(e.target).height(0).innerHeight(e.target.scrollHeight);
+          $(".bg").height($(e.target).height() + 66);
+        });
+
+        $("textArea").val("");
+
+        $("textArea").trigger("change");
+        $("textArea").get(0).focus();
+        $("textArea").get(0).setSelectionRange($("textArea").val().length, $("textArea").val().length)
+
+        $("textArea").keydown(function (e) {
+          if (e.key === "Enter") {
+            e.preventDefault();
+            $("textArea").val("");
+            window.location.reload();
+          }
+        });
+
+      });
+    });
+  </script>
+
+</head>
+<body>
+<div class="container bottomer">
+  <img src="" class="full img1 bottomer"/>
+  <div class="bg bottomer"></div>
+</div>
+<textarea class="text1 bottomer"></textarea>
+<div class="overlay bottomer"></div>
+<img src="botttom_pink.png" class="full img2 bottomer"/>
+<img src="top_risa.png" class="full stop"/>
+<div class="bbg full bottomer"></div>
+</body>
+</html>

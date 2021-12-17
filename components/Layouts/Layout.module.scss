@@ -1,0 +1,22 @@
+.containerLayout {
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  background: gray;
+}
+
+.contentNavbar {
+  width: 60px;
+  height: 100%;
+  flex-grow: 0;
+  background: #43d800;
+  display: flex;
+  flex-flow: column;
+}
+
+.contentMain {
+  flex-grow: 1;
+  display: flex;
+  flex-flow: column;
+  background: #393232;
+}

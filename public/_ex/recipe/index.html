@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+
+    <title>Gruglu</title>
+    <link rel="stylesheet" href="reset.css">
+    <script src="jquery-3.4.1.min.js"></script>
+
+    <style>
+        /** 入力欄 **/
+        input, input:focus {
+            background: none;
+            border: none;
+            outline: none;
+            display: block;
+            position: absolute;
+            z-index: 100;
+            font-family: 'ヒラギノ角ゴ Pro W3', 'Hiragino Kaku Gothic Pro', 'メイリオ', Meiryo, 'ＭＳ Ｐゴシック', sans-serif;
+        }
+
+        .tf {
+            font-size: 1em;
+        }
+
+        .cont {
+            width: 100%;
+        }
+
+        img {
+            cursor: pointer;
+            margin: auto;
+            display: block;
+            width: 100%;
+        }
+    </style>
+
+    <script>
+        $(function () {
+            let w = $(".img--main").width();
+            let h = $(".img--main").height();
+            $(".tf").css({
+                left: w * 0.07,
+                top: h * 0.355,
+                width: w * 0.8,
+                height: h * 0.04,
+            });
+
+            $(".tf").click(function () {
+                $(".img--main").click(function () {
+                    $(".tf").hide();
+                    $(".img--main")
+                        .attr("src", "img/img2.png")
+                    $(window).scrollTop(0);
+                    $(".img--main").click(function () {
+                        window.location.href = 'index2.html';
+                    });
+                });
+
+            })
+
+
+        });
+    </script>
+
+</head>
+<body>
+
+<img class="img--main" src="img/img1.png">
+<input type="text" class="tf">
+
+</body>
+</html>

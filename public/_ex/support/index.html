@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+
+    <meta name="viewport"
+          content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi"/>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+
+    <meta charset="UTF-8">
+    <title></title>
+
+    <link rel="stylesheet" href="reset.css">
+
+    <style>
+        body {
+            overflow: hidden;
+        }
+
+        .test {
+            background: rgba(255, 0, 0, 0.2);
+        }
+
+        .full {
+            display: block;
+            width: 100%;
+            position: absolute;
+        }
+
+        .fill {
+            display: block;
+            width: 100%;
+        }
+
+        .main {
+            pointer-events: none;
+        }
+
+        .container {
+            width: 100%;
+            position: absolute;
+        }
+
+        input, input:focus {
+            font-size: 5.5vw;
+            background: none;
+            border: none;
+            outline: none;
+            display: block;
+            position: absolute;
+            z-index: 100;
+            font-family: 'ヒラギノ角ゴ Pro W3', 'Hiragino Kaku Gothic Pro', 'メイリオ', Meiryo, 'ＭＳ Ｐゴシック', sans-serif;
+        }
+
+        .text1 {
+            position: absolute;
+            top: 41.5vw;
+            left: 9vw;
+            width: 60vw;
+            height: 8vw;
+        }
+
+        .text2 {
+            top: 45.0vw;
+            left: 11vw;
+            width: 80vw;
+            height: 3vw;
+        }
+
+        .overlay {
+            position: absolute;
+            left: 73.6vw;
+            top: 36.7vw;
+            z-index: 100;
+            width: 22.6vw;
+            height: 20.5vw;
+            overflow-y: scroll;
+        }
+
+        .overlay2 {
+            display: none;
+            position: absolute;
+            left: 18vw;
+            top: 10vw;
+            z-index: -100;
+            width: 82vw;
+            height: 68vw;
+            overflow-y: scroll;
+        }
+
+        .notification {
+            position: absolute;
+            display: none;
+        }
+
+        .notification2 {
+            position: absolute;
+            top: 10vw;
+            display: none;
+        }
+
+        .noaction {
+            display: none;
+            z-index: 1000;
+        }
+    </style>
+
+    <script src="jquery-3.4.1.min.js"></script>
+    <script type="application/javascript">
+
+        function set(t) {
+            ["m", "r", "s", "t"].forEach(function (letter) {
+                $("." + letter).attr("src", "img/" + t + "/" + letter + ".png");
+            });
+        }
+
+        const events = {
+            "7": function () {
+                $(".notification").css({
+                    width: "100%",
+                    textAlign: "center",
+                    top: -100,
+                }).show().animate({
+                    top: 60
+                });
+            },
+            "8": function () {
+                $(".notification").animate({
+                    top: -300
+                });
+                $(".main").attr("src", "img/bg2.png");
+            },
+            "11": function () {
+                $(".main").attr("src", "img/11/frame.png");
+                $(".overlay2").show();
+                $(".m, .r, .s, .t, .overlay").hide();
+            },
+            "12": function () {
+                $(".notification2").css({
+                    right: -500,
+                }).show().animate({
+                    right: 20
+                });
+            },
+            "13": function () {
+                $(".notification2").animate({
+                    right: -1000
+                });
+                $(".main").attr("src", "img/bg2.png");
+                $(".overlay2").hide();
+                $(".m, .r, .s, .t, .overlay").show();
+            },
+            "16": function () {
+                $(".noaction").show();
+            },
+            "18": function () {
+                $(".noaction").hide();
+            },
+            "21": function () {
+                $(".overlay, .r").hide();
+            },
+        }
+
+        $(function () {
+            let i = 1;
+            set(i);
+
+            function change() {
+                i++;
+                if (i === 22) i = 1;
+                set(i);
+                if (events.hasOwnProperty(i.toString())) {
+                    events[i.toString()]();
+                }
+            }
+
+            $(document).click(function () {
+                change();
+            });
+            $(window).on("keydown", function (e) {
+                if (e.key === "^" || e.key === "Enter") change();
+            });
+        });
+    </script>
+
+</head>
+<body>
+<img src="img/bg.png" class="full main"/>
+<img class="m full" src="img/1/m.png"/>
+<img class="r full" src="img/1/r.png"/>
+<img class="s full" src="img/1/s.png"/>
+<div class="overlay">
+    <img class="t fill" src="img/1/t.png"/>
+</div>
+<div class="overlay2">
+    <img class="fill" src="img/11/main.png"/>
+</div>
+<div class="notification">
+    <img src="img/notification.png" class="img-notification">
+</div>
+<div class="notification2">
+    <img src="img/11/notification.png" class="img-notification">
+</div>
+<img src="img/noaction.png" class="noaction full">
+</body>
+</html>

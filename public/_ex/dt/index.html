@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Search</title>
+
+    <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/3.18.1/build/cssreset/cssreset-min.css">
+    <script src="jquery-3.4.1.slim.min.js"></script>
+
+    <style>
+        .main {
+            width: 100%;
+        }
+
+        input, input:focus {
+            background: none;
+            border: none;
+            outline: none;
+            display: block;
+            position: absolute;
+            z-index: 100;
+            font-family: 'ヒラギノ角ゴ Pro W3', 'Hiragino Kaku Gothic Pro', 'メイリオ', Meiryo, 'ＭＳ Ｐゴシック', sans-serif;
+        }
+
+
+    </style>
+
+    <script>
+        $(function () {
+            let w = $(".main").width();
+            let h = $(".main").height();
+            $(".tf").css({
+                width: w * 0.35,
+                height: h * 0.05,
+                left: w * 0.337,
+                top: h * 0.458,
+            });
+
+
+            function next() {
+                $(".tf").attr("value", "");
+                $('img').bind('load', function () {
+                    console.log("load complete");
+                    $(".tf").css({
+                        width: w * 0.35,
+                        height: h * 0.05,
+                        left: w * 0.128,
+                        top: h * 0.045,
+                    }).attr("value", "童貞　魔法使い");
+                });
+                $('img').attr('src', 'img/kensaku_02.png');
+
+            }
+
+            $(".main").click(function () {
+                next();
+            });
+
+            $(window).on("keypress", function (e) {
+
+                let keycode = (event.keyCode ? event.keyCode : event.which);
+                if (keycode == '13') {
+                    next();
+                }
+
+            });
+
+        })
+
+    </script>
+</head>
+<body>
+<img class="main" src="img/kensaku_01.png">
+<input type="text" class="tf">
+
+</body>
+</html>

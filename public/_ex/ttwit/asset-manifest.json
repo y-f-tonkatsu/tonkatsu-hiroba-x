@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/playtime/_ex/ttwit/static/css/main.3aa006b7.chunk.css",
+    "main.js": "/playtime/_ex/ttwit/static/js/main.7acfe166.chunk.js",
+    "main.js.map": "/playtime/_ex/ttwit/static/js/main.7acfe166.chunk.js.map",
+    "runtime-main.js": "/playtime/_ex/ttwit/static/js/runtime-main.c77cd5f0.js",
+    "runtime-main.js.map": "/playtime/_ex/ttwit/static/js/runtime-main.c77cd5f0.js.map",
+    "static/js/2.a07af295.chunk.js": "/playtime/_ex/ttwit/static/js/2.a07af295.chunk.js",
+    "static/js/2.a07af295.chunk.js.map": "/playtime/_ex/ttwit/static/js/2.a07af295.chunk.js.map",
+    "index.html": "/playtime/_ex/ttwit/index.html",
+    "precache-manifest.1b2640f6f5cc10f88e2ea95683d37ff5.js": "/playtime/_ex/ttwit/precache-manifest.1b2640f6f5cc10f88e2ea95683d37ff5.js",
+    "service-worker.js": "/playtime/_ex/ttwit/service-worker.js",
+    "static/css/main.3aa006b7.chunk.css.map": "/playtime/_ex/ttwit/static/css/main.3aa006b7.chunk.css.map",
+    "static/media/gotoba.png": "/playtime/_ex/ttwit/static/media/gotoba.99c42fbf.png"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.c77cd5f0.js",
+    "static/js/2.a07af295.chunk.js",
+    "static/css/main.3aa006b7.chunk.css",
+    "static/js/main.7acfe166.chunk.js"
+  ]
+}

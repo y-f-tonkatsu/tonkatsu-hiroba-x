@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+
+    <meta name="viewport"
+          content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi"/>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+
+    <meta charset="UTF-8">
+    <title></title>
+
+    <link rel="stylesheet" href="reset.css">
+
+    <style>
+        .test {
+            background: rgba(255, 0, 0, 0.2);
+        }
+
+        html {
+            height: 100%;
+        }
+
+        body {
+            display: block;
+            height: 100%;
+            width: 100%;
+        }
+
+        .full {
+            display: block;
+            width: 100%;
+            margin: auto;
+        }
+
+        .container {
+            width: 100%;
+            position: absolute;
+        }
+
+        textarea, textarea:focus {
+            overflow: hidden;
+            background: none;
+            border: solid 1px #bbb;
+            outline: none;
+            font-family: 'ヒラギノ角ゴ Pro W3', 'Hiragino Kaku Gothic Pro', 'メイリオ', Meiryo, 'ＭＳ Ｐゴシック', sans-serif;
+            resize: none;
+        }
+
+        .text1 {
+            position: absolute;
+            top: 55.5vw;
+            left: 42.3vw;
+            width: 37vw;
+            border-radius: 20px;
+            padding: 1rem 4rem 1rem 1rem;
+            z-index: 100;
+        }
+
+        .icon {
+            position: absolute;
+            top: 55vw;
+            left: 82vw;
+            z-index: 200;
+        }
+
+        .text2 {
+            top: 45.0vw;
+            left: 11vw;
+            width: 80vw;
+            height: 3vw;
+        }
+
+        .overlay {
+            position: absolute;
+            left: 0;
+            top: 49vw;
+            z-index: 100;
+            width: 100vw;
+            height: 50vw;
+        }
+    </style>
+
+    <script src="jquery-3.4.1.min.js"></script>
+    <script type="application/javascript">
+        $(function () {
+            $(function () {
+
+                function adjust(elem) {
+                    if ($(elem).outerHeight() > elem.scrollHeight) {
+                        $(elem).height(1)
+                    }
+                    while ($(elem).outerHeight() < elem.scrollHeight) {
+                        Math.min($(elem).height($(elem).height() + 1), 60)
+                        $(elem).css("top", iniTop - $(elem).height());
+                    }
+                }
+
+                let iniTop = $('textarea').position().top;
+                console.log(iniTop);
+                $('textarea')
+                    .on('change keyup keydown paste cut', function(){
+                        adjust(this);
+                    });
+                $("textarea").focus();
+                var e = $.Event("keydown");
+                e.which = 50; // # Some key code value
+                $("textarea").trigger(e);
+            });
+        });
+    </script>
+
+</head>
+<body>
+
+<div class="full">
+    <img class="full" src="bg.png">
+    <img class="icon" src="icon.png">
+    <textarea class="text1"></textarea>
+</div>
+</body>
+</html>
