@@ -1,0 +1,12 @@
+.containerTimeLine {
+  display: flex;
+  flex-wrap: wrap;
+  height: 100vh;
+  overflow-y: scroll;
+}
+
+.colsTimeLine {
+  width: 25%;
+}
+
+/*# sourceMappingURL=TimeLine.module.css.map */

@@ -3,9 +3,13 @@
   width: 100vw;
   height: 100vh;
   background: gray;
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
 }
 
 .contentNavbar {
+  min-width: 120px;
   width: 120px;
   height: 100%;
   flex-grow: 0;
@@ -19,6 +23,8 @@
   display: flex;
   flex-flow: column;
   background: #43d800;
+  padding: 0;
+  margin: 0;
 }
 
 /*# sourceMappingURL=Layout.module.css.map */

@@ -1,18 +1,26 @@
-import {NextPage} from "next";
 import {Work} from "../../types/Work";
 import {Cell} from "./Cell";
+import styles from "./TimeLine.module.scss"
 
 type Props = {
-    works: Work[]
+    works: Work[][]
 }
 
 export const TimeLine = (props: Props) => {
 
     const {works} = props;
 
+    const cols = works.map((col, index) => {
+        return (
+            <div key={index} className={styles.colsTimeLine}>
+                {col.map((work) => <Cell work={work}/>)}
+            </div>
+        )
+    });
+
     return (
-        <div>
-            {works.map(work => <Cell work={work} key={work.id} />)}
+        <div className={styles.containerTimeLine}>
+            {cols}
         </div>
     );
 

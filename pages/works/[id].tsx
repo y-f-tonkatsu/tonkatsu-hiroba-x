@@ -1,6 +1,6 @@
 import {NextPage} from "next";
 
-export const Work:NextPage = ()=>{
+export const Stage:NextPage = ()=>{
     return (
         <div>
 
