@@ -6,10 +6,10 @@
 }
 
 .contentNavbar {
-  width: 60px;
+  width: 120px;
   height: 100%;
   flex-grow: 0;
-  background: #43d800;
+  background: #112;
   display: flex;
   flex-flow: column;
 }
@@ -18,7 +18,7 @@
   flex-grow: 1;
   display: flex;
   flex-flow: column;
-  background: #393232;
+  background: #43d800;
 }
 
 /*# sourceMappingURL=Layout.module.css.map */
