@@ -1,10 +1,13 @@
 import {ReactElement} from "react";
 import styles from "./Layout.module.scss";
 
+/**
+ * メインコンテンツ
+ */
 export const MainContent = ({children}: { children: ReactElement[] }) => {
     return (
-        <div className={styles.contentMain}>
+        <main className={styles.contentMain}>
             {children}
-        </div>
+        </main>
     )
 }

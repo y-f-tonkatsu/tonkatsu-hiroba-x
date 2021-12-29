@@ -1,3 +1,5 @@
+/* グロウのためのコンテナ */
+
 .containerLight{
   filter: drop-shadow(-6px -6px 8px #ffdd22);
 }
@@ -5,6 +7,9 @@
 .containerLight:hover {
   filter: drop-shadow(-6px -6px 4px #ffdd22);
 }
+
+
+/* ラベル */
 
 .labelNavBar {
   writing-mode: vertical-rl;

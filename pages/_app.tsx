@@ -11,11 +11,13 @@ type AppPropsWithLayout = AppProps & {
     Component: NextPageWithLayout
 }
 
+const AppTitle = "とんかつ道場";
+
 function MyApp({Component, pageProps}: AppPropsWithLayout) {
 
     const getLayout = Component.getLayout ?? ((page:ReactNode) => page)
 
-    return getLayout(<Component {...pageProps} />);
+    return getLayout(<Component {...pageProps} key={AppTitle} />);
 
 }
 

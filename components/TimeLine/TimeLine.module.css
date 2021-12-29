@@ -1,12 +1,99 @@
+@charset "UTF-8";
+/* コンテナ */
 .containerTimeLine {
   display: flex;
+  position: relative;
   flex-wrap: wrap;
   height: 100vh;
   overflow-y: scroll;
+  overflow-x: hidden;
+  padding-bottom: 10rem;
 }
 
+/* 列 */
 .colsTimeLine {
   width: 25%;
+}
+
+.colsTimeLine:nth-child(1) {
+  background: #FFBF10;
+}
+
+.colsTimeLine:nth-child(2) {
+  background: #FFFF00;
+}
+
+.colsTimeLine:nth-child(3) {
+  background: #B7FF00;
+}
+
+.colsTimeLine:nth-child(4) {
+  background: #33B600;
+}
+
+/* セル */
+.containerCell {
+  opacity: 0.96;
+  position: relative;
+}
+
+.containerCell:hover {
+  opacity: 1;
+  margin: -20px;
+  animation: cellMouseOver 0.3s;
+  transform: rotate(0deg);
+  z-index: 100;
+}
+
+@keyframes cellMouseOver {
+  0% {
+    margin: 0;
+    transform: rotate(0deg);
+  }
+  40% {
+    transform: rotate(8deg);
+  }
+  80% {
+    transform: rotate(-4deg);
+  }
+}
+.colsTimeLine:nth-child(1) .containerCell:hover {
+  box-shadow: 0px 0px 30px #FFBF10;
+}
+
+.colsTimeLine:nth-child(2) .containerCell:hover {
+  box-shadow: 0px 0px 30px #FFFF00;
+}
+
+.colsTimeLine:nth-child(3) .containerCell:hover {
+  box-shadow: 0px 0px 30px #B7FF00;
+}
+
+.colsTimeLine:nth-child(4) .containerCell:hover {
+  box-shadow: 0px 0px 30px #33B600;
+}
+
+/* オーバーレイ */
+.overlayDescription {
+  position: absolute;
+  top: 0;
+  width: 50%;
+  z-index: 1000;
+  pointer-events: none;
+}
+
+.overlayDescriptionTextBox {
+  background: rgba(30, 30, 30, 0.8);
+  color: white;
+  margin: 2rem;
+  padding: 1rem;
+  border-radius: 1rem;
+  border: 2px solid rgba(200, 255, 250, 0.5);
+  box-shadow: 0px 0px 100px 10px #eefff8;
+}
+
+.overlayDescriptionText {
+  filter: drop-shadow(1px 1px 0px #a0a0ee);
 }
 
 /*# sourceMappingURL=TimeLine.module.css.map */

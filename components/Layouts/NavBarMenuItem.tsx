@@ -7,7 +7,10 @@ type Props = {
     name: string;
 }
 
-export const NavBarMenuItem: FC<Props> = ({name, id}) => {
+/**
+ * ナビゲーションバーの各メニューアイテムを表すコンポーネント
+ */
+export const NavBarMenuItem: FC<Props> = ({id, name}) => {
     return (
         <Link key={id} href={"/"}>
             <a className={styles.containerLight}>

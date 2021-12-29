@@ -5,6 +5,9 @@ import {MainContent} from "./MainContent";
 import Head from "next/head";
 import favicon from "../../public/favicon.ico";
 
+/**
+ * レイアウト定義
+ */
 export const Layout = ({children}: { children: ReactElement[] }) => {
     return (
         <>

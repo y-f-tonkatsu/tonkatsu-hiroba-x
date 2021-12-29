@@ -1,8 +1,9 @@
+@charset "UTF-8";
+/* 全体のレイアウト */
 .containerLayout {
   display: flex;
   width: 100vw;
   height: 100vh;
-  background: gray;
   padding: 0;
   margin: 0;
   overflow: hidden;
@@ -22,7 +23,6 @@
   flex-grow: 1;
   display: flex;
   flex-flow: column;
-  background: #43d800;
   padding: 0;
   margin: 0;
 }

@@ -1,16 +1,35 @@
 import styles from "./Layout.module.scss";
 import {NavBarMenuItem} from "./NavBarMenuItem";
 
+/**
+ * ナビゲーションバーを表すコンポーネント
+ */
 export const NavBar = () => {
+
+    const items = [
+        {
+            label: "ホーム"
+        },
+        {
+            label: "イラスト"
+        },
+        {
+            label: "写真"
+        },
+        {
+            label: "マンガ"
+        },
+        {
+            label: "ゲーム"
+        },
+        {
+            label: "アニメ"
+        },
+    ]
+
     return (
         <div className={styles.contentNavbar}>
-            <NavBarMenuItem id={1} name={"ホーム"} />
-            <NavBarMenuItem id={1} name={"イラスト"} />
-            <NavBarMenuItem id={0} name={"写真"} />
-            <NavBarMenuItem id={2} name={"CGI"} />
-            <NavBarMenuItem id={1} name={"マンガ"} />
-            <NavBarMenuItem id={1} name={"ゲーム"} />
-            <NavBarMenuItem id={2} name={"ジェネラティブ"} />
+            {items.map((item, i)=><NavBarMenuItem key={i} id={i} name={item.label} />)}
         </div>
     )
 }
