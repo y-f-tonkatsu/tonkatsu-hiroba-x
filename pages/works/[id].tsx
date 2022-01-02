@@ -1,9 +1,11 @@
 import {NextPage} from "next";
 
-export const Stage:NextPage = ()=>{
+const Stage:NextPage = ()=>{
     return (
         <div>
 
         </div>
     )
 }
+
+export default Stage;

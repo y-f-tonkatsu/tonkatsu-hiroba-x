@@ -1,8 +1,6 @@
 import {NextPage} from "next";
 
-type Props = {}
-
-const Experimental: NextPage<Props> = (props) => {
+const Experimental: NextPage = () => {
 
     return (
         <>
