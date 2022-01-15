@@ -1,8 +1,9 @@
+@charset "UTF-8";
 html,
 body {
   padding: 0;
   margin: 0;
-  font-family: A-OTF UD Shin Go Pr6N;
+  font-family: A-OTF UD Shin Go Pr6N, "Hiragino Kaku Gothic ProN", "メイリオ", sans-serif;
 }
 
 a {
@@ -15,15 +16,15 @@ a {
 }
 
 /* グローバルに使うアニメーション */
-
 @keyframes overlayDescriptionPopFromRight {
   0% {
     left: 100vh;
   }
 }
-
 @keyframes overlayDescriptionPopFromLeft {
   0% {
     left: -100vh;
   }
 }
+
+/*# sourceMappingURL=globals.css.map */

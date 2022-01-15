@@ -3,6 +3,7 @@ import {Work} from "../../types/Work";
 import Image from "next/image"
 import React from "react";
 import styles from "./TimeLine.module.scss"
+import Link from "next/link"
 
 type Props = {
     work: Work,
@@ -21,23 +22,28 @@ export const Cell: NextPage<Props> = (props: Props) => {
     const {work, onMouseOver, onMouseOut, columnIndex} = props;
 
     return (
-        <div
-            className={styles.containerCell}
-            onMouseOver={(e) => {
-                onMouseOver(e, work, columnIndex)
-            }}
-            onMouseOut={onMouseOut}
-        >
-            <Image
-                key={work.id}
-                className={styles.containerCellImage}
-                src={`/works/${work.thumb}`}
-                alt={work.description}
-                width={work.thumbWidth}
-                height={work.thumbHeight}
-                layout="responsive"
-            />
-        </div>
+        <Link href={`/works/all/${work.id.toString()}/`}>
+            <a>
+                <div
+                    className={styles.containerCell}
+                    onMouseOver={(e) => {
+                        onMouseOver(e, work, columnIndex)
+                    }}
+                    onMouseOut={onMouseOut}
+                >
+                    <Image
+                        key={work.id}
+                        className={styles.containerCellImage}
+                        src={`${work.thumb}`}
+                        alt={work.description}
+                        width={work.thumbWidth}
+                        height={work.thumbHeight}
+                        layout="responsive"
+                    />
+
+                </div>
+            </a>
+        </Link>
     );
 
 }

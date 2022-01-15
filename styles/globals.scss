@@ -1,0 +1,29 @@
+html,
+body {
+  padding: 0;
+  margin: 0;
+  font-family: A-OTF UD Shin Go Pr6N, "Hiragino Kaku Gothic ProN","メイリオ", sans-serif;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* グローバルに使うアニメーション */
+
+@keyframes overlayDescriptionPopFromRight {
+  0% {
+    left: 100vh;
+  }
+}
+
+@keyframes overlayDescriptionPopFromLeft {
+  0% {
+    left: -100vh;
+  }
+}

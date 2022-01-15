@@ -76,12 +76,14 @@ export const TimeLine = (props: Props) => {
             <div key={index} className={styles.colsTimeLine}>
                 {col.map((work) => {
                     //セル
-                    return <Cell
-                        key={work.id}
-                        work={work}
-                        onMouseOver={onCellMouseOver}
-                        onMouseOut={onCellMouseOut}
-                        columnIndex={index}/>
+                    return (
+                        <Cell
+                            key={work.id}
+                            work={work}
+                            onMouseOver={onCellMouseOver}
+                            onMouseOut={onCellMouseOut}
+                            columnIndex={index}/>
+                    )
                 })}
             </div>
         )

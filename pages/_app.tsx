@@ -1,4 +1,4 @@
-import '../styles/globals.css'
+import '../styles/globals.scss'
 import type {AppProps} from 'next/app'
 import {ReactElement, ReactNode} from "react";
 import {NextPage} from "next";

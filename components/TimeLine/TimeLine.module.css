@@ -42,7 +42,7 @@
   opacity: 1;
   animation: cellMouseOver 0.3s;
   transform: scale(1.2) rotate(0deg);
-  z-index: 100;
+  z-index: 1010;
 }
 
 @keyframes cellMouseOver {
@@ -80,7 +80,7 @@
   position: absolute;
   top: 0;
   width: 50%;
-  z-index: 1000;
+  z-index: 1100;
   pointer-events: none;
 }
 

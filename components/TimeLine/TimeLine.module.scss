@@ -1,3 +1,5 @@
+@import "../../styles/vars";
+
 /* コンテナ */
 
 .containerTimeLine {
@@ -46,7 +48,7 @@
   opacity: 1;
   animation: cellMouseOver 0.3s;
   transform: scale(1.2) rotate(0deg);
-  z-index: 100;
+  z-index: $zIndex_timeline + 10;
 }
 
 @keyframes cellMouseOver {
@@ -93,7 +95,7 @@
   position: absolute;
   top: 0;
   width: 50%;
-  z-index: 1000;
+  z-index: $zIndex_timeline + 100;
   pointer-events: none;
 }
 
