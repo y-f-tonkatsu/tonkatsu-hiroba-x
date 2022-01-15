@@ -3,12 +3,14 @@ import {Cell} from "./Cell";
 import styles from "./TimeLine.module.scss"
 import React, {useState} from "react";
 import DescriptionOverlay, {DescriptionOverlayProps} from "./DescriptionOverlay";
+import {CategoryID} from "../../types/Categories";
 
 //タイムラインの列の数
 export const NUM_COLS = 4;
 
 type Props = {
-    works: Work[][]
+    works: Work[][],
+    category: CategoryID
 }
 
 /**
@@ -17,7 +19,7 @@ type Props = {
  */
 export const TimeLine = (props: Props) => {
 
-    const {works} = props;
+    const {works, category} = props;
 
     /**
      * マウスオーバーで表示するオーバーレイの状態
@@ -80,6 +82,7 @@ export const TimeLine = (props: Props) => {
                         <Cell
                             key={work.id}
                             work={work}
+                            category={category}
                             onMouseOver={onCellMouseOver}
                             onMouseOut={onCellMouseOut}
                             columnIndex={index}/>

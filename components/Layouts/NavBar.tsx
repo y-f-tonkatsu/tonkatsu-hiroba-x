@@ -8,28 +8,34 @@ export const NavBar = () => {
 
     const items = [
         {
-            label: "ホーム"
+            label: "ホーム",
+            link: "/works/all/0"
         },
         {
-            label: "イラスト"
+            label: "イラスト",
+            link: "/works/painting/0"
         },
         {
-            label: "写真"
+            label: "写真",
+            link: "/works/photo/0"
         },
         {
-            label: "マンガ"
+            label: "マンガ",
+            link: "/works/manga/0"
         },
         {
-            label: "ゲーム"
+            label: "ゲーム",
+            link: "/works/game/0"
         },
         {
-            label: "アニメ"
+            label: "アニメ",
+            link: "/works/animation/0"
         },
     ]
 
     return (
         <div className={styles.contentNavbar}>
-            {items.map((item, i)=><NavBarMenuItem key={i} id={i} name={item.label} />)}
+            {items.map((item, i) => <NavBarMenuItem key={i} id={i} name={item.label} link={item.link}/>)}
         </div>
     )
 }

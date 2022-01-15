@@ -4,12 +4,14 @@ import Image from "next/image"
 import React from "react";
 import styles from "./TimeLine.module.scss"
 import Link from "next/link"
+import {CategoryID} from "../../types/Categories";
 
 type Props = {
     work: Work,
     onMouseOver: (e: React.MouseEvent<HTMLDivElement, MouseEvent>, work: Work, columnIndex: number) => void,
     onMouseOut: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void
-    columnIndex: number
+    columnIndex: number,
+    category: CategoryID
 }
 
 /**
@@ -19,10 +21,10 @@ type Props = {
  */
 export const Cell: NextPage<Props> = (props: Props) => {
 
-    const {work, onMouseOver, onMouseOut, columnIndex} = props;
+    const {work, onMouseOver, onMouseOut, columnIndex, category} = props;
 
     return (
-        <Link href={`/works/all/${work.id.toString()}/`}>
+        <Link href={`/works/${category}/${work.id.toString()}/`}>
             <a>
                 <div
                     className={styles.containerCell}
