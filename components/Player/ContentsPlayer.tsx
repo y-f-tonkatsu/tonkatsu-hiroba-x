@@ -39,7 +39,7 @@ const ContentsPlayer: NextPage<Props> = ({work, links}) => {
     const headerContainer = (
         <div key="headerContainer" className={styles.containerHeader}>
             {backButton}
-            {work.title}
+            <h1 className={styles.labelContents}>{work.title}</h1>
         </div>
     );
 
@@ -53,8 +53,11 @@ const ContentsPlayer: NextPage<Props> = ({work, links}) => {
     );
     //サイド
     const sideContent = (
-        <div key="sideContent" className={styles.contentSide}>
+        <div className={styles.contentSide}>
+            <h3 className={styles.labelSide}>Description</h3>
             <div className={styles.contentSideDescription}>{work.description}</div>
+            <h3 className={styles.labelSide}>Tools</h3>
+            <div className={styles.contentSideDescription}>{work.info}</div>
         </div>
     );
     //コンテナ

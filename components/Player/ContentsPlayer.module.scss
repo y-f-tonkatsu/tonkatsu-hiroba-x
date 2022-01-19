@@ -15,11 +15,16 @@ $btnSize: 4rem;
 }
 
 .containerHeader {
-  font-size: 3rem;
+  font-size: 2rem;
+  line-height: 1;
   text-align: center;
   color: #fff4c1;
   filter: drop-shadow(0px 0px 4px #8888ff);
-  height: 5rem;
+  min-height: 5rem;
+}
+
+.labelContents {
+  margin: 0.5rem calc(2rem + #{$btnSize}) 0;
 }
 
 .containerMain {
@@ -36,7 +41,7 @@ $btnSize: 4rem;
   position: relative;
   flex-grow: 1;
   width: 75%;
-  margin: 1rem 1rem 1rem 2rem;
+  margin: 1rem 1rem 1rem calc(2rem + #{$btnSize});
   text-align: center;
   padding: 0 0;
 }
@@ -56,7 +61,7 @@ $btnSize: 4rem;
   0% {
     margin-right: -100%;
   }
-  100%{
+  100% {
     margin-right: 0;
   }
 }
@@ -65,7 +70,7 @@ $btnSize: 4rem;
   0% {
     opacity: 1;
   }
-  100%{
+  100% {
     opacity: 0;
   }
 }
@@ -76,6 +81,12 @@ $btnSize: 4rem;
 .contentSide {
   flex-grow: 0;
   width: 25%;
+}
+
+.labelSide {
+  margin: 1rem 0.5rem 0;
+  color: #f2fff9;
+  filter: drop-shadow(0px 0px 4px #8888ff);
 }
 
 .contentSideDescription {
@@ -91,7 +102,7 @@ $btnSize: 4rem;
 /* ボタン */
 .btnPlayer {
   opacity: 0.6;
-  position: absolute;
+  position: fixed;
   width: $btnSize;
   height: $btnSize;
   z-index: $zIndex_player_controls;
@@ -114,10 +125,10 @@ $btnSize: 4rem;
 
 .btnPlayerPrev {
   left: 1rem;
-  top: calc(50% - #{$btnSize});
+  top: calc(50vh - #{$btnSize});
 }
 
 .btnPlayerNext {
   right: 1rem;
-  top: calc(50% - #{$btnSize});
+  top: calc(50vh - #{$btnSize});
 }

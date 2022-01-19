@@ -11,11 +11,16 @@
 }
 
 .containerHeader {
-  font-size: 3rem;
+  font-size: 2rem;
+  line-height: 1;
   text-align: center;
   color: #fff4c1;
   filter: drop-shadow(0px 0px 4px #8888ff);
-  height: 5rem;
+  min-height: 5rem;
+}
+
+.labelContents {
+  margin: 0.5rem calc(2rem + 4rem) 0;
 }
 
 .containerMain {
@@ -30,7 +35,7 @@
   position: relative;
   flex-grow: 1;
   width: 75%;
-  margin: 1rem 1rem 1rem 2rem;
+  margin: 1rem 1rem 1rem calc(2rem + 4rem);
   text-align: center;
   padding: 0 0;
 }
@@ -65,6 +70,12 @@
   width: 25%;
 }
 
+.labelSide {
+  margin: 1rem 0.5rem 0;
+  color: #f2fff9;
+  filter: drop-shadow(0px 0px 4px #8888ff);
+}
+
 .contentSideDescription {
   margin: 1rem 2rem 1rem 1rem;
   padding: 1rem;
@@ -77,7 +88,7 @@
 /* ボタン */
 .btnPlayer {
   opacity: 0.6;
-  position: absolute;
+  position: fixed;
   width: 4rem;
   height: 4rem;
   z-index: 2100;
@@ -100,12 +111,12 @@
 
 .btnPlayerPrev {
   left: 1rem;
-  top: calc(50% - 4rem);
+  top: calc(50vh - 4rem);
 }
 
 .btnPlayerNext {
   right: 1rem;
-  top: calc(50% - 4rem);
+  top: calc(50vh - 4rem);
 }
 
 /*# sourceMappingURL=ContentsPlayer.module.css.map */
