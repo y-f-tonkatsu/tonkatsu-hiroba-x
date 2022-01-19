@@ -11,20 +11,21 @@ type Props = {
     onMouseOver: (e: React.MouseEvent<HTMLDivElement, MouseEvent>, work: Work, columnIndex: number) => void,
     onMouseOut: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void
     columnIndex: number,
-    category: CategoryID
+    timeLineCategory: CategoryID
 }
 
 /**
  * タイムラインのセルを表すコンポーネント
- * @param props {Props}
- * @constructor
+ * @param work コンテンツ
+ * @param onMouseOver マウスオーバーリスナー
+ * @param onMouseOut マウスアウトリスナー
+ * @param columnIndex 列のインデックス
+ * @param timeLineCategory 表示中のタイムラインのカテゴリ
  */
-export const Cell: NextPage<Props> = (props: Props) => {
-
-    const {work, onMouseOver, onMouseOut, columnIndex, category} = props;
+export const Cell: NextPage<Props> = ({work, onMouseOver, onMouseOut, columnIndex, timeLineCategory}) => {
 
     return (
-        <Link href={`/works/${category}/${work.id.toString()}/`}>
+        <Link href={`/works/${timeLineCategory}/${work.id.toString()}/`}>
             <a>
                 <div
                     className={styles.containerCell}
@@ -42,7 +43,6 @@ export const Cell: NextPage<Props> = (props: Props) => {
                         height={work.thumbHeight}
                         layout="responsive"
                     />
-
                 </div>
             </a>
         </Link>

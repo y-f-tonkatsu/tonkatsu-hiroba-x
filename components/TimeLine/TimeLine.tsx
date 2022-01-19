@@ -4,25 +4,25 @@ import styles from "./TimeLine.module.scss"
 import React, {useState} from "react";
 import DescriptionOverlay, {DescriptionOverlayProps} from "./DescriptionOverlay";
 import {CategoryID} from "../../types/Categories";
+import {NextPage} from "next";
 
 //タイムラインの列の数
 export const NUM_COLS = 4;
 
 type Props = {
     works: Work[][],
-    category: CategoryID
+    timeLineCategory: CategoryID
 }
 
 /**
  * タイムラインコンポーネント
- * @param props 作品データの列ごとの2重配列
+ * @param works 作品データの列ごとの2重配列
+ * @param timelineCategory 表示中のタイムラインのカテゴリを表す
  */
-export const TimeLine = (props: Props) => {
-
-    const {works, category} = props;
+export const TimeLine:NextPage<Props> = ({works, timeLineCategory}) => {
 
     /**
-     * マウスオーバーで表示するオーバーレイの状態
+     * マウスオーバーで表示するオーバーレイの状態を表す state
      */
     const [overlay, setOverlay] = useState<DescriptionOverlayProps>({
         position: null,
@@ -82,7 +82,7 @@ export const TimeLine = (props: Props) => {
                         <Cell
                             key={work.id}
                             work={work}
-                            category={category}
+                            timeLineCategory={timeLineCategory}
                             onMouseOver={onCellMouseOver}
                             onMouseOut={onCellMouseOut}
                             columnIndex={index}/>

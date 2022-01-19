@@ -8,51 +8,63 @@ import {ReactElement, ReactNode} from "react";
 import {Layout} from "../../../components/Layouts/Layout";
 import {Categories, CategoryID, isCategory} from "../../../types/Categories";
 
+/** コンテンツ指定なしのときの ID */
 export const ID_NO_CONTENTS: number = 0;
 
 type Props = {
     id: number;
     works: Work[][];
-    category: CategoryID
+    timelineCategory: CategoryID
 }
-
 type PageWithLayout = NextPage<Props> & {
     getLayout?: (page: ReactElement) => ReactNode
 };
 
 /**
- * URLで指定した Work を再生する
+ * 指定されたカテゴリのタイムラインを表示する
+ * また、URLで指定した Work を再生する
  */
-const WorksPage: PageWithLayout = ({id, works, category}) => {
+const WorksPage: PageWithLayout = ({id, works, timelineCategory}) => {
 
-    //表示対象の Work を取得, 取得できなかったら null を返す
+    //2重リストをフラットにする
     const allWorks: Work[] = works.flat().sort((a, b) => a.id - b.id);
+    //表示対象の Work とそのインデックスを取得
     const index = allWorks.findIndex(work => work.id === id);
     const work = allWorks[index];
+
+    //ContentsPlayer を作る
     let player = null;
     if (work && id !== ID_NO_CONTENTS) {
         let next, prev;
-        prev = index > 0 ? `/works/${category}/${allWorks[index - 1].id}` : null;
-        next = index < allWorks.length - 1 ? `/works/${category}/${allWorks[index + 1].id}` : null;
+        prev = index > 0 ? `/works/${timelineCategory}/${allWorks[index - 1].id}` : null;
+        next = index < allWorks.length - 1 ? `/works/${timelineCategory}/${allWorks[index + 1].id}` : null;
         const links = {
-            list: `/works/${category}/${ID_NO_CONTENTS}`,
+            list: `/works/${timelineCategory}/${ID_NO_CONTENTS}`,
             prev: prev,
             next: next,
         }
-        player = <ContentsPlayer work={work} links={links}/>;
+        player = <ContentsPlayer key="ContentsPlayer" work={work} links={links}/>;
     }
+
+    //タイムラインを作る
+    const timeLine = (
+        <TimeLine
+            key="TimeLine"
+            works={works}
+            timeLineCategory={timelineCategory}
+        />
+    );
 
     return (
         <div className={styles.homeContainer}>
-            <TimeLine
-                works={works}
-                category={category}
-            />
-            {player}
+            {[timeLine, player]}
         </div>
-    )
+    );
 }
 
+/**
+ * レイアウト設定
+ */
 WorksPage.getLayout = function getLayout(page: ReactElement) {
     return (
         <Layout>
@@ -61,15 +73,20 @@ WorksPage.getLayout = function getLayout(page: ReactElement) {
     )
 }
 
+/**
+ * パス設定
+ */
 export const getStaticPaths: GetStaticPaths = async () => {
 
     const paths = worksJson.map((work) => ({
+        //カテゴリごとにタイムラインとコンテンツの組み合わせ配列を作る
         params: {
             id: work.id.toString(),
             category: work.category
         },
     })).concat(
         worksJson.map((work) => ({
+            //all カテゴリは全てのコンテンツとの組み合わせを作る
             params: {
                 id: work.id.toString(),
                 category: "all"
@@ -77,6 +94,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
         }))
     ).concat(
         Categories.map(category => {
+            //コンテンツなしは全てのカテゴリとの組み合わせを作る
             return {
                 params: {
                     id: ID_NO_CONTENTS.toString(),
@@ -86,7 +104,6 @@ export const getStaticPaths: GetStaticPaths = async () => {
         })
     );
 
-
     return {
         paths: paths,
         fallback: false
@@ -94,6 +111,9 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
 }
 
+/**
+ * SSG設定
+ */
 export const getStaticProps: GetStaticProps = async (context) => {
 
     //列を表す2重配列 Cols × Works
@@ -101,6 +121,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
     //各列の高さの合計を集計
     const heights: number[] = (new Array(NUM_COLS)).fill(0);
 
+    //一番低い cols から work を順に追加していく
     const params = context.params || {};
     const category = isCategory(params.category) ? params.category : "all";
     const works = category === "all" ? worksJson : worksJson.filter(work => category === work.category);
@@ -112,11 +133,12 @@ export const getStaticProps: GetStaticProps = async (context) => {
         cols[n].push(work)
     });
 
+    //props を作る
     const id = typeof params.id === "string" ? parseInt(params.id) : ID_NO_CONTENTS;
     const props: Props = {
         id: id,
         works: cols,
-        category: category
+        timelineCategory: category
     }
 
     return {

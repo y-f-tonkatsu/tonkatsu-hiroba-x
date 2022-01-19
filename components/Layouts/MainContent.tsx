@@ -2,7 +2,7 @@ import {ReactElement} from "react";
 import styles from "./Layout.module.scss";
 
 /**
- * メインコンテンツ
+ * ナビゲーションに対するメインコンテンツ
  */
 export const MainContent = ({children}: { children: ReactElement[] }) => {
     return (

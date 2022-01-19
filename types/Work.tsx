@@ -8,5 +8,6 @@ export type Work = {
     width: number,
     height: number
     thumbWidth: number,
-    thumbHeight: number
+    thumbHeight: number,
+    category: string
 }
