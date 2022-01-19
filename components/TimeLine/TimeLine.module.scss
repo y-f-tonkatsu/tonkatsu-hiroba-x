@@ -113,3 +113,10 @@
   color: #eec;
   filter: drop-shadow(1px 1px 0px #a0a0ee);
 }
+
+@media (max-width: #{$media_s}px) {
+  .overlayDescription {
+    display: none;
+  }
+
+}

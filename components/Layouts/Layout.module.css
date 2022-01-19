@@ -27,4 +27,18 @@
   margin: 0;
 }
 
+@media (max-width: 1020px) {
+  .containerLayout {
+    flex-direction: column;
+  }
+
+  .contentNavbar {
+    width: 100vw;
+    min-height: 3rem;
+    flex-direction: row;
+    flex-flow: row;
+    overflow-x: auto;
+  }
+}
+
 /*# sourceMappingURL=Layout.module.css.map */

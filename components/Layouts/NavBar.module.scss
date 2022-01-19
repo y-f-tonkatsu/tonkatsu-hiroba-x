@@ -1,11 +1,23 @@
+@import "../../styles/vars";
+
 /* グロウのためのコンテナ */
 
-.containerLight{
+.containerLight {
   filter: drop-shadow(-6px -6px 8px #ffdd22);
 }
 
 .containerLight:hover {
   filter: drop-shadow(-6px -6px 4px #ffdd22);
+}
+
+@media (max-width: #{$media_s}px) {
+  .containerLight {
+    filter: drop-shadow(-3px -3px 4px #ffdd22);
+  }
+
+  .containerLight:hover {
+    filter: drop-shadow(-3px -3px 2px #ffdd22);
+  }
 }
 
 
@@ -30,3 +42,12 @@
   filter: drop-shadow(4px 4px 0px #5050cc);
 }
 
+@media (max-width: #{$media_s}px) {
+  .labelNavBar {
+    writing-mode: horizontal-tb;
+    margin: 0.4rem 1rem;
+    min-width: 5rem;
+    text-align: center;
+    vertical-align: middle;
+  }
+}

@@ -137,15 +137,12 @@ const createContents = (work: Work) => {
         );
     } else {
         return (
-            <Image key={`${work.path}`}
+            <img key={`${work.path}`}
                    className={`${styles.imageMain}`}
-                   layout={"fill"}
-                   objectFit="contain"
+                   width={work.width}
+                   height={work.height}
                    src={`${work.path}`}
                    alt={work.title}
-                   priority={true}
-                   onLoadingComplete={function () {
-                   }}
             />
         );
     }

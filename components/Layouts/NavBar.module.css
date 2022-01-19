@@ -8,6 +8,15 @@
   filter: drop-shadow(-6px -6px 4px #ffdd22);
 }
 
+@media (max-width: 1020px) {
+  .containerLight {
+    filter: drop-shadow(-3px -3px 4px #ffdd22);
+  }
+
+  .containerLight:hover {
+    filter: drop-shadow(-3px -3px 2px #ffdd22);
+  }
+}
 /* ラベル */
 .labelNavBar {
   writing-mode: vertical-rl;
@@ -23,6 +32,16 @@
 .labelNavBar:hover {
   color: #ff9;
   filter: drop-shadow(4px 4px 0px #5050cc);
+}
+
+@media (max-width: 1020px) {
+  .labelNavBar {
+    writing-mode: horizontal-tb;
+    margin: 0.4rem 1rem;
+    min-width: 5rem;
+    text-align: center;
+    vertical-align: middle;
+  }
 }
 
 /*# sourceMappingURL=NavBar.module.css.map */
