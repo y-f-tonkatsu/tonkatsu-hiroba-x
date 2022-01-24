@@ -36,14 +36,16 @@ const WorksPage: PageWithLayout = ({id, works, timelineCategory}) => {
     let player = null;
     if (work && id !== ID_NO_CONTENTS) {
         let next, prev;
-        prev = index > 0 ? `/works/${timelineCategory}/${allWorks[index - 1].id}` : null;
-        next = index < allWorks.length - 1 ? `/works/${timelineCategory}/${allWorks[index + 1].id}` : null;
+        let prevWork = allWorks[index - 1];
+        let nextWork = allWorks[index + 1];
+        prev = index > 0 ? `/works/${timelineCategory}/${prevWork.id}` : null;
+        next = index < allWorks.length - 1 ? `/works/${timelineCategory}/${nextWork.id}` : null;
         const links = {
             list: `/works/${timelineCategory}/${ID_NO_CONTENTS}`,
             prev: prev,
             next: next,
         }
-        player = <ContentsPlayer key="ContentsPlayer" work={work} links={links}/>;
+        player = <ContentsPlayer key="ContentsPlayer" work={work} links={links} prevWork={prevWork} nextWork={nextWork} />;
     }
 
     //タイムラインを作る
