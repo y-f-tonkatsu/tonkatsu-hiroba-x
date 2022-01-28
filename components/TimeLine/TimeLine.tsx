@@ -5,6 +5,7 @@ import React, {useState} from "react";
 import DescriptionOverlay, {DescriptionOverlayProps} from "./DescriptionOverlay";
 import {CategoryID} from "../../types/Categories";
 import {NextPage} from "next";
+import HeadLine from "./HeadLine";
 
 //タイムラインの列の数
 export const NUM_COLS = 4;
@@ -19,7 +20,7 @@ type Props = {
  * @param works 作品データの列ごとの2重配列
  * @param timelineCategory 表示中のタイムラインのカテゴリを表す
  */
-export const TimeLine:NextPage<Props> = ({works, timeLineCategory}) => {
+export const TimeLine: NextPage<Props> = ({works, timeLineCategory}) => {
 
     /**
      * マウスオーバーで表示するオーバーレイの状態を表す state
@@ -93,9 +94,12 @@ export const TimeLine:NextPage<Props> = ({works, timeLineCategory}) => {
     });
 
     return (
-        <div className={styles.containerTimeLine} style={{position: "relative"}}>
-            {cols}
-            <DescriptionOverlay {...overlay} />
+        <div className={styles.containerOuterTimeLine} style={{position: "relative"}}>
+            <HeadLine/>
+            <div className={styles.containerTimeLine} style={{position: "relative"}}>
+                {cols}
+                <DescriptionOverlay {...overlay} />
+            </div>
         </div>
     );
 
