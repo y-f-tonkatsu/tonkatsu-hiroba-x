@@ -23,7 +23,7 @@
   flex-direction: row;
   width: 100%;
   height: calc(100% - 5rem);
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 
 @media (max-width: 1020px) {

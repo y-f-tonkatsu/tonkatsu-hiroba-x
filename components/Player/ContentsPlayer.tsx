@@ -54,7 +54,8 @@ const ContentsPlayer: FC<Props> = ({work, links, prevWork, nextWork}) => {
                 setTransitAnimation({
                     to: work,
                     direction: direction,
-                    onAnimationCompleteListener: ()=>{},
+                    onAnimationCompleteListener: () => {
+                    },
                     status: "stop"
                 });
                 setCurrentWork(work);
@@ -101,7 +102,7 @@ const ContentsPlayer: FC<Props> = ({work, links, prevWork, nextWork}) => {
     //メイン
     const mainContent = (
         <div key="mainContent" className={`${styles.contentMain}`}>
-            <Contents work={currentWork} transitAnimation={transitAnimation} />
+            <Contents work={currentWork} transitAnimation={transitAnimation}/>
         </div>
     );
     //サイド
@@ -115,7 +116,9 @@ const ContentsPlayer: FC<Props> = ({work, links, prevWork, nextWork}) => {
     );
     //コンテナ
     const mainContainer = (
-        <div key="mainContainer" className={`${styles.containerMain}`}>
+        <div key="mainContainer" className={`${styles.containerMain}`}
+             style={{overflowY: transitAnimation ? "hidden" : "auto"}}
+        >
             {[controllerContent, mainContent, sideContent]}
         </div>
     );

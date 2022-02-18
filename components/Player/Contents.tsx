@@ -38,7 +38,7 @@ const Contents: FC<Props> = ({work, transitAnimation}) => {
         let anim = {};
         let newAnim = {};
         let newStyle = {};
-        if (transitAnimation.direction == "up") {
+        if (transitAnimation.direction == "down") {
             anim = {scale: 0, marginTop: "-100%"}
             newAnim = {opacity: 1, marginTop: "0%"}
             newStyle = {opacity: 0, marginTop: "100%"}
@@ -76,7 +76,7 @@ const Contents: FC<Props> = ({work, transitAnimation}) => {
                 alt={work.title}
             />
         );
-        if (transitAnimation.direction == "up") {
+        if (transitAnimation.direction == "down") {
             return (
                 <>
                     {[image, newImage]}

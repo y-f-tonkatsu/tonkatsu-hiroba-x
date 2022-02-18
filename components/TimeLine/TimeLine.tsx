@@ -95,7 +95,6 @@ export const TimeLine: NextPage<Props> = ({works, timeLineCategory}) => {
 
     return (
         <div className={styles.containerOuterTimeLine} style={{position: "relative"}}>
-            <HeadLine/>
             <div className={styles.containerTimeLine} style={{position: "relative"}}>
                 {cols}
                 <DescriptionOverlay {...overlay} />

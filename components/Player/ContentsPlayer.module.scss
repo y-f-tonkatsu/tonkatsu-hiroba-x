@@ -30,7 +30,7 @@ $marginS: 0.3rem;
   flex-direction: row;
   width: 100%;
   height: calc(100% - #{$btnSizeM + $marginM * 2});
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 
 @media (max-width: #{$media_s}px) {
