@@ -28,6 +28,8 @@ export const Layout = ({children}: { children: ReactElement[] }) => {
                           })(document);
                         `
                 }}/>
+                <script src="https://code.createjs.com/1.0.0/createjs.min.js"></script>
+                <script src="/anims/animation_ex.js"></script>
             </Head>
 
             <div className={styles.containerLayout}>

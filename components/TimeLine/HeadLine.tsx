@@ -1,14 +1,14 @@
 import {FC} from "react";
 import styles from "./TimeLine.module.scss";
+import "../Animator/Animator";
+import Animator from "../Animator/Animator";
 
-type Props = {
+type Props = {}
 
-}
-
-const HeadLine:FC<Props> = ({})=>{
+const HeadLine: FC<Props> = ({}) => {
     return (
         <div className={styles.containerHeadline}>
-            <canvas width="500" height="500"></canvas>
+            <Animator height={100} width={100}/>
         </div>
     )
 }
