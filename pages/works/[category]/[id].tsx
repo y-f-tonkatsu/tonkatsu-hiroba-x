@@ -4,9 +4,11 @@ import {NUM_COLS, TimeLine} from "../../../components/TimeLine/TimeLine";
 import {Work} from "../../../types/Work";
 import ContentsPlayer from "../../../components/Player/ContentsPlayer";
 import worksJson from "../../../public/works/works-size-added.json";
-import {ReactElement, ReactNode} from "react";
+import React, {ReactElement, ReactNode} from "react";
 import {Layout} from "../../../components/Layouts/Layout";
 import {Categories, CategoryID, isCategory} from "../../../types/Categories";
+import HeadLine from "../../../components/TimeLine/HeadLine";
+import Script from 'next/script'
 
 /** コンテンツ指定なしのときの ID */
 export const ID_NO_CONTENTS: number = 0;
@@ -45,7 +47,8 @@ const WorksPage: PageWithLayout = ({id, works, timelineCategory}) => {
             prev: prev,
             next: next,
         }
-        player = <ContentsPlayer key="ContentsPlayer" work={work} links={links} prevWork={prevWork} nextWork={nextWork} />;
+        player =
+            <ContentsPlayer key="ContentsPlayer" work={work} links={links} prevWork={prevWork} nextWork={nextWork}/>;
     }
 
     //タイムラインを作る
@@ -59,6 +62,17 @@ const WorksPage: PageWithLayout = ({id, works, timelineCategory}) => {
 
     return (
         <div className={styles.homeContainer}>
+
+            <Script
+                src="https://code.createjs.com/1.0.0/createjs.min.js"
+                strategy={"beforeInteractive"}
+            />
+            <Script
+                src="/anims/animation_ex.js"
+                strategy={"beforeInteractive"}
+            />
+            <HeadLine/>
+
             {[timeLine, player]}
         </div>
     );
