@@ -1,5 +1,5 @@
 import {FC} from "react";
-import styles from "./TimeLine.module.scss";
+import styles from "../TimeLine/TimeLine.module.scss";
 import "../Animator/Animator";
 import Animator from "../Animator/Animator";
 

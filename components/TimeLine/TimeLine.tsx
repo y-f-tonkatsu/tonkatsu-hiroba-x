@@ -5,7 +5,7 @@ import React, {useState} from "react";
 import DescriptionOverlay, {DescriptionOverlayProps} from "./DescriptionOverlay";
 import {CategoryID} from "../../types/Categories";
 import {NextPage} from "next";
-import HeadLine from "./HeadLine";
+import HeadLine from "../Home/HeadLine";
 
 //タイムラインの列の数
 export const NUM_COLS = 4;

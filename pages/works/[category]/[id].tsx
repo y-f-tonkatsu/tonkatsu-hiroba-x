@@ -4,10 +4,10 @@ import {NUM_COLS, TimeLine} from "../../../components/TimeLine/TimeLine";
 import {Work} from "../../../types/Work";
 import ContentsPlayer from "../../../components/Player/ContentsPlayer";
 import worksJson from "../../../public/works/works-size-added.json";
-import React, {ReactElement, ReactNode} from "react";
+import React, {FC, ReactElement, ReactNode} from "react";
 import {Layout} from "../../../components/Layouts/Layout";
 import {Categories, CategoryID, isCategory} from "../../../types/Categories";
-import HeadLine from "../../../components/TimeLine/HeadLine";
+import HeadLine from "../../../components/Home/HeadLine";
 import Script from 'next/script'
 
 /** コンテンツ指定なしのときの ID */
@@ -28,29 +28,11 @@ type PageWithLayout = NextPage<Props> & {
  */
 const WorksPage: PageWithLayout = ({id, works, timelineCategory}) => {
 
-    //2重リストをフラットにする
+    //2重リストをフラットにしてソート
     const allWorks: Work[] = works.flat().sort((a, b) => a.id - b.id);
     //表示対象の Work とそのインデックスを取得
     const index = allWorks.findIndex(work => work.id === id);
     const work = allWorks[index];
-
-    //ContentsPlayer を作る
-    let player = null;
-    if (work && id !== ID_NO_CONTENTS) {
-        let next, prev;
-        let prevWork = allWorks[index - 1];
-        let nextWork = allWorks[index + 1];
-        prev = index > 0 ? `/works/${timelineCategory}/${prevWork.id}` : null;
-        next = index < allWorks.length - 1 ? `/works/${timelineCategory}/${nextWork.id}` : null;
-        const links = {
-            list: `/works/${timelineCategory}/${ID_NO_CONTENTS}`,
-            prev: prev,
-            next: next,
-        }
-        player =
-            <ContentsPlayer key="ContentsPlayer" work={work} links={links} prevWork={prevWork} nextWork={nextWork}/>;
-    }
-
     //タイムラインを作る
     const timeLine = (
         <TimeLine
@@ -60,23 +42,80 @@ const WorksPage: PageWithLayout = ({id, works, timelineCategory}) => {
         />
     );
 
+    //ContentsPlayer を作る
+    let player = null;
+    if (work && id !== ID_NO_CONTENTS) {
+        player = createPlayer(allWorks, work, index, timelineCategory);
+    }
+
     return (
         <div className={styles.homeContainer}>
 
-            <Script
-                src="https://code.createjs.com/1.0.0/createjs.min.js"
-                strategy={"beforeInteractive"}
-            />
-            <Script
-                src="/anims/animation_ex.js"
-                strategy={"beforeInteractive"}
-            />
+            {scripts}
+
             <HeadLine/>
 
             {[timeLine, player]}
         </div>
     );
 }
+
+/**
+ * 外部読み込みのスクリプトをまとめる
+ */
+const scripts = (
+    <>
+        <script
+            key={"AdobeFontScript"}
+            dangerouslySetInnerHTML={{
+                __html:
+                    `
+                          (function(d) {
+                            var config = {
+                              kitId: 'jer2ken',
+                              scriptTimeout: 3000,
+                              async: true
+                            },
+                            h=d.documentElement,t=setTimeout(function(){h.className=h.className.replace(/\\bwf-loading\\b/g,"")+" wf-inactive";},config.scriptTimeout),tk=d.createElement("script"),f=false,s=d.getElementsByTagName("script")[0],a;h.className+=" wf-loading";tk.src='https://use.typekit.net/'+config.kitId+'.js';tk.async=true;tk.onload=tk.onreadystatechange=function(){a=this.readyState;if(f||a&&a!="complete"&&a!="loaded")return;f=true;clearTimeout(t);try{Typekit.load(config)}catch(e){}};s.parentNode.insertBefore(tk,s)
+                          })(document);
+                        `
+            }}/>
+        <Script
+            key={"CreateJSScript"}
+            src="https://code.createjs.com/1.0.0/createjs.min.js"
+            strategy={"beforeInteractive"}
+        />
+        <Script
+            key={"HomeAnimationScript"}
+            src="/anims/animation_ex.js"
+            strategy={"beforeInteractive"}
+        />
+    </>
+);
+
+/**
+ * コンテンツデータからプレイヤーコンポーネントを作る
+ */
+const createPlayer = (allWorks: Work[], work: Work, index: number, timelineCategory: CategoryID) => {
+    let next, prev;
+    let prevWork = allWorks[index - 1];
+    let nextWork = allWorks[index + 1];
+    prev = index > 0 ? `/works/${timelineCategory}/${prevWork.id}` : null;
+    next = index < allWorks.length - 1 ? `/works/${timelineCategory}/${nextWork.id}` : null;
+    const links = {
+        list: `/works/${timelineCategory}/${ID_NO_CONTENTS}`,
+        prev: prev,
+        next: next,
+    }
+    return (
+        <ContentsPlayer
+            key="ContentsPlayer"
+            work={work}
+            links={links}
+            prevWork={prevWork}
+            nextWork={nextWork}/>
+    );
+};
 
 /**
  * レイアウト設定

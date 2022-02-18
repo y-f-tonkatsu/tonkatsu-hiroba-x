@@ -109,9 +109,9 @@ const ContentsPlayer: FC<Props> = ({work, links, prevWork, nextWork}) => {
     const sideContent = (
         <div key="sideContent" className={styles.contentSide}>
             <h3 className={styles.labelSide}>Description</h3>
-            <div className={styles.contentSideDescription}>{work.description}</div>
+            <div className={styles.contentSideDescription}>{transitAnimation ? "" : work.description}</div>
             <h3 className={styles.labelSide}>Tools</h3>
-            <div className={styles.contentSideDescription}>{work.info}</div>
+            <div className={styles.contentSideDescription}>{transitAnimation ? "" : work.info}</div>
         </div>
     );
     //コンテナ
