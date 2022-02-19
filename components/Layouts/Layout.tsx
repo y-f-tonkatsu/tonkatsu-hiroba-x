@@ -13,7 +13,7 @@ export const Layout = ({children}: { children: ReactElement[] }) => {
     return (
         <>
             <Head>
-                <title>とんかつ道場</title>
+                <title>とんかつひろば</title>
                 <meta name="description" content="Y.F.とんかつの絵などがある"/>
                 <link rel="icon" href={favicon.src}/>
             </Head>

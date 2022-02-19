@@ -8,6 +8,7 @@ import React, {ReactElement, ReactNode} from "react";
 import {Layout} from "../../../components/Layouts/Layout";
 import {Categories, CategoryID, isCategory} from "../../../types/Categories";
 import Script from 'next/script'
+import Head from "next/head";
 
 /** コンテンツ指定なしのときの ID */
 export const ID_NO_CONTENTS: number = 0;
@@ -43,12 +44,19 @@ const WorksPage: PageWithLayout = ({id, works, timelineCategory}) => {
 
     //ContentsPlayer を作る
     let player = null;
+    let title = null;
     if (work && id !== ID_NO_CONTENTS) {
+        title = (
+            <Head>
+                <title>{`${work.title} - とんかつひろば`}</title>
+            </Head>
+        );
         player = createPlayer(allWorks, work, index, timelineCategory);
     }
 
     return (
         <div key={"containerHome"} className={styles.homeContainer}>
+            {title}
             {[scripts, timeLine, player]}
         </div>
     );
