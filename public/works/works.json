@@ -1,5 +1,68 @@
 [
   {
+    "id": 132,
+    "title": "出陣する武士",
+    "description": "「世界で一番美しいのは白雪姫です。」魔法の鏡はそう告げると、その白雪姫も使っているという魔法の美顔器を紹介しはじめた。",
+    "category": "painting",
+    "info": "Clip Studio Paint, Adobe Photoshop",
+    "path": "132_hatamoto.jpg",
+    "lastBuildDate": "Sat, 19 Feb 2022 14:35:00 +0900"
+  },
+  {
+    "id": 131,
+    "title": "クイックスケッチ7:人",
+    "description": "主役引退で中断していたキャプテン・ダザイシリーズが、副ニセキャプテン・ダザイ主演で制作再開されると週刊些事が報じた。マルチバースを舞台にアイデンティティの喪失と再生が描かれる壮大な物語で、副キャプテンの副副ニセキャプテン・ダザイとニセモノのニセ副ニセキャプテン・ダザイも登場する。",
+    "category": "painting",
+    "info": "Clip Studio Paint, Adobe Photoshop",
+    "path": "131_qs7.jpg",
+    "lastBuildDate": "Fri, 28 Jan 2022 23:50:00 +0900"
+  },
+  {
+    "id": 130,
+    "title": "クイックスケッチ6:耳2",
+    "description": "薬師如来がみずほのシステムを救済できるかについて後鳥羽上皇と口論になったのだが「日頃神仏に祈ってても流されるときは流されるわけでw」みたいに言ってしまったのはよくなかったと反省している。",
+    "category": "painting",
+    "info": "Clip Studio Paint, Adobe Photoshop",
+    "path": "130_qs6.jpg",
+    "lastBuildDate": "Wed, 26 Jan 2022 23:38:00 +0900"
+  },
+  {
+    "id": 129,
+    "title": "クイックスケッチ5:耳",
+    "description": "太陽系には銀河餃子売ってる店ないって知らなかった。",
+    "category": "painting",
+    "info": "Clip Studio Paint, Adobe Photoshop",
+    "path": "129_qs5.jpg",
+    "lastBuildDate": "Tue, 25 Jan 2022 00:01:00 +0900"
+  },
+  {
+    "id": 128,
+    "title": "クイックスケッチ4:猫",
+    "description": "週間些事の取材に応じたニセ副キャプテン・ダザイは「コンビニスイーツを食べながら YouTube で動物やアイドルの動画見たり、スマホのゲームをする活動にもっと時間をかけて真剣に取り組みたい想いがあり、やむなく引退を決意した」と、コロナ禍で活動が難航していた数年間の苦しい心境を吐露した。",
+    "category": "painting",
+    "info": "Clip Studio Paint, Adobe Photoshop",
+    "path": "128_qs4.jpg",
+    "lastBuildDate": "Sat, 22 Jan 2022 14:55:00 +0900"
+  },
+  {
+    "id": 127,
+    "title": "クイックスケッチ3:人",
+    "description": "週刊些事が副キャプテン・ダザイ、ニセキャプテン・ダザイに続き、ニセ副キャプテン・ダザイ(副キャプテン・ダザイのニセモノ)の引退を報じた。残る太宰系ヒーローは副ニセキャプテン・ダザイ(ニセキャプテン・ダザイのサブ)のみで「メイン(本物のいないニセモノ)のいないサブ」という苦境に立たされることとなった。",
+    "category": "painting",
+    "info": "Clip Studio Paint, Adobe Photoshop",
+    "path": "127_qs3.jpg",
+    "lastBuildDate": "Wed, 19 Jan 2022 20:54:00 +0900"
+  },
+  {
+    "id": 126,
+    "title": "イルミネーション",
+    "description": "後鳥羽上皇と中野のサイゼリヤで、宇宙は一本のうどんでできているという学説があるらしい、って話をしてたら「では、私は宇宙の天ぷらのような存在なのか」と言い出して、いやいや超うどん理論が正しかったらあなたもうどんですよ、と。自負が強すぎる。",
+    "category": "photo",
+    "info": "Olympus PEN E-P3, M.ZUIKO DIGITAL ED 14-150mm F4.0-5.6 II",
+    "path": "126_illumination.jpg",
+    "lastBuildDate": "Wed, 12 Jan 2022 19:36:00 +0900"
+  },
+  {
     "id": 125,
     "title": "ブランドバッグが欲しい凡夫を救済に来た釈迦如来",
     "description": "新宿東口のバーガーキングに来たら、アボカドワッパーが復活していて、後鳥羽上皇が泣きながら「義時に一矢報いることができた」などと言い出したのだが、バーガーキングジャパンは別に北条家に嫌がらせをされて、新宿から撤退したりアボカドワッパーを休止してたわけじゃなくない？",

@@ -4,12 +4,10 @@ import {NUM_COLS, TimeLine} from "../../../components/TimeLine/TimeLine";
 import {Work} from "../../../types/Work";
 import ContentsPlayer from "../../../components/Player/ContentsPlayer";
 import worksJson from "../../../public/works/works-size-added.json";
-import React, {FC, ReactElement, ReactNode} from "react";
+import React, {ReactElement, ReactNode} from "react";
 import {Layout} from "../../../components/Layouts/Layout";
 import {Categories, CategoryID, isCategory} from "../../../types/Categories";
-import HeadLine from "../../../components/Home/HeadLine";
 import Script from 'next/script'
-import Topics from "../../../components/Home/Topics";
 
 /** コンテンツ指定なしのときの ID */
 export const ID_NO_CONTENTS: number = 0;
@@ -50,7 +48,7 @@ const WorksPage: PageWithLayout = ({id, works, timelineCategory}) => {
     }
 
     return (
-        <div className={styles.homeContainer}>
+        <div key={"containerHome"} className={styles.homeContainer}>
             {[scripts, timeLine, player]}
         </div>
     );
@@ -60,7 +58,7 @@ const WorksPage: PageWithLayout = ({id, works, timelineCategory}) => {
  * 外部読み込みのスクリプトをまとめる
  */
 const scripts = (
-    <>
+    <div key={"scriptsTimeLine"}>
         <script
             key={"AdobeFontScript"}
             dangerouslySetInnerHTML={{
@@ -86,7 +84,7 @@ const scripts = (
             src="/anims/animation_ex.js"
             strategy={"beforeInteractive"}
         />
-    </>
+    </div>
 );
 
 /**

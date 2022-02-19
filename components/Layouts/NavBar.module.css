@@ -35,10 +35,13 @@
 }
 
 @media (max-width: 1020px) {
+  .itemNavBar {
+    width: 20vw;
+  }
+
   .labelNavBar {
     writing-mode: horizontal-tb;
     margin: 0.4rem 1rem;
-    min-width: 5rem;
     text-align: center;
     vertical-align: middle;
   }

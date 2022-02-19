@@ -42,11 +42,18 @@
   filter: drop-shadow(4px 4px 0px #5050cc);
 }
 
+.itemNavBar{
+}
+
 @media (max-width: #{$media_s}px) {
+
+  .itemNavBar{
+    width: 20vw;
+  }
+
   .labelNavBar {
     writing-mode: horizontal-tb;
     margin: 0.4rem 1rem;
-    min-width: 5rem;
     text-align: center;
     vertical-align: middle;
   }
