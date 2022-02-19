@@ -9,6 +9,7 @@ import {Layout} from "../../../components/Layouts/Layout";
 import {Categories, CategoryID, isCategory} from "../../../types/Categories";
 import HeadLine from "../../../components/Home/HeadLine";
 import Script from 'next/script'
+import Topics from "../../../components/Home/Topics";
 
 /** コンテンツ指定なしのときの ID */
 export const ID_NO_CONTENTS: number = 0;
@@ -50,12 +51,7 @@ const WorksPage: PageWithLayout = ({id, works, timelineCategory}) => {
 
     return (
         <div className={styles.homeContainer}>
-
-            {scripts}
-
-            <HeadLine/>
-
-            {[timeLine, player]}
+            {[scripts, timeLine, player]}
         </div>
     );
 }
