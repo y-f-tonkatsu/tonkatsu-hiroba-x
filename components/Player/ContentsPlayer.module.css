@@ -134,6 +134,7 @@
   width: 4rem;
   height: 4rem;
   z-index: 2100;
+  cursor: pointer;
 }
 
 .btnPlayer:hover {

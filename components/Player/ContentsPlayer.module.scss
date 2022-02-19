@@ -154,6 +154,7 @@ $marginS: 0.3rem;
   width: $btnSizeM;
   height: $btnSizeM;
   z-index: $zIndex_player_controls;
+  cursor: pointer;
 }
 
 .btnPlayer:hover {
