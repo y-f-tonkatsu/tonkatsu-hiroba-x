@@ -19,7 +19,7 @@ export const Layout = ({children}: { children: ReactElement[] }) => {
                 <meta key="author" name="author" content={AppData.author}/>
                 <meta key="description" name="description" content={AppData.description}/>
 
-                <link rel="canonical" href={AppData.baseUrl}/>
+                <link key="canonical" rel="canonical" href={AppData.baseUrl}/>
                 <link key="icon" rel="icon" href={favicon.src}/>
 
                 <meta key="ogTitle" property="og:title" content={AppData.title}/>

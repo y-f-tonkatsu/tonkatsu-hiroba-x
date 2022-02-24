@@ -53,7 +53,7 @@ const WorksPage: PageWithLayout = ({id, works, timelineCategory}) => {
 
                 <title key="title">{title}</title>
                 <meta key="description" name="description" content={work.description}/>
-                <link rel="canonical" href={`${AppData.baseUrl}/works/${timelineCategory}/${work.id}`}/>
+                <link key="canonical" rel="canonical" href={`${AppData.baseUrl}/works/${timelineCategory}/${work.id}`}/>
 
                 <meta key="ogTitle" name="og:title" content={title}/>
                 <meta key="ogType" name="og:type" content={work.category}/>
