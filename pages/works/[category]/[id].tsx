@@ -60,7 +60,7 @@ const WorksPage: PageWithLayout = ({id, works, timelineCategory}) => {
                 <meta key="ogUrl" property="og:url" content={url}/>
                 <meta key="ogType" name="og:type" content={work.category}/>
                 <meta key="ogDescription" name="og:description" content={work.description}/>
-                <meta key="ogImage" property="og:image:url" content={`${AppData.baseUrl}${work.path}`}/>
+                <meta key="ogImage" property="og:image" content={`${AppData.baseUrl}${work.path}`}/>
                 <meta key="ogImageWidth" property="og:image:width" content={work.width.toString()}/>
                 <meta key="ogImageHeight" property="og:image:height" content={work.height.toString()}/>
 
