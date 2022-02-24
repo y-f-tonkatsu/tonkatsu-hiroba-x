@@ -9,6 +9,9 @@ import {Layout} from "../../../components/Layouts/Layout";
 import {Categories, CategoryID, isCategory} from "../../../types/Categories";
 import Script from 'next/script'
 import Head from "next/head";
+import {AppData} from "../../../Resource/AppData";
+import favicon from "../../../public/favicon.ico";
+import App from "next/app";
 
 /** コンテンツ指定なしのときの ID */
 export const ID_NO_CONTENTS: number = 0;
@@ -44,11 +47,19 @@ const WorksPage: PageWithLayout = ({id, works, timelineCategory}) => {
 
     //ContentsPlayer を作る
     let player = null;
-    let title = null;
+    let head = null;
     if (work && id !== ID_NO_CONTENTS) {
-        title = (
+        const title = `${work.title} - ${AppData.title}`;
+        head = (
             <Head>
-                <title>{`${work.title} - とんかつひろば`}</title>
+
+                <title key="title">{title}</title>
+                <meta key="description" name="description" content={work.description}/>
+
+                <meta key="ogTitle" name="og:title" content={title}/>
+                <meta key="ogType" name="og:type" content={work.category}/>
+                <meta key="ogDescription" name="og:description" content={work.description}/>
+
             </Head>
         );
         player = createPlayer(allWorks, work, index, timelineCategory);
@@ -56,7 +67,7 @@ const WorksPage: PageWithLayout = ({id, works, timelineCategory}) => {
 
     return (
         <div key={"containerHome"} className={styles.homeContainer}>
-            {title}
+            {head}
             {[scripts, timeLine, player]}
         </div>
     );
