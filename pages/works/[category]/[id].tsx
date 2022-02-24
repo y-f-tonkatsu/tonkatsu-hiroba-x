@@ -48,14 +48,16 @@ const WorksPage: PageWithLayout = ({id, works, timelineCategory}) => {
     let head = null;
     if (work && id !== ID_NO_CONTENTS) {
         const title = `${work.title} - ${AppData.title}`;
+        const url = `${AppData.baseUrl}/works/${timelineCategory}/${work.id}`;
         head = (
             <Head>
 
                 <title key="title">{title}</title>
                 <meta key="description" name="description" content={work.description}/>
-                <link key="canonical" rel="canonical" href={`${AppData.baseUrl}/works/${timelineCategory}/${work.id}`}/>
+                <link key="canonical" rel="canonical" href={url}/>
 
                 <meta key="ogTitle" name="og:title" content={title}/>
+                <meta key="ogUrl" property="og:url" content={url}/>
                 <meta key="ogType" name="og:type" content={work.category}/>
                 <meta key="ogDescription" name="og:description" content={work.description}/>
                 <meta key="ogImage" property="og:image:url" content={`${AppData.baseUrl}${work.path}`}/>
