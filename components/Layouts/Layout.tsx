@@ -25,7 +25,7 @@ export const Layout = ({children}: { children: ReactElement[] }) => {
                 <meta key="ogUrl" property="og:url" content={AppData.baseUrl}/>
                 <meta key="ogType" property="og:type" content="website"/>
                 <meta key="ogDescription" property="og:description" content={AppData.description}/>
-                <meta key="ogImage" property="og:image:url" content={mainBG.src}/>
+                <meta key="ogImage" property="og:image:url" content={`${AppData.baseUrl}/images/app/main_bg.jpg`}/>
                 <meta key="ogImageWidth" property="og:image:width" content="1920"/>
                 <meta key="ogImageHeight" property="og:image:height" content="1080"/>
                 <meta key="ogSiteName" property="og:site_name" content={AppData.title}/>

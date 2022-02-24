@@ -10,8 +10,6 @@ import {Categories, CategoryID, isCategory} from "../../../types/Categories";
 import Script from 'next/script'
 import Head from "next/head";
 import {AppData} from "../../../Resource/AppData";
-import favicon from "../../../public/favicon.ico";
-import App from "next/app";
 
 /** コンテンツ指定なしのときの ID */
 export const ID_NO_CONTENTS: number = 0;
@@ -59,6 +57,9 @@ const WorksPage: PageWithLayout = ({id, works, timelineCategory}) => {
                 <meta key="ogTitle" name="og:title" content={title}/>
                 <meta key="ogType" name="og:type" content={work.category}/>
                 <meta key="ogDescription" name="og:description" content={work.description}/>
+                <meta key="ogImage" property="og:image:url" content={`${AppData.baseUrl}${work.path}`}/>
+                <meta key="ogImageWidth" property="og:image:width" content={work.width.toString()}/>
+                <meta key="ogImageHeight" property="og:image:height" content={work.height.toString()}/>
 
             </Head>
         );
