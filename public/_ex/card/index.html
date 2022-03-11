@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+
+    <meta charset="UTF-8">
+    <title></title>
+
+    <link rel="stylesheet" href="reset.css">
+
+    <style>
+
+        .test{
+            background: rgba(255, 0, 0, 0.2);
+        }
+
+        .full {
+            display: block;
+            width: 100%;
+        }
+
+        input, input:focus {
+            font-size: 5.5vw;
+            background: none;
+            border: none;
+            outline: none;
+            display: block;
+            position: absolute;
+            z-index: 100;
+            font-family:'ヒラギノ角ゴ Pro W3','Hiragino Kaku Gothic Pro','メイリオ',Meiryo,'ＭＳ Ｐゴシック',sans-serif;
+        }
+
+
+        .container{
+            position: absolute;
+            width: 32.5vw;
+            height: 37vw;
+            left: 3.5vw;
+            top: 23.5vw;
+            z-index: 100;
+            padding-bottom: 1.5%;
+        }
+
+
+        textarea{
+            width: 95%;
+            margin: 0% 2% 0;
+            height: 19%;
+            font-size: 1vw;
+            line-height: 1vw;
+            padding: 0.2vw;
+            resize: none;
+        }
+
+        .title{
+            padding-left: 0.8vw;
+            font-size: 1vw;
+        }
+    </style>
+
+    <script src="jquery-3.4.1.min.js"></script>
+    <script type="application/javascript">
+        $(function () {
+            $(".i1").focus();
+
+            const sentences = [
+                "礼節・整容は保たれている。\n" +
+                "俯き加減で目線はあいにくい。\n" +
+                "質問には答えるものの小声でときおり返答につまる様子が見受けられる。",
+
+                "不眠を主訴に来院。\n" +
+                "入眠困難のほか、食事量減少や、体重減少、抑うつ気分等を呈しており、背景には業務量過多が関係していることが推察される。",
+
+                "まずは業務量軽減等環境調整にて改善を試みる。\n" +
+                "睡眠衛生指導施行。\n" +
+                "職場への業務量調整等を進言、診断書記載。\n" +
+                "短時間型ベンゾジアゼピン系を処方し入眠困難改善を試みる。"
+            ]
+
+            $(".i").on("keypress", function(e){
+                console.log(e.keyCode);
+                if(e.keyCode === 92) window.location.reload();
+                e.preventDefault();
+                const index = parseInt($(this).attr("data-i"));
+                const original = $(this).text();
+                if(sentences[index].length === original.length){
+                    if(index == 1) $(".i0").focus();
+                    if(index == 0) $(".i2").focus();
+                    return;
+                }
+                let result = original + sentences[index].charAt(original.length);
+                $(this).text(result).val(result);
+            })
+
+        });
+    </script>
+
+</head>
+<body>
+    <img src="card.png" class="full">
+    <div class="container test">
+        <div class="title">S</div>
+        <textarea>主訴：眠れない
+
+現病歴：
+3週間前から夜寝付けないことが多くなった。身体的な問題があるのかと心配し近医内科を受診し、精査されるも特に異常は指摘されなかった。
+以前はこういうことはなかった。
+
+生育歴：
+千葉県習志野市出生、同胞２人（弟）。成長発達に異常なし。
+父は自動車メーカー勤務、母は専業主婦。
+公立中学に進学し、学業は優秀でその後高校は私立の進学校に進学、さらにその後は法政大学経営学部に進学した。
+卒後、現在の食品メーカーに就職した。現在営業課長。
+34歳時に結婚するが36歳で離婚した。
+
+既往歴：
+特記事項なし
+
+家族歴：
+精神科通院歴のある血縁者はいない</textarea>
+        <div class="title">Q</div>
+        <textarea class="i i0" data-i="0"></textarea>
+        <div class="title">A</div>
+        <textarea class="i i1"data-i="1"></textarea>
+        <div class="title">P</div>
+        <textarea class="i i2" data-i="2"></textarea>
+
+    </div>
+</body>
+</html>
