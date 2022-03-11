@@ -699,29 +699,29 @@ const _CHEAT_ON = false;
             this.onGameOverListener(this.score);
         },
         "highScore": function (score) {
-            //this.score = 2000000;
             HighScore.get(_.bind(function (data) {
-                var i = 1;
-                var rank = 11;
-                _.forEach(data, _.bind(function (d) {
-                    if (this.score > d.score) {
-                        rank = Math.min(rank, i);
-                    }
-                    i++;
-                }, this));
-                if (rank == 11) {
-                    rank = null;
+                if (this.score <= data[9].score) {
+                    this.showScoreThenFinish();
+                    return;
                 }
 
-                if (this.score > data[data.length - 1].score) {
-                    HighScore.showInput(this.score, _.bind(function (player) {
-                        HighScore.post(player, this.score, _.bind(function () {
-                            this.showScoreThenFinish(rank);
-                        }, this));
+                HighScore.showInput(this.score, _.bind(function (player) {
+
+                    data.push({
+                        player: player,
+                        score: this.score,
+                    });
+                    data.sort(function (a, b) {
+                        return b.score - a.score
+                    });
+                    data.length = 10;
+
+                    HighScore.post(data, _.bind(function () {
+                        this.showScoreThenFinish();
                     }, this));
-                } else {
-                    this.showScoreThenFinish(rank);
-                }
+                }, this));
+
+
             }, this))
 
         },
@@ -752,7 +752,7 @@ $(function () {
     cjsUtil = new CjsUtil(AdobeAn, "12203EAFB022374BAF15F927FCA8A97A");
 
     cjsUtil.loadImages(function () {
-        $("#title--loader").text("READY");
+        $("#title--loader").text("ロード完了");
         $("#popup--loader__button--go").css({
             "visibility": "visible"
         });
@@ -10865,30 +10865,24 @@ var Item;
 
 })();
 
-var KeyManager;
-
-(function () {
-
-    window.onkeydown = function (e) {
-        //console.log("key:" + e.which);
-        if(KeyManager.listeners[e.which]){
-            KeyManager.listeners[e.which]();
-        }
-    };
-
-    KeyManager = {
-        "listeners": {},
-        "setKeyListeners": function (args) {
-            _.each(args, _.bind(function (callback, key) {
-                this.listeners[key] = callback;
-            }, this));
-        }
-    };
-
-})();
 let HighScore;
 
 (function () {
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyBFIqnhDjnma8C59VCPYd-2gP-LbUMk0Fw",
+        authDomain: "tsnake-29cf2.firebaseapp.com",
+        databaseURL: "https://tsnake-29cf2-default-rtdb.firebaseio.com",
+        projectId: "tsnake-29cf2",
+        storageBucket: "tsnake-29cf2.appspot.com",
+        messagingSenderId: "433294061490",
+        appId: "1:433294061490:web:230098d6bc713f035cfeab",
+        measurementId: "G-N8Q0ZRGYJF"
+    };
+
+    // Initialize Firebase
+    const app = firebase.initializeApp(firebaseConfig);
+    const dbRef = firebase.database().ref();
 
     HighScore = {
         "getBaseUrl": function () {
@@ -10964,25 +10958,22 @@ let HighScore;
 
         },
         "get": function (callback) {
-            $.get(this.getBaseUrl() + "score/", _.bind(function (data) {
-                callback(data);
-            }, this));
-        },
-        "post": function (name, score, callback) {
-
-            $.post(this.getBaseUrl() + "score/", {
-                "player": name,
-                "score": score,
-                "token": this.makeToken(name, score)
-            }, function (data) {
-                callback(data);
+            dbRef.child("ranking").get().then((snapshot) => {
+                if (snapshot.exists()) {
+                    callback(snapshot.val());
+                } else {
+                    console.log("No data available");
+                }
+            }).catch((error) => {
+                console.error(error);
             });
         },
-        "makeToken": function (name, score) {
-            let str = (-24635 + score + 1000000).toString();
-            str = str + "tonikaku" + name + "49ganbatta";
-            return str;
-        }
+        "post": function (ranking, callback) {
+            firebase.database().ref('ranking/').set(ranking).then(function () {
+                    callback();
+                }
+            );
+        },
     }
 
 
@@ -11037,6 +11028,27 @@ var Score;
         }
 
 
+    };
+
+})();
+var KeyManager;
+
+(function () {
+
+    window.onkeydown = function (e) {
+        //console.log("key:" + e.which);
+        if(KeyManager.listeners[e.which]){
+            KeyManager.listeners[e.which]();
+        }
+    };
+
+    KeyManager = {
+        "listeners": {},
+        "setKeyListeners": function (args) {
+            _.each(args, _.bind(function (callback, key) {
+                this.listeners[key] = callback;
+            }, this));
+        }
     };
 
 })();
