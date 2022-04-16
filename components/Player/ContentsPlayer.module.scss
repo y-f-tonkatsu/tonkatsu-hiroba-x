@@ -57,9 +57,10 @@ $marginS: 0.3rem;
 }
 
 .contentMain {
-  width: 50%;
+  width: 48%;
   flex-grow: 1;
   text-align: center;
+  max-height: 90%;
 }
 
 .contentSide {
@@ -105,7 +106,7 @@ $marginS: 0.3rem;
 .imageManga {
   width: auto;
   height: auto;
-  max-width: 100%;
+  max-width: 90%;
 }
 
 .imageNew {
