@@ -91,7 +91,6 @@
 .imageManga {
   width: auto;
   height: auto;
-  max-width: 90%;
 }
 
 .imageNew {
@@ -102,7 +101,13 @@
 
 @media (max-width: 1020px) {
   .contentMain {
-    width: 100%;
+    margin-left: 3%;
+    width: 94%;
+    max-height: revert;
+  }
+
+  .imageManga {
+    max-width: 100%;
   }
 }
 /* サイド */
