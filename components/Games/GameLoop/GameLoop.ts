@@ -1,24 +1,29 @@
 import {DisplayObject} from "../Display/DisplayObject";
+import {Field} from "../TonkatsuOpening/Field";
 
 export type GameLoopOptions = {
-    ctx:CanvasRenderingContext2D;
+    ctx: CanvasRenderingContext2D;
     frameRate: number;
+    field: Field;
 }
 
-export type GameLooper = {
-    start: ()=>void,
-    stop: ()=>void,
-    setUpdateList: (list:DisplayObject[])=>void,
-    getUpdateList: ()=>DisplayObject[],
+export type GameLoop = {
+    start: () => void;
+    stop: () => void;
+    setField: (field: Field) => void;
+    getField: () => Field;
+    setUpdateList: (list: DisplayObject[]) => void;
+    getUpdateList: () => DisplayObject[];
 }
 
-export const createGameLoop = (options:GameLoopOptions):GameLooper => {
+export const createGameLoop = (options: GameLoopOptions): GameLoop => {
 
-    let requestID:number = 0;
+    let requestID: number = 0;
 
     //初期化
     const refreshRate = 1000 / options.frameRate;
-    let displayList:DisplayObject[] = [];
+    let displayList: DisplayObject[] = [];
+    let field: Field = options.field;
 
     const looper = (prevTimeStamp: number, elapsedTime: number) => {
 
@@ -36,7 +41,9 @@ export const createGameLoop = (options:GameLoopOptions):GameLooper => {
 
         //フレームをまたいでいたら update を呼び出す
         if (updateCount > 0) {
-            displayList.forEach(obj=>{
+            field.update(updateCount);
+            field.render(options.ctx);
+            displayList.forEach(obj => {
                 obj.update(updateCount);
                 obj.render(options.ctx);
             })
@@ -48,16 +55,22 @@ export const createGameLoop = (options:GameLoopOptions):GameLooper => {
     }
 
     return {
-        stop: ()=>{
+        stop: () => {
             cancelAnimationFrame(requestID);
         },
-        start: ()=>{
+        start: () => {
             looper(performance.now(), 0);
         },
-        setUpdateList:(list)=>{
+        setField: (val) => {
+            field = val;
+        },
+        getField: () => {
+            return field;
+        },
+        setUpdateList: (list) => {
             displayList = list;
         },
-        getUpdateList:()=>{
+        getUpdateList: () => {
             return displayList;
         },
     };
