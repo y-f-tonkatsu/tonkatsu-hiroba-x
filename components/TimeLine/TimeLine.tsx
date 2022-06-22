@@ -6,6 +6,7 @@ import DescriptionOverlay, {DescriptionOverlayProps} from "./DescriptionOverlay"
 import {CategoryID} from "../../types/Categories";
 import {NextPage} from "next";
 import HeadLine from "../Home/HeadLine";
+import {OpeningTheater} from "../Games/TonkatsuOpening/OpeningTheater";
 
 //タイムラインの列の数
 export const NUM_COLS = 4;
@@ -93,8 +94,12 @@ export const TimeLine: NextPage<Props> = ({works, timeLineCategory}) => {
         )
     });
 
+    //Canvas アニメーション
+    const theater = <OpeningTheater key="OpeningTheater"/>;
+
     return (
         <div key={"containerOuterTimeLine"} className={styles.containerOuterTimeLine} style={{position: "relative"}}>
+            {theater}
             <div key={"containerInnerTimeLine"} className={styles.containerTimeLine} style={{position: "relative"}}>
                 {cols}
                 <DescriptionOverlay {...overlay} />

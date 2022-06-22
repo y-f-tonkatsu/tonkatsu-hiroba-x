@@ -35,5 +35,5 @@ export const createImageLoader: (pathList: string[]) => ImageLoader
  * @param path public/images/ 以下のパスから url を返す
  */
 const getUrlFromPath = (path: string) => {
-    return `../images/${path}`;
+    return `../../images/${path}`;
 }

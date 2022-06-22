@@ -1,18 +1,23 @@
-import {NextPage} from "next";
-import {useEffect, useRef, useState} from "react";
-import {createTonkatsuOpening, TonkatsuOpening} from "../../../components/Games/TonkatsuOpening/TonkatsuOpening";
-import logo1 from "../../../public/images/logo/th_separated/logo1.png"
-import {createImageLoader, ImageLoader} from "../../../components/Games/TonkatsuOpening/ImageLoader";
+import React, {FC, useEffect, useRef, useState} from "react";
+import {createTonkatsuOpening, TonkatsuOpening} from "./TonkatsuOpening";
+import {createImageLoader, ImageLoader} from "./ImageLoader";
+import {Size} from "../Display/Size";
+import {useWindowSize} from "../Display/WindowSize";
 
-const Ex1: NextPage = () => {
+type Props = {};
+
+export const OpeningTheater: FC<Props> = (props) => {
 
     const canvasRef = useRef<HTMLCanvasElement>(null);
 
     const [opening, setOpening] = useState<TonkatsuOpening>();
+    const windowSize: Size | undefined = useWindowSize();
 
     //DOM ロード時にゲームループをスタートする
     useEffect(() => {
         console.log("## Effect ##");
+        console.log(windowSize);
+        if (!windowSize) return;
 
         if (!opening) {
             //コンテキスト取得
@@ -34,7 +39,8 @@ const Ex1: NextPage = () => {
                     setOpening(createTonkatsuOpening({
                         context: ctx,
                         fps: 24,
-                        imageList: imageList
+                        canvasSize: windowSize,
+                        imageList: imageList,
                     }));
 
                 },
@@ -51,36 +57,25 @@ const Ex1: NextPage = () => {
             opening.stop();
         };
 
-    }, []);
-
-    interface SizedEvent {
-        width: number;
-        height: number;
-    }
-
-    function isSizedEvent(e: any): e is SizedEvent {
-        return (e && e.width !== undefined && e.height !== undefined);
-    }
+    }, [windowSize]);
 
     useEffect(() => {
         console.log("Effect");
         if (!opening) return;
         opening.start();
-
     }, [opening]);
 
+    if (!windowSize) {
+        return null;
+    }
 
     return (
-        <>
-            <canvas
-                style={{background: "#000"}}
-                ref={canvasRef}
-                key="MainCanvas"
-                width={1000}
-                height={800}>
-            </canvas>
-        </>
+        <canvas
+            key="MainCanvas"
+            style={{background: "#000"}}
+            ref={canvasRef}
+            width={windowSize.width}
+            height={windowSize.width * 0.75}>
+        </canvas>
     );
 }
-
-export default Ex1;

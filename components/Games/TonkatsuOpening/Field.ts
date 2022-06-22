@@ -1,6 +1,8 @@
+import {Directions} from "../Display/Point";
+import {Size} from "../Display/Size";
+
 export type Field = {
-    width: number;
-    height: number;
+    size: Size;
     tileSize: number;
     render: (ctx: CanvasRenderingContext2D) => void;
     update: (delta: number) => void;
@@ -8,59 +10,60 @@ export type Field = {
 }
 
 export type FieldOption = {
-    canvasWidth: number;
-    canvasHeight: number;
+    canvasSize: Size;
 }
 
-const TILE_SIZE: number = 100;
+const fieldSize: Size = {
+    width: 12,
+    height: 9
+}
+
+const NegativeDirections = {
+    up: 0b0111,
+    right: 0b1011,
+    down: 0b1101,
+    left: 0b1110
+}
 
 export const createField: (fieldOption: FieldOption) => Field = (fieldOption) => {
 
-    const tiles = [
-        [0b1001, 0b1010, 0b1010, 0b1000, 0b1000, 0b1000, 0b1000, 0b1000, 0b1000, 0b1100],
-        [0b0101, 0b1001, 0b1010, 0b0000, 0b0000, 0b0000, 0b0000, 0b0000, 0b0000, 0b0100],
-        [0b0001, 0b0100, 0b1001, 0b0000, 0b0000, 0b0000, 0b0000, 0b0000, 0b0000, 0b0100],
-        [0b0101, 0b0101, 0b0001, 0b0000, 0b0000, 0b0000, 0b0000, 0b0000, 0b0000, 0b0100],
-        [0b0001, 0b0000, 0b0000, 0b0000, 0b0000, 0b0000, 0b0000, 0b0000, 0b0000, 0b0100],
-        [0b0001, 0b0000, 0b0000, 0b0000, 0b0000, 0b0000, 0b0000, 0b0000, 0b0000, 0b0100],
-        [0b0001, 0b0000, 0b0000, 0b0000, 0b0000, 0b0000, 0b0000, 0b0000, 0b0000, 0b0100],
-        [0b0011, 0b0010, 0b0010, 0b0010, 0b0010, 0b0010, 0b0010, 0b0010, 0b0010, 0b0110,]
-    ]
+    let tileSize = Math.floor(fieldOption.canvasSize.width / fieldSize.width);
 
+    let tiles = createTiles();
+    console.log(tiles);
 
     const field: Field = {
-        width: fieldOption.canvasWidth / TILE_SIZE,
-        height: fieldOption.canvasHeight / TILE_SIZE,
-        tileSize: TILE_SIZE,
+        size: fieldSize,
+        tileSize: tileSize,
         tiles: tiles,
         render: (ctx) => {
-            const size = field.tileSize;
+            const {size, tileSize} = field;
             ctx.clearRect(
                 0,
                 0,
-                field.width * field.tileSize,
-                field.height * field.tileSize
+                size.width * tileSize,
+                size.height * tileSize
             );
             ctx.strokeStyle = "rgb(200, 200, 230)"
             ctx.lineWidth = 10;
-            for (let x = 0; x < field.width; x++) {
-                for (let y = 0; y < field.height; y++) {
+            for (let x = 0; x < size.width; x++) {
+                for (let y = 0; y < size.height; y++) {
                     const tile = field.tiles[y][x];
-                    const [left, right, top, bottom] = [x * size, (x + 1) * size, y * size, (y + 1) * size];
+                    const [left, right, top, bottom] = [x * tileSize, (x + 1) * tileSize, y * tileSize, (y + 1) * tileSize];
                     ctx.beginPath()
-                    if ((tile & 0b1000) > 0) {
+                    if ((tile & Directions.up) > 0) {
                         ctx.moveTo(left, top);
                         ctx.lineTo(right, top);
                     }
-                    if ((tile & 0b0100) > 0) {
+                    if ((tile & Directions.right) > 0) {
                         ctx.moveTo(right, top);
                         ctx.lineTo(right, bottom);
                     }
-                    if ((tile & 0b0010) > 0) {
+                    if ((tile & Directions.down) > 0) {
                         ctx.moveTo(right, bottom);
                         ctx.lineTo(left, bottom);
                     }
-                    if ((tile & 0b0001) > 0) {
+                    if ((tile & Directions.left) > 0) {
                         ctx.moveTo(left, bottom);
                         ctx.lineTo(left, top);
                     }
@@ -75,3 +78,110 @@ export const createField: (fieldOption: FieldOption) => Field = (fieldOption) =>
 
     return field;
 }
+
+/**
+ * タイル設定
+ */
+function createTiles() {
+    let tiles: number[][] = [];
+    const f = () => {
+        for (let i = 0; i < fieldSize.height; i++) {
+            tiles.push([]);
+            for (let j = 0; j < fieldSize.width; j++) {
+                let ran = Math.floor(Math.random() * 14 + 1);
+                tiles[i].push(ran);
+            }
+        }
+        fixOneWays(tiles);
+        setOuterWall(tiles)
+        fixOpenAndClose(tiles);
+    }
+
+    f();
+    while (tiles === null) {
+        f();
+    }
+
+    return tiles;
+}
+
+function setOuterWall(tiles: number[][]) {
+    for (let i = 0; i < fieldSize.height; i++) {
+        for (let j = 0; j < fieldSize.width; j++) {
+            if (j == 0) tiles[i][j] = tiles[i][j] | Directions.left;
+            if (j == fieldSize.width - 1) tiles[i][j] = tiles[i][j] | Directions.right;
+            if (i == 0) tiles[i][j] = tiles[i][j] | Directions.up;
+            if (i == fieldSize.height - 1) tiles[i][j] = tiles[i][j] | Directions.down;
+        }
+    }
+    return true;
+}
+
+function checkOpenAndClose(tiles: number[][]) {
+    for (let i = 0; i < fieldSize.height; i++) {
+        for (let j = 0; j < fieldSize.width; j++) {
+            if (isOpenOrClose(tiles[i][j])) {
+                return false;
+            }
+        }
+    }
+    return true;
+}
+
+function isOpenOrClose(tile: number) {
+    return tile === 0 ||
+        tile === 0b1111 ||
+        tile === 0b1110 ||
+        tile === 0b1101 ||
+        tile === 0b1011 ||
+        tile === 0b0111;
+}
+
+function fixOpenAndClose(tiles: number[][]) {
+    let i = 0;
+    while (!checkOpenAndClose(tiles)) {
+        for (let i = 0; i < fieldSize.height; i++) {
+            for (let j = 0; j < fieldSize.width; j++) {
+                if (isOpenOrClose(tiles[i][j])) {
+                    tiles[i][j] = Math.floor(Math.random() * 14 + 1);
+                }
+            }
+        }
+        fixOneWays(tiles);
+        setOuterWall(tiles);
+        i++;
+        if (i > 1000) return null;
+    }
+    return tiles;
+}
+
+/**
+ * 一方通行をなくす
+ * @param tiles
+ */
+function fixOneWays(tiles: number[][]) {
+    for (let i = 0; i < fieldSize.height; i++) {
+        for (let j = 0; j < fieldSize.width; j++) {
+
+            const tile = tiles[i][j];
+
+            if (j < fieldSize.width - 1) {
+                if ((tile & Directions.right) > 0) {
+                    tiles[i][j + 1] = tiles[i][j + 1] | Directions.left;
+                } else {
+                    tiles[i][j + 1] = tiles[i][j + 1] & NegativeDirections.left;
+                }
+            }
+
+            if (i < fieldSize.height - 1) {
+                if ((tile & Directions.down) > 0) {
+                    tiles[i + 1][j] = tiles[i + 1][j] | Directions.up;
+                } else {
+                    tiles[i + 1][j] = tiles[i + 1][j] & NegativeDirections.up;
+                }
+            }
+
+        }
+    }
+}
+

@@ -10,6 +10,7 @@ import {Categories, CategoryID, isCategory} from "../../../types/Categories";
 import Script from 'next/script'
 import Head from "next/head";
 import {AppData} from "../../../Resource/AppData";
+import {OpeningTheater} from "../../../components/Games/TonkatsuOpening/OpeningTheater";
 
 /** コンテンツ指定なしのときの ID */
 export const ID_NO_CONTENTS: number = 0;

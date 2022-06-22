@@ -1,10 +1,24 @@
 import {DisplayObject} from "../Display/DisplayObject";
 import {Field} from "./Field";
+import {addPoints, isSamePoint, Point, Directions, DirectionStrings, DirectionVectors, Zero} from "../Display/Point";
+import {Dir} from "fs";
 
-export const createMover: (field: Field, imageList: HTMLImageElement[], id: number) => DisplayObject
-    = (field, imageList, id) => {
+export type Mover = DisplayObject & {
+}
 
-    const mover: DisplayObject & { moving: number, coordination: { x: number, y: number }, direction: { x: number, y: number } } = {
+export type MoverOptions = {
+    field: Field,
+    imageList: HTMLImageElement[],
+    id: number,
+    displayList: DisplayObject[]
+}
+
+export const createMover: (options: MoverOptions) => Mover
+    = (options) => {
+
+    const {field, imageList, id, displayList} = options;
+
+    const mover: Mover = {
         coordination: {
             x: 1 + id, y: 4
         },
@@ -33,32 +47,27 @@ export const createMover: (field: Field, imageList: HTMLImageElement[], id: numb
 
             if (mover.moving == 0) {
                 mover.direction = {x: 0, y: 0};
-                const numList = [1, 2, 4, 8];
+                const numList = [Directions.left, Directions.down, Directions.right, Directions.up];
                 while (numList.length > 0) {
                     const i = Math.floor(Math.random() * numList.length);
                     const num = numList[i];
                     numList.splice(i, 1);
-                    if ((tile & num) == 0) {
-                        if (num === 1) {
-                            mover.direction.x = -1;
-                        } else if (num === 2) {
-                            mover.direction.y = 1;
-                        } else if (num === 4) {
-                            mover.direction.x = 1;
-                            x += 1;
-                        } else if (num === 8) {
-                            mover.direction.y = -1;
+                    if ((tile & num) === 0) {
+                        let flg = false
+                        for (const [k, v] of Object.entries(Directions)) {
+                            if (k !== "up" && k !== "down" && k !== "left" && k !== "right") continue;
+                            if (num !== v) continue;
+                            const direction = DirectionVectors[k];
+                            if (!isOccupied(mover.coordination, addPoints(mover.coordination, direction))) {
+                                mover.direction = direction;
+                                flg = true;
+                                break;
+                            }
                         }
-                        break;
+                        if (flg) break;
                     }
                 }
 
-                /*
-                if (x > field.width) x -= (field.width);
-                if (y > field.height) y -= (field.height);
-                if (x < 0) x += (field.width);
-                if (y < 0) y += (field.height);
-                 */
             }
 
             const rate = 24;
@@ -69,10 +78,33 @@ export const createMover: (field: Field, imageList: HTMLImageElement[], id: numb
                 mover.moving = 0;
                 mover.coordination.x += mover.direction.x;
                 mover.coordination.y += mover.direction.y;
+                mover.direction = {x: 0, y: 0}
             }
 
         }
     };
+
+    const isOccupied = (current: Point, next: Point) => {
+        let value = false;
+        displayList.forEach(target => {
+            const targetCurrent = target.coordination;
+            const targetNext = addPoints(target.coordination, target.direction);
+            //同じ位置への移動禁止
+            if (isSamePoint(targetNext, next)) {
+                value = true;
+            }
+            //位置入れ替え禁止
+            if (isSamePoint(targetNext, current) && isSamePoint(targetCurrent, next)) {
+                value = true;
+            }
+            if (isSamePoint(target.direction, Zero) && isSamePoint(next, targetCurrent)) {
+                value = true;
+            }
+            console.log(current, next, targetCurrent, targetNext);
+            console.log(value)
+        });
+        return value;
+    }
 
     return mover;
 }
