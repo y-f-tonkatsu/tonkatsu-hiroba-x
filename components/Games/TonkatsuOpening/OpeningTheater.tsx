@@ -8,64 +8,90 @@ type Props = {};
 
 export const OpeningTheater: FC<Props> = (props) => {
 
+    //オープニングオブジェクト
+    const [opening, setOpening] = useState<TonkatsuOpening>();
+
+    //canvas 要素への参照
     const canvasRef = useRef<HTMLCanvasElement>(null);
 
-    const [opening, setOpening] = useState<TonkatsuOpening>();
+    //コンテキスト
+    let ctx: CanvasRenderingContext2D;
+
+    //ウィンドウサイズ変更へのフック
     const windowSize: Size | undefined = useWindowSize();
 
-    //DOM ロード時にゲームループをスタートする
+    //画像プリロード
+    let imageLoader: ImageLoader;
+    let [imageList, setImageList] = useState<HTMLImageElement[]>();
+
+    /**
+     *  画像リストをロード
+     */
     useEffect(() => {
-        console.log("## Effect ##");
-        console.log(windowSize);
-        if (!windowSize) return;
 
-        if (!opening) {
-            //コンテキスト取得
-            if (canvasRef.current === null) return;
-            const ctx = canvasRef.current.getContext("2d");
-            if (!ctx) return;
+        //呼び出しは初回のみ既にロードされていたら再利用
+        if (imageList) return;
 
-            const imageLoader: ImageLoader = createImageLoader([
-                "logo/th_separated/logo1.png",
-                "logo/th_separated/logo2.png",
-                "logo/th_separated/logo3.png",
-                "logo/th_separated/logo4.png",
-                "logo/th_separated/logo5.png",
-                "logo/th_separated/logo6.png",
-                "logo/th_separated/logo7.png",
-            ]);
-            imageLoader.load(
-                (imageList) => {
-                    setOpening(createTonkatsuOpening({
-                        context: ctx,
-                        fps: 24,
-                        canvasSize: windowSize,
-                        imageList: imageList,
-                    }));
+        //ローダー初期化してロード
+        imageLoader = createImageLoader([
+            "logo/th_separated/logo1.png",
+            "logo/th_separated/logo2.png",
+            "logo/th_separated/logo3.png",
+            "logo/th_separated/logo4.png",
+            "logo/th_separated/logo5.png",
+            "logo/th_separated/logo6.png",
+            "logo/th_separated/logo7.png",
+        ]);
+        imageLoader.load(
+            (list) => {
+                setImageList(list)
+            },
+            () => {
+                throw new Error();
+            }
+        );
 
-                },
-                () => {
+    }, []);
 
-                }
-            );
+    /**
+     * ウィンドウサイズ変更及び、画像ロード完了で呼ばれる
+     * 両方セットされていたらオープニングの再生開始
+     */
+    useEffect(() => {
 
-        }
+        //どちらかが呼ばれていなかったら待機
+        if (!windowSize || !imageList) return;
+
+        //コンテキスト取得
+        if (canvasRef.current === null) return;
+        const ctx = canvasRef.current.getContext("2d");
+        if (!ctx) return;
+
+        setOpening(createTonkatsuOpening({
+            context: ctx,
+            fps: 24,
+            canvasSize: windowSize,
+            imageList: imageList,
+        }));
+
+
+    }, [windowSize, imageList]);
+
+
+    useEffect(() => {
+        if (!opening) return;
+        console.log("## start ##");
+        opening.start();
 
         return () => {
-            console.log("## End ##");
             if (!opening) return;
+            console.log("## stop ##");
             opening.stop();
         };
 
-    }, [windowSize]);
-
-    useEffect(() => {
-        console.log("Effect");
-        if (!opening) return;
-        opening.start();
     }, [opening]);
 
-    if (!windowSize) {
+    if (!windowSize || !imageList) {
         return null;
     }
 

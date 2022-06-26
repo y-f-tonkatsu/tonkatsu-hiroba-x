@@ -1,7 +1,6 @@
 import {DisplayObject} from "../Display/DisplayObject";
 import {Field} from "./Field";
-import {addPoints, isSamePoint, Point, Directions, DirectionStrings, DirectionVectors, Zero} from "../Display/Point";
-import {Dir} from "fs";
+import {addPoints, Directions, DirectionVectors, isSamePoint, Point, Zero} from "../Display/Point";
 
 export type Mover = DisplayObject & {
 }
@@ -100,8 +99,6 @@ export const createMover: (options: MoverOptions) => Mover
             if (isSamePoint(target.direction, Zero) && isSamePoint(next, targetCurrent)) {
                 value = true;
             }
-            console.log(current, next, targetCurrent, targetNext);
-            console.log(value)
         });
         return value;
     }

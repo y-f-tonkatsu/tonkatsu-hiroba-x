@@ -29,8 +29,7 @@ export const createField: (fieldOption: FieldOption) => Field = (fieldOption) =>
 
     let tileSize = Math.floor(fieldOption.canvasSize.width / fieldSize.width);
 
-    let tiles = createTiles();
-    console.log(tiles);
+    let tiles = createComponentTiles();
 
     const field: Field = {
         size: fieldSize,
@@ -79,16 +78,20 @@ export const createField: (fieldOption: FieldOption) => Field = (fieldOption) =>
     return field;
 }
 
+function createRandomTile() {
+    return Math.floor(Math.random() * 14 + 1);
+}
+
 /**
  * タイル設定
  */
-function createTiles() {
+const createTiles = () => {
     let tiles: number[][] = [];
     const f = () => {
         for (let i = 0; i < fieldSize.height; i++) {
             tiles.push([]);
             for (let j = 0; j < fieldSize.width; j++) {
-                let ran = Math.floor(Math.random() * 14 + 1);
+                let ran = createRandomTile();
                 tiles[i].push(ran);
             }
         }
@@ -104,6 +107,63 @@ function createTiles() {
 
     return tiles;
 }
+
+const createComponentTiles = () => {
+    const SectionSize = 3;
+
+    let sections: number[][][][] = [];
+    for (let h = 0; h < fieldSize.height / SectionSize; h++) {
+        sections.push([]);
+        for (let w = 0; w < fieldSize.width / SectionSize; w++) {
+            let outerWall = 0;
+            if (h == 0) outerWall |= Directions.up;
+            if (h == fieldSize.height / SectionSize - 1) outerWall |= Directions.down;
+            if (w == 0) outerWall |= Directions.left;
+            if (w == fieldSize.width / SectionSize - 1) outerWall |= Directions.right;
+            sections[h].push(createSection(SectionSize, outerWall));
+        }
+    }
+
+    console.log(sections);
+
+    let tiles: number[][] = [];
+    let h = 0;
+    sections.forEach(rank => {
+        for (let i = 0; i < SectionSize; i++) {
+            tiles.push([])
+            let w = 0;
+            rank.forEach(sectionRank => {
+                for (let j = 0; j < SectionSize; j++) {
+                    tiles[h * SectionSize + i][w * SectionSize + j] = sectionRank[i][j];
+                }
+                w++;
+            })
+        }
+        h++;
+    })
+
+    console.log(tiles);
+
+    return tiles;
+}
+
+const createSection = (size: number, outWalls: number) => {
+    const section: number[][] = [];
+    for (let h = 0; h < size; h++) {
+        section.push([]);
+        for (let w = 0; w < size; w++) {
+            let tile = createRandomTile();
+            if ((outWalls & Directions.up) > 0 && h == 0) tile |= Directions.up;
+            if ((outWalls & Directions.left) > 0 && w == 0) tile |= Directions.left;
+            if ((outWalls & Directions.down) > 0 && h == size - 1) tile |= Directions.down;
+            if ((outWalls & Directions.right) > 0 && w == size - 1) tile |= Directions.right;
+            section[h].push(tile);
+        }
+    }
+
+    return section;
+}
+
 
 function setOuterWall(tiles: number[][]) {
     for (let i = 0; i < fieldSize.height; i++) {

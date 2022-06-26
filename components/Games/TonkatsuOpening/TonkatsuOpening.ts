@@ -3,7 +3,6 @@ import {DisplayObject} from "../Display/DisplayObject";
 import {createGameLoop} from "../GameLoop/GameLoop";
 import {createMover} from "./Mover";
 import {Size} from "../Display/Size";
-import {useWindowSize} from "../Display/WindowSize";
 
 export type TonkatsuOpening = {
     start: () => void;
@@ -19,35 +18,41 @@ export type TonkatsuOpeningOptions = {
     canvasSize: Size;
 }
 
+/**
+ * オプションからオープニングオブジェクトを作成して返す
+ */
 export const createTonkatsuOpening: (options: TonkatsuOpeningOptions) => TonkatsuOpening =
     (options: TonkatsuOpeningOptions) => {
 
         const ctx = options.context;
 
+        //フィールド作成
         const field: Field = createField({
             canvasSize: options.canvasSize
         });
 
+        //ゲームループ作成
         const gameLoop = createGameLoop({
             frameRate: options.fps,
             ctx, field
         });
 
+        //ディスプレイリストを作成
         const displayList: DisplayObject[] = [];
 
-        const movers: DisplayObject[] = [];
+        //キャラクターを作成してディスプレイリストに追加
         for (let i = 0; i < 7; i++) {
-            movers.push(createMover({
+            displayList.push(createMover({
                 field,
                 imageList: options.imageList,
                 id: i + 1,
                 displayList
             }));
         }
-        displayList.push(...movers);
+        //ディスプレイリストをゲームループに登録
+        gameLoop.setUpdateList(displayList);
 
-        gameLoop.setUpdateList(movers);
-
+        //オブジェクトを作成して返す
         return {
             start: () => {
                 gameLoop.start();
