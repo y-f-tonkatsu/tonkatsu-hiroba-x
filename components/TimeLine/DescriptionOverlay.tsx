@@ -28,7 +28,7 @@ const DescriptionOverlay = (props: DescriptionOverlayProps) => {
         <div className={styles.overlayDescription}
              style={{
                  top: position.top,
-                 left: position.left,
+                 LEFT: position.left,
                  animation: `${animation} 0.2s`
              }}>
             <div className={styles.overlayDescriptionTextBox}>

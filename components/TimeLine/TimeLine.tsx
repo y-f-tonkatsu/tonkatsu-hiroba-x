@@ -6,7 +6,7 @@ import DescriptionOverlay, {DescriptionOverlayProps} from "./DescriptionOverlay"
 import {CategoryID} from "../../types/Categories";
 import {NextPage} from "next";
 import HeadLine from "../Home/HeadLine";
-import {OpeningTheater} from "../Games/TonkatsuOpening/OpeningTheater";
+import {OpeningTheater} from "../../TonkatsuDisplayLib/TonkatsuOpening/OpeningTheater";
 
 //タイムラインの列の数
 export const NUM_COLS = 4;
@@ -54,7 +54,7 @@ export const TimeLine: NextPage<Props> = ({works, timeLineCategory}) => {
             description: work.description,
             position: {
                 top: y,
-                left: isLeft ? (columnIndex - 2) * 25 + "%" : (columnIndex + 1) * 25 + "%",
+                LEFT: isLeft ? (columnIndex - 2) * 25 + "%" : (columnIndex + 1) * 25 + "%",
             },
             animation: isLeft ? "overlayDescriptionPopFromLeft" : "overlayDescriptionPopFromRight"
         })

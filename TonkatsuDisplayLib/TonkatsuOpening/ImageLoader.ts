@@ -1,4 +1,4 @@
-import {AppData} from "../../../Resource/AppData";
+import {AppData} from "../../Resource/AppData";
 
 export type ImageLoader = {
     load: (

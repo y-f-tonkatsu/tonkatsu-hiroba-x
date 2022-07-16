@@ -1,5 +1,5 @@
 import {DisplayObject} from "../Display/DisplayObject";
-import {Field} from "../TonkatsuOpening/Field";
+import {Field} from "../BasicComponents/Coordination/Field";
 
 export type GameLoopOptions = {
     ctx: CanvasRenderingContext2D;
