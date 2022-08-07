@@ -247,11 +247,11 @@ input {
 
 .button {
     display: inline-block;
-    background: chocolate;
-    border-radius: 80px;
+    background: #33B600;
+    border-radius: 16px;
     text-align: center;
     vertical-align: middle;
-    font-size: 60px;
+    font-size: 50px;
     font-weight: bold;
     cursor: pointer;
 }
