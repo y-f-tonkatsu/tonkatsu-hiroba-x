@@ -2,16 +2,24 @@ import {useEffect, useState} from "react";
 import {AtRule} from "csstype";
 import {Size} from "./Size";
 
-export const useWindowSize = () => {
+export type ScreenState = {
+    size: Size;
+    isMobile: boolean;
+}
 
-    const [size, setSize] = useState<Size>();
+export const useWindowSize = ():ScreenState | undefined => {
+
+    const [screenState, setScreenState] = useState<ScreenState>();
 
     useEffect(() => {
 
         const handleResize = () => {
-            setSize({
-                width: window.innerWidth - 120,
-                height: window.innerHeight,
+            setScreenState({
+                size: {
+                    width: window.innerWidth,
+                    height: window.innerHeight,
+                },
+                isMobile: window.innerWidth < 1020
             })
         };
         window.addEventListener("resize", handleResize)
@@ -20,5 +28,5 @@ export const useWindowSize = () => {
 
     }, [])
 
-    return size;
+    return screenState;
 }

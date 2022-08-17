@@ -1,92 +1,107 @@
 import {DisplayObject} from "../Display/DisplayObject";
-import {Field} from "../BasicComponents/Coordination/Field";
+import {CoordinatedFieldComponent} from "../BasicComponents/Coordination/CoordinatedFieldComponent";
+import {CanvasLayer} from "../Display/CanvasLayer";
 
 export type GameLoopOptions = {
-    ctx: CanvasRenderingContext2D;
+    layers: CanvasLayer[];
     frameRate: number;
-    field: Field;
+    field: CoordinatedFieldComponent;
 }
 
-export type GameLoop = {
-    start: () => void;
-    stop: () => void;
-    setField: (field: Field) => void;
-    getField: () => Field;
-    setUpdateList: (list: DisplayObject[]) => void;
-    getUpdateList: () => DisplayObject[];
-}
-
-let stopFlag = false;
 
 /**
  * オプションからゲームループオブエジェクトを作成して返す
  * @param options
  */
-export const createGameLoop = (options: GameLoopOptions): GameLoop => {
-
-    //requestAnimationFrame 用のIDを保持
-    let requestID: number = 0;
-
-    //リフレッシュレート計算 1秒 / フレームレート(fps) = リフレッシュレート(ミリ秒)
-    const refreshRate = 1000 / options.frameRate;
-
-    //ディスプレイリスト初期化 実際のセットはメソッドで行う
-    let displayList: DisplayObject[] = [];
-
-    //フィールド初期化
-    let field: Field = options.field;
-
-    //ループ処理
-    const looper = (prevTimeStamp: number, elapsedTime: number) => {
-
-        //デルタタイム取得
-        const currentTimeStamp = performance.now();
-        const delta: number = currentTimeStamp - prevTimeStamp;
-        elapsedTime += delta;
-        /** フレームを何回またいだか */
-        let updateCount: number = 0;
-        while (elapsedTime > refreshRate) {
-            elapsedTime -= refreshRate;
-            updateCount++;
-        }
-
-        //フレームをまたいでいたらまたいだ回数だけ update と render を呼び出す
-        for (let i = 0; i < updateCount; i++) {
-            field.update(updateCount);
-            field.render(options.ctx);
-            displayList.forEach(obj => {
-                obj.update(updateCount);
-                obj.render(options.ctx);
-            })
-        }
-
-        //ループする
-        requestID = requestAnimationFrame(() => {
-            looper(currentTimeStamp, elapsedTime);
-        })
+export class GameLoop {
+    get refreshRate(): number {
+        return this._refreshRate;
     }
 
-    //オブジェクトを作成して返す
-    return {
-        stop: () => {
-            stopFlag = true;
-            cancelAnimationFrame(requestID);
-        },
-        start: () => {
-            looper(performance.now(), 0);
-        },
-        setField: (val) => {
-            field = val;
-        },
-        getField: () => {
-            return field;
-        },
-        setUpdateList: (list) => {
-            displayList = list;
-        },
-        getUpdateList: () => {
-            return displayList;
-        },
-    };
+    set refreshRate(value: number) {
+        this._refreshRate = value;
+    }
+
+    get displayList(): DisplayObject[] {
+        return this._displayList;
+    }
+
+    set displayList(value: DisplayObject[]) {
+        this._displayList = value;
+    }
+
+    get requestID(): number {
+        return this._requestID;
+    }
+
+    set requestID(value: number) {
+        this._requestID = value;
+    }
+
+    private _requestID: number;
+    private _refreshRate: number;
+    private _displayList: DisplayObject[] = [];
+    private _layers: CanvasLayer[] = [];
+    private readonly _looper: (prevTimeStamp: number, elapsedTime: number) => void;
+
+    private _isPlaying:boolean = false;
+
+    constructor(options: GameLoopOptions) {
+
+        //requestAnimationFrame 用のIDを保持
+        this._requestID = 0;
+
+        //リフレッシュレート計算 1秒 / フレームレート(fps) = リフレッシュレート(ミリ秒)
+        this._refreshRate = 1000 / options.frameRate;
+
+        this._layers = options.layers;
+
+        //ループ処理
+        this._looper = (prevTimeStamp: number, elapsedTime: number) => {
+
+            //デルタタイム取得
+            const currentTimeStamp = performance.now();
+            const delta: number = currentTimeStamp - prevTimeStamp;
+            elapsedTime += delta;
+            /** フレームを何回またいだか */
+            let updateCount: number = 0;
+            while (elapsedTime > this.refreshRate) {
+                elapsedTime -= this.refreshRate;
+                updateCount++;
+            }
+
+            //フレームをまたいでいたら、各 DisplayObject の update と render を呼び出す
+            if (0 < updateCount) {
+
+                //必要なら Canvas をクリア
+                this._layers.forEach(layer => {
+                    if (layer.refresh) layer.clear();
+                })
+
+                this.displayList.forEach(obj => {
+                    obj.update(updateCount);
+                    obj.render();
+                })
+            }
+
+            //ループする
+            this.requestID = requestAnimationFrame(() => {
+                this._looper(currentTimeStamp, elapsedTime);
+            })
+        }
+    }
+
+    stop() {
+        if(!this._isPlaying) return;
+        cancelAnimationFrame(this.requestID);
+        this._isPlaying = false;
+    }
+
+    start() {
+        if(this._isPlaying) return;
+        this._looper(performance.now(), 0);
+        this._isPlaying = true;
+    }
+
 
 }

@@ -1,7 +1,8 @@
-import {DisplayObject} from "../Display/DisplayObject";
-import {Directions, DirectionToVector, Point} from "../Display/Point";
-import {CoordinationComponent} from "../BasicComponents/Coordination/CoordinationComponent";
-import {Component} from "../BasicComponents/Component";
+import {DisplayObject} from "../../TonkatsuDisplayLib/Display/DisplayObject";
+import {Directions, DirectionToVector, Point} from "../../TonkatsuDisplayLib/Display/Point";
+import {CoordinationComponent} from "../../TonkatsuDisplayLib/BasicComponents/Coordination/CoordinationComponent";
+import {Component} from "../../TonkatsuDisplayLib/BasicComponents/Component";
+import {CanvasLayer} from "../../TonkatsuDisplayLib/Display/CanvasLayer";
 
 export type MoverAnimationPatterns =
     "jump";
@@ -81,8 +82,8 @@ export class MoverComponent extends Component {
         super.update(delta);
     }
 
-    override render(ctx: CanvasRenderingContext2D) {
-        super.render(ctx);
+    override render(layer?: CanvasLayer) {
+        super.render(layer);
     }
 
 }

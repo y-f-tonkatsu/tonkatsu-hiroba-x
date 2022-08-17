@@ -1,5 +1,6 @@
 import {DisplayObject} from "../Display/DisplayObject";
 import {Transform} from "../Display/Transform";
+import {CanvasLayer} from "../Display/CanvasLayer";
 
 /**
  * 表示オブジェクトのコンポーネント基本クラス
@@ -42,7 +43,7 @@ export class Component {
     update(delta: number) {
     };
 
-    render(ctx: CanvasRenderingContext2D) {
+    render(layer?: CanvasLayer) {
     };
 
 }

@@ -1,5 +1,6 @@
 import {Transform} from "./Transform";
 import {Component} from "../BasicComponents/Component";
+import {CanvasLayer} from "./CanvasLayer";
 
 export type Update = (delta: number) => void;
 export type Render = (ctx: CanvasRenderingContext2D) => void;
@@ -15,12 +16,13 @@ export type Render = (ctx: CanvasRenderingContext2D) => void;
  * update, render が再帰的に呼ばれる。
  */
 export class DisplayObject {
-    private _transform: Transform = new Transform();
-    private _renderTransform: Transform = new Transform();
-    private _components: Component[] = [];
-    private _children: DisplayObject[] = [];
-    private _parent: DisplayObject | undefined;
-    private _isActive: boolean = true;
+    get layer(): CanvasLayer {
+        return this._layer;
+    }
+
+    set layer(value: CanvasLayer) {
+        this._layer = value;
+    }
 
     get parent(): DisplayObject | undefined {
         return this._parent;
@@ -62,6 +64,14 @@ export class DisplayObject {
         this._isActive = value;
     }
 
+    private _transform: Transform = new Transform();
+    private _renderTransform: Transform = new Transform();
+    private _components: Component[] = [];
+    private _children: DisplayObject[] = [];
+    private _parent?: DisplayObject;
+    private _isActive: boolean = true;
+    private _layer: CanvasLayer;
+
     /**
      * 別の DisplayObject を children に加える
      * 対象オブジェクトの parent も設定される。
@@ -96,15 +106,15 @@ export class DisplayObject {
         })
     };
 
-    render(ctx: CanvasRenderingContext2D) {
+    render() {
         if (!this.isActive) return;
         this._components.forEach(compo => {
             if (!compo.isActive) return;
-            compo.render(ctx);
+            compo.render(this._layer);
         })
     };
 
-    constructor() {
-
+    constructor(layer: CanvasLayer) {
+        this._layer = layer;
     }
 }

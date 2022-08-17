@@ -1,6 +1,6 @@
-import {DisplayObject} from "../Display/DisplayObject";
-import {SpriteComponent} from "../BasicComponents/Sprite/SpriteComponent";
-import {CoordinationComponent} from "../BasicComponents/Coordination/CoordinationComponent";
+import {DisplayObject} from "../../TonkatsuDisplayLib/Display/DisplayObject";
+import {SpriteComponent} from "../../TonkatsuDisplayLib/BasicComponents/Sprite/SpriteComponent";
+import {CoordinationComponent} from "../../TonkatsuDisplayLib/BasicComponents/Coordination/CoordinationComponent";
 import {MoverComponent} from "./MoverComponent";
 
 export type TonCharOptions = {

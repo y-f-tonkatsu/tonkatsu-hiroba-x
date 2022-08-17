@@ -2,44 +2,77 @@ import {Directions, Point} from "../../Display/Point";
 import {Size} from "../../Display/Size";
 import {DisplayObject} from "../../Display/DisplayObject";
 import {Component} from "../Component";
+import {CanvasLayer} from "../../Display/CanvasLayer";
 
 export type Coordinated = {
     coordination: Point;
     direction: Point;
 }
 
-export class CoordinatedFieldComponent extends Component {
-    tileNum: Size;
-    tileSize: number;
-    tiles: number[][] = [[]];
-    occupants: Coordinated[] = [];
+export type CoordinatedFieldComponentOption = {
+    layer: CanvasLayer,
+    parent: DisplayObject,
+    tileNum: Size,
+    tileSize: number
+}
 
-    constructor(parent: DisplayObject, tileNum: Size, tileSize: number) {
-        super(parent);
-        this.tileNum = tileNum;
-        this.tileSize = tileSize;
-        this.tiles = createTiles(this.tileNum);
+export class CoordinatedFieldComponent extends Component {
+    get tiles(): number[][] {
+        return this._tiles;
+    }
+
+    set tiles(value: number[][]) {
+        this._tiles = value;
+    }
+
+    get tileSize(): number {
+        return this._tileSize;
+    }
+
+    set tileSize(value: number) {
+        this._tileSize = value;
+    }
+
+    private readonly _tileNum: Size;
+    private _tileSize: number;
+    private _tiles: number[][] = [[]];
+    private _occupants: Coordinated[] = [];
+    private readonly _layer: CanvasLayer;
+    private _isInitiated: boolean = false;
+
+    constructor(options: CoordinatedFieldComponentOption) {
+        super(options.parent);
+        this._layer = options.layer;
+        this._tileNum = options.tileNum;
+        this._tileSize = options.tileSize;
+        this._tiles = createTiles(this._tileNum);
     }
 
     override update = (delta: number) => {
         super.update(delta);
     }
 
-    override render = (ctx: CanvasRenderingContext2D) => {
-        super.render(ctx);
-        const {tileNum, tileSize, tiles} = this;
+    override render = () => {
+        super.render();
+
+        //if (this._isInitiated) return;
+        this._isInitiated = true;
+
+        const ctx = this._layer.context;
+
+        const {_tileNum, _tileSize, _tiles} = this;
         ctx.clearRect(
             0,
             0,
-            tileNum.width * tileSize,
-            tileNum.height * tileSize
+            _tileNum.width * _tileSize,
+            _tileNum.height * _tileSize
         );
         ctx.strokeStyle = "rgb(200, 200, 230)"
         ctx.lineWidth = 10;
-        for (let x = 0; x < tileNum.width; x++) {
-            for (let y = 0; y < tileNum.height; y++) {
-                const tile = tiles[y][x];
-                const [left, right, top, bottom] = [x * tileSize, (x + 1) * tileSize, y * tileSize, (y + 1) * tileSize];
+        for (let x = 0; x < _tileNum.width; x++) {
+            for (let y = 0; y < _tileNum.height; y++) {
+                const tile = _tiles[y][x];
+                const [left, right, top, bottom] = [x * _tileSize, (x + 1) * _tileSize, y * _tileSize, (y + 1) * _tileSize];
                 ctx.beginPath()
                 if ((tile & Directions.UP) > 0) {
                     ctx.moveTo(left, top);
@@ -63,12 +96,12 @@ export class CoordinatedFieldComponent extends Component {
     }
 
     public addOccupants(occupant: Coordinated) {
-        this.occupants.push(occupant);
+        this._occupants.push(occupant);
     }
 
-    public isOccupied (current: Point, next: Point) {
+    public isOccupied(current: Point, next: Point) {
         let value = false;
-        this.occupants.forEach(target => {
+        this._occupants.forEach(target => {
             const targetCurrent = target.coordination;
             const targetNext = Point.combine(target.coordination, target.direction);
             //同じ位置への移動禁止

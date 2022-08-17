@@ -2,6 +2,7 @@ import {Component} from "../Component";
 import {DisplayObject, Render, Update} from "../../Display/DisplayObject";
 import {Point} from "../../Display/Point";
 import {CoordinatedFieldComponent} from "./CoordinatedFieldComponent";
+import {CanvasLayer} from "../../Display/CanvasLayer";
 
 export type CoordinationComponentOptions = {
     field: CoordinatedFieldComponent,
@@ -103,8 +104,8 @@ export class CoordinationComponent extends Component {
         this.parent.transform.position = pos;
 
     };
-    override render: Render = ctx => {
-        super.render(ctx);
+    override render(layer?:CanvasLayer) {
+        super.render(layer);
     };
 
 }
