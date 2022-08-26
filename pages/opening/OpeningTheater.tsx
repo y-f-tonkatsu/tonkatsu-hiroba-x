@@ -11,6 +11,9 @@ export type OpeningTheaterProps = {
     scroll: number
 };
 
+/**
+ * Canvas の位置とサイズを表す
+ */
 export type TheaterRect = {
     height: number,
     width: number,
@@ -19,6 +22,11 @@ export type TheaterRect = {
     margin: number
 } | undefined;
 
+/**
+ * とんかつひろばトップのインタラクティブムービーコンポーネント
+ * @param props
+ * @constructor
+ */
 export const OpeningTheater: FC<OpeningTheaterProps> = (props) => {
 
     //オープニングオブジェクト
@@ -27,8 +35,7 @@ export const OpeningTheater: FC<OpeningTheaterProps> = (props) => {
     //canvas 要素への参照
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const bgCanvasRef = useRef<HTMLCanvasElement>(null);
-
-    //ウィンドウサイズ変更へのフック
+    //canvas の位置とサイズ
     const theaterRect: TheaterRect = props.theaterRect;
 
     //画像プリロード
@@ -110,6 +117,7 @@ export const OpeningTheater: FC<OpeningTheaterProps> = (props) => {
      * オープニングがセットされたときの副作用
      */
     useEffect(() => {
+
         if (!opening) return;
         console.log("## start ##");
 
@@ -125,6 +133,9 @@ export const OpeningTheater: FC<OpeningTheaterProps> = (props) => {
 
     }, [opening]);
 
+    /**
+     * スクロールの副作用
+     */
     useEffect(()=>{
         if(!opening || !theaterRect) return;
         if(props.scroll > theaterRect.height * 0.5){

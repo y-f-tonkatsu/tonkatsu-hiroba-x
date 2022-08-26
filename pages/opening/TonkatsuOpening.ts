@@ -34,18 +34,10 @@ export class TonkatsuOpening {
 
     constructor(options: TonkatsuOpeningOptions) {
 
+        this._fps = options.fps;
+
         //フィールド作成
-        const field = new DisplayObject(options.layers.mainLayer);
-        const tileNum: Size = {
-            width: 12,
-            height: 9
-        }
-        const fieldComponent = new CoordinatedFieldComponent({
-            layer: options.layers.bgLayer,
-            parent: field,
-            tileNum: tileNum,
-            tileSize: Math.floor(options.canvasSize.width / tileNum.width)
-        });
+        const {field, fieldComponent} = this.createField(options);
 
         //ゲームループ作成
         this._gameLoop = new GameLoop({
@@ -57,10 +49,20 @@ export class TonkatsuOpening {
             field: fieldComponent
         });
 
-        //ディスプレイリストを作成
+        //キャラクターを追加したディスプレイリストを作成してゲームループに登録
+        const displayList = this.createCharacters(options, fieldComponent);
+        this._gameLoop.displayList = ([field, ...displayList]);
+
+    }
+
+    /**
+     * キャラクターを作成してディスプレイリストに詰めて返す
+     * @private
+     */
+    private createCharacters(options: TonkatsuOpeningOptions, fieldComponent: CoordinatedFieldComponent) {
+
         const displayList: DisplayObject[] = [];
 
-        //キャラクターを作成してディスプレイリストに追加
         for (let i = 0; i < 7; i++) {
             const tonChar = new DisplayObject(options.layers.mainLayer);
             const coordinationComponent =
@@ -91,11 +93,26 @@ export class TonkatsuOpening {
             displayList.push(tonChar);
         }
 
-        //ディスプレイリストをゲームループに登録
-        this._gameLoop.displayList = ([field, ...displayList]);
+        return displayList;
+    }
 
-        this._fps = options.fps;
-
+    /**
+     * フィールド作成
+     * @private
+     */
+    private createField(options: TonkatsuOpeningOptions) {
+        const field = new DisplayObject(options.layers.mainLayer);
+        const tileNum: Size = {
+            width: 12,
+            height: 9
+        }
+        const fieldComponent = new CoordinatedFieldComponent({
+            layer: options.layers.bgLayer,
+            parent: field,
+            tileNum: tileNum,
+            tileSize: Math.floor(options.canvasSize.width / tileNum.width)
+        });
+        return {field, fieldComponent};
     }
 
     start() {

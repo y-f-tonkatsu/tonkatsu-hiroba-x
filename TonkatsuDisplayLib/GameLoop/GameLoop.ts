@@ -10,8 +10,10 @@ export type GameLoopOptions = {
 
 
 /**
- * オプションからゲームループオブエジェクトを作成して返す
- * @param options
+ * ゲームループオブジェクト
+ * requestAnimationFrame でループし続け
+ * DisplayList 内のオブジェクトの
+ * update と render を呼び出す。
  */
 export class GameLoop {
     get refreshRate(): number {
