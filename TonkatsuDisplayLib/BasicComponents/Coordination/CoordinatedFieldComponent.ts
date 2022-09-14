@@ -155,6 +155,33 @@ const createTiles = (tileNum: Size) => {
     return tiles;
 }
 
+const createTile = ()=>{
+
+}
+
+const createTilesO = (tileNum: Size) => {
+    let tiles: number[][] = [];
+    const f = () => {
+        for (let i = 0; i < tileNum.height; i++) {
+            tiles.push([]);
+            for (let j = 0; j < tileNum.width; j++) {
+                let ran = createRandomTile();
+                tiles[i].push(ran);
+            }
+        }
+        fixOneWays(tiles);
+        setOuterWall(tiles)
+        fixOpenAndClose(tiles);
+    }
+
+    f();
+    while (tiles === null) {
+        f();
+    }
+
+    return tiles;
+}
+
 function createRandomTile() {
     return Math.floor(Math.random() * 14 + 1);
 }
