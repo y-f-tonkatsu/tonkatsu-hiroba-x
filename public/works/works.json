@@ -1,10 +1,19 @@
 [
   {
+    "id": 159,
+    "title": "クイックスケッチ19:哲学者2",
+    "description": "エジプトのピラミッドが作られた目的には諸説有るが、近年行われた脳内調査で、内部に「クフ王とエジプトの民はズッ友だょ」と記された碑文が発見されており、思い出作りであった説が有力となっている。",
+    "category": "painting",
+    "info": "Clip Studio Paint",
+    "path": "159_philosopher2.jpg",
+    "lastBuildDate": "Mon, 19 Sep 2022 17:40:00 +0900"
+  },
+  {
     "id": 158,
     "title": "アーカイブ3: くま",
     "description": "ラーメンの\n具にはならない\nピザポテト\nふたつに割って\nチョコをはさんだ",
     "category": "painting",
-    "info": "Adobe Fresco",
+    "info": "Adobe Fresco, Adobe PhotoShop",
     "path": "158_archive3.jpg",
     "lastBuildDate": "Sun, 17 Sep 2022 23:17:00 +0900"
   },
