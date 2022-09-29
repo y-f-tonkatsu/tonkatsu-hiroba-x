@@ -63,7 +63,7 @@ export class TonkatsuOpening {
 
         const displayList: DisplayObject[] = [];
 
-        for (let i = 0; i < 7; i++) {
+        for (let i = 0; i < 9; i++) {
             const tonChar = new DisplayObject(options.layers.mainLayer);
             const coordinationComponent =
                 new CoordinationComponent(

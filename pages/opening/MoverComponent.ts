@@ -13,15 +13,12 @@ export type MoverAnimationPatterns =
  */
 export class MoverComponent extends Component {
 
+    private _isPlayer: boolean = false;
     private _mode: "animation" | "mover" = "animation";
-    private _coordination: CoordinationComponent;
+    private readonly _coordination: CoordinationComponent;
 
     get coordination(): CoordinationComponent {
         return this._coordination;
-    }
-
-    set coordination(value: CoordinationComponent) {
-        this._coordination = value;
     }
 
     get mode(): "animation" | "mover" {
@@ -32,8 +29,9 @@ export class MoverComponent extends Component {
         this._mode = value;
     }
 
-    constructor(parent: DisplayObject, coordination: CoordinationComponent) {
+    constructor(parent: DisplayObject, coordination: CoordinationComponent, isPlayer = false) {
         super(parent);
+        this._isPlayer = isPlayer;
         this._coordination = coordination;
         this._coordination.onMoveComplete = this.handleMoveComplete;
     }
@@ -52,6 +50,15 @@ export class MoverComponent extends Component {
 
         //各方向についてランダムな順序でそれぞれ移動可能かどうかを評価する。
         //可能ならその方向に direction をセットしてループを抜ける
+        if (this._isPlayer) {
+
+        } else {
+            this.randomMove(tile, current);
+        }
+
+    }
+
+    private randomMove(tile: number, current: Point) {
         const directionList = Object.values(Directions);
         while (directionList.length > 0) {
 
@@ -75,7 +82,6 @@ export class MoverComponent extends Component {
                 break;
             }
         }
-
     }
 
     override update(delta: number) {

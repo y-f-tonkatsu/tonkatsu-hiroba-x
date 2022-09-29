@@ -60,6 +60,8 @@ export const OpeningTheater: FC<OpeningTheaterProps> = (props) => {
             "logo/th_separated/logo5.png",
             "logo/th_separated/logo6.png",
             "logo/th_separated/logo7.png",
+            "logo/philosopher/philosopher_normal_001.png",
+            "logo/philosopher/philosopher_shock_001.png",
         ]);
         imageLoader.load(
             (list) => {
