@@ -1,10 +1,9 @@
 import React, {FC, useEffect, useRef, useState} from "react";
 import {TonkatsuOpening} from "./TonkatsuOpening";
 import {createImageLoader, ImageLoader} from "../../TonkatsuDisplayLib/ImageLoader/ImageLoader";
-import {Size} from "../../TonkatsuDisplayLib/Display/Size";
-import {useWindowSize} from "../../TonkatsuDisplayLib/Display/WindowSize";
 import {CanvasLayer} from "../../TonkatsuDisplayLib/Display/CanvasLayer";
 import styles from "./CanvasLayers.module.scss"
+import {ImageFile} from "../../TonkatsuDisplayLib/ImageLoader/ImageFile";
 
 export type OpeningTheaterProps = {
     theaterRect: TheaterRect,
@@ -40,7 +39,7 @@ export const OpeningTheater: FC<OpeningTheaterProps> = (props) => {
 
     //画像プリロード
     let imageLoader: ImageLoader;
-    let [imageList, setImageList] = useState<HTMLImageElement[]>();
+    let [imageList, setImageList] = useState<ImageFile[]>();
 
     /**
      *  初期表示時の副作用
@@ -53,15 +52,46 @@ export const OpeningTheater: FC<OpeningTheaterProps> = (props) => {
 
         //ローダー初期化してロード
         imageLoader = createImageLoader([
-            "logo/th_separated/logo1.png",
-            "logo/th_separated/logo2.png",
-            "logo/th_separated/logo3.png",
-            "logo/th_separated/logo4.png",
-            "logo/th_separated/logo5.png",
-            "logo/th_separated/logo6.png",
-            "logo/th_separated/logo7.png",
-            "logo/philosopher/philosopher_normal_001.png",
-            "logo/philosopher/philosopher_shock_001.png",
+            {
+                id: "logo1",
+                path: "logo/th_separated/logo1.png",
+            },
+            {
+                id: "logo2",
+                path: "logo/th_separated/logo2.png",
+            },
+            {
+                id: "logo3",
+                path: "logo/th_separated/logo3.png",
+            },
+            {
+                id: "logo4",
+                path: "logo/th_separated/logo4.png",
+            },
+            {
+                id: "logo5",
+                path: "logo/th_separated/logo5.png",
+            },
+            {
+                id: "logo6",
+                path: "logo/th_separated/logo6.png",
+            },
+            {
+                id: "logo7",
+                path: "logo/th_separated/logo7.png",
+            },
+            {
+                id: "philosopher_normal",
+                path: "logo/philosopher/philosopher_normal_001.png",
+            },
+            {
+                id: "philosopher_shock",
+                path: "logo/philosopher/philosopher_shock_001.png",
+            },
+            {
+                id: "fieldBG",
+                path: "opening/bg.jpg",
+            },
         ]);
         imageLoader.load(
             (list) => {

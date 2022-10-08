@@ -7,7 +7,6 @@ import {CategoryID} from "../../types/Categories";
 import {NextPage} from "next";
 import {OpeningTheater, TheaterRect} from "../../pages/opening/OpeningTheater";
 import {ScreenState, useWindowSize} from "../../TonkatsuDisplayLib/Display/WindowSize";
-import {Size} from "../../TonkatsuDisplayLib/Display/Size";
 
 //タイムラインの列の数
 export const NUM_COLS = 4;

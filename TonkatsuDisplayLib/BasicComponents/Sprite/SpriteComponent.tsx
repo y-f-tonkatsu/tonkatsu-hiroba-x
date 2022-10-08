@@ -2,12 +2,13 @@ import {Component} from "../Component";
 import {Size} from "../../Display/Size";
 import {DisplayObject} from "../../Display/DisplayObject";
 import {CanvasLayer} from "../../Display/CanvasLayer";
+import {ImageFile} from "../../ImageLoader/ImageFile";
 
 /**
  * 画像を表示するコンポーネント
  */
 export class SpriteComponent extends Component {
-    image: HTMLImageElement;
+    image: ImageFile;
     size: Size;
 
     /**
@@ -16,7 +17,7 @@ export class SpriteComponent extends Component {
      * @param image 表示する画像
      * @param size 画像の表示サイズ。元画像と合わせる必要はない。
      */
-    constructor(parent: DisplayObject, image: HTMLImageElement, size: Size) {
+    constructor(parent: DisplayObject, image: ImageFile, size: Size) {
         super(parent);
         this.image = image;
         this.size = size;
@@ -26,7 +27,7 @@ export class SpriteComponent extends Component {
         if (!this.parent) return;
         if (!this.image) return;
 
-        layer.context.drawImage(this.image,
+        layer.context.drawImage(this.image.element,
             this.parent.renderTransform.position.x,
             this.parent.renderTransform.position.y,
             this.size.width,

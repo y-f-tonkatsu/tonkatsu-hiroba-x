@@ -1,30 +1,34 @@
-import {AppData} from "../../Resource/AppData";
+import {ImageFile} from "./ImageFile";
 
 export type ImageLoader = {
     load: (
-        onCompleteListener: (imageList: HTMLImageElement[]) => void,
+        onCompleteListener: (imageList: ImageFile[]) => void,
         onErrorListener: () => void
     ) => void;
 }
 
-export const createImageLoader: (pathList: string[]) => ImageLoader
-    = (pathList: string[]) => {
+export const createImageLoader: (pathList: { id: string, path: string }[]) => ImageLoader
+    = (targetList: { id: string, path: string }[]) => {
     return {
         load: (onCompleteListener, onErrorListener) => {
-            const imageList: HTMLImageElement[] = [];
+            const imageList: ImageFile[] = [];
             let n: number = 0;
-            pathList.forEach(path => {
+            targetList.forEach(target => {
                 const image = new Image();
                 image.onload = (ev: Event) => {
                     console.log("load");
                     console.log(image);
                     n++;
-                    imageList.push(image);
-                    if (n === pathList.length) {
+                    imageList.push({
+                        element: image,
+                        id: target.id,
+                        path: target.path
+                    });
+                    if (n === targetList.length) {
                         onCompleteListener(imageList);
                     }
                 }
-                image.src = getUrlFromPath(path);
+                image.src = getUrlFromPath(target.path);
             })
         }
     };

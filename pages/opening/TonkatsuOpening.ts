@@ -9,11 +9,12 @@ import {SpriteComponent} from "../../TonkatsuDisplayLib/BasicComponents/Sprite/S
 import {JumpAnimation} from "../../TonkatsuDisplayLib/Animations/Basic/Jump";
 import {AnimationComponent} from "../../TonkatsuDisplayLib/BasicComponents/Animation/AnimationComponent";
 import {TonkatsuOpeningCanvasLayers} from "./TonkatsuOpeningCanvasLayers";
+import {ImageFile} from "../../TonkatsuDisplayLib/ImageLoader/ImageFile";
 
 export type TonkatsuOpeningOptions = {
     layers: TonkatsuOpeningCanvasLayers,
     fps: number;
-    imageList: HTMLImageElement[];
+    imageList: ImageFile[];
     canvasSize: Size;
 }
 
@@ -81,14 +82,15 @@ export class TonkatsuOpening {
                         width: fieldComponent.tileSize,
                         height: fieldComponent.tileSize
                     });
-            const moverComponent = new MoverComponent(tonChar, coordinationComponent);
             const jumpAnimationComponent = new AnimationComponent(tonChar, {
                 animation: new JumpAnimation(),
-                loop: true,
+                loop: false,
                 onFinishedListener: () => {
+                    const moverComponent = new MoverComponent(tonChar, coordinationComponent);
+                    tonChar.attachComponent(moverComponent);
                 }
             })
-            tonChar.attachComponent(moverComponent, coordinationComponent, spriteComponent, jumpAnimationComponent);
+            tonChar.attachComponent(coordinationComponent, spriteComponent, jumpAnimationComponent);
 
             displayList.push(tonChar);
         }
@@ -106,11 +108,15 @@ export class TonkatsuOpening {
             width: 12,
             height: 9
         }
+        const margin = 15;
+        const bgImage = options.imageList.filter(file => file.id === "fieldBG")[0];
         const fieldComponent = new CoordinatedFieldComponent({
             layer: options.layers.bgLayer,
             parent: field,
-            tileNum: tileNum,
-            tileSize: Math.floor(options.canvasSize.width / tileNum.width)
+            tileNum,
+            margin,
+            tileSize: Math.floor((options.canvasSize.width - margin * 2) / tileNum.width),
+            bgImage
         });
         return {field, fieldComponent};
     }

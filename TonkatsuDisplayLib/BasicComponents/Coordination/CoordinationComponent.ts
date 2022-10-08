@@ -22,7 +22,7 @@ export class CoordinationComponent extends Component {
     private _field: CoordinatedFieldComponent;
     private _coordination: Point = new Point();
     private _direction: Point = new Point();
-    private _moveSpeed: number = 0.1;
+    private _moveSpeed: number = 0.05;
     private _moveProgress: number = 0;
     private _onMoveComplete = () => {
     };
@@ -98,6 +98,7 @@ export class CoordinationComponent extends Component {
 
         const pos = this._coordination.clone();
         pos.multiply(new Point(this._field.tileSize, this._field.tileSize));
+        pos.add(new Point(this._field.margin, this._field.margin));
         const moveX = this._direction.x * this._field.tileSize * this._moveProgress;
         const moveY = this._direction.y * this._field.tileSize * this._moveProgress;
         pos.add(new Point(moveX, moveY));

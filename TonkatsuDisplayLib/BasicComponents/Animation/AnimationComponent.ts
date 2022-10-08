@@ -39,6 +39,7 @@ export class AnimationComponent extends Component {
         const isFinished = this._animation.animate(this.transform, delta);
         if (isFinished && !this.loop) {
             this.isActive = false;
+            this._onFinishListener();
         }
     }
 }

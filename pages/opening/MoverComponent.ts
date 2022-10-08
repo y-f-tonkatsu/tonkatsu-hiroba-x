@@ -13,7 +13,7 @@ export type MoverAnimationPatterns =
  */
 export class MoverComponent extends Component {
 
-    private _isPlayer: boolean = false;
+    private readonly _isPlayer: boolean = false;
     private _mode: "animation" | "mover" = "animation";
     private readonly _coordination: CoordinationComponent;
 
