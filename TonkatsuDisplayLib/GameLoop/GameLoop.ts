@@ -1,6 +1,7 @@
 import {DisplayObject} from "../Display/DisplayObject";
 import {CoordinatedFieldComponent} from "../BasicComponents/Coordination/CoordinatedFieldComponent";
 import {CanvasLayer} from "../Display/CanvasLayer";
+import {LoopTimer} from "./LoopTimer";
 
 export type GameLoopOptions = {
     layers: CanvasLayer[];
@@ -46,7 +47,9 @@ export class GameLoop {
     private _layers: CanvasLayer[] = [];
     private readonly _looper: (prevTimeStamp: number, elapsedTime: number) => void;
 
-    private _isPlaying:boolean = false;
+    private _loopTimers: LoopTimer[] = [];
+
+    private _isPlaying: boolean = false;
 
     constructor(options: GameLoopOptions) {
 
@@ -73,17 +76,30 @@ export class GameLoop {
             }
 
             //フレームをまたいでいたら、各 DisplayObject の update と render を呼び出す
+            //また、タイマーを処理する
             if (0 < updateCount) {
 
                 //必要なら Canvas をクリア
                 this._layers.forEach(layer => {
                     if (layer.refresh) layer.clear();
-                })
+                });
 
+                //DisplayObject を更新
                 this.displayList.forEach(obj => {
                     obj.update(updateCount);
                     obj.render();
                 })
+
+                //タイマーを処理
+                const remove: LoopTimer[] = [];
+                this._loopTimers.forEach(timer => {
+                    timer.loopCount -= updateCount;
+                    if (timer.loopCount <= 0) {
+                        timer.callback();
+                        remove.push(timer);
+                    }
+                });
+                remove.forEach(timer => this.removeLoopTimer(timer));
             }
 
             //ループする
@@ -94,16 +110,37 @@ export class GameLoop {
     }
 
     stop() {
-        if(!this._isPlaying) return;
+        if (!this._isPlaying) return;
         cancelAnimationFrame(this.requestID);
         this._isPlaying = false;
     }
 
     start() {
-        if(this._isPlaying) return;
+        if (this._isPlaying) return;
         this._looper(performance.now(), 0);
         this._isPlaying = true;
     }
 
+    private _loopIDPool = 0;
+
+    private createTimerID(): string {
+        this._loopIDPool++;
+        return "__loop_id__" + this._loopIDPool;
+    }
+
+    addLoopTimer(timer: LoopTimer) {
+        if (!timer.id) timer.id = this.createTimerID();
+        this._loopTimers.push(timer);
+    }
+
+    removeLoopTimer(target: LoopTimer | string) {
+        this._loopTimers = this._loopTimers.filter(timer => {
+            if (typeof target === "string") {
+                return timer.id !== target;
+            } else {
+                return timer.id !== target.id;
+            }
+        })
+    }
 
 }

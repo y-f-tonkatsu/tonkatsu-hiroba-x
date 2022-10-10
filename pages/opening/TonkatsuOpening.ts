@@ -52,8 +52,9 @@ export class TonkatsuOpening {
         });
 
         //キャラクターを追加したディスプレイリストを作成してゲームループに登録
-        const displayList = this.createCharacters(options, fieldComponent);
-        this._gameLoop.displayList = ([field, ...displayList]);
+        const displayList: DisplayObject[] = [field];
+        this.createCharacters(options, fieldComponent, displayList);
+        this._gameLoop.displayList = displayList;
 
     }
 
@@ -61,11 +62,10 @@ export class TonkatsuOpening {
      * キャラクターを作成してディスプレイリストに詰めて返す
      * @private
      */
-    private createCharacters(options: TonkatsuOpeningOptions, fieldComponent: CoordinatedFieldComponent) {
+    private createCharacters(options: TonkatsuOpeningOptions, fieldComponent: CoordinatedFieldComponent, displayList: DisplayObject[]) {
 
-        const displayList: DisplayObject[] = [];
 
-        for (let i = 0; i < 9; i++) {
+        const f = (i:number)=>{
             const tonChar = new DisplayObject(options.layers.mainLayer);
             const coordinationComponent =
                 new CoordinationComponent(
@@ -94,6 +94,15 @@ export class TonkatsuOpening {
             tonChar.attachComponent(coordinationComponent, spriteComponent, jumpAnimationComponent);
 
             displayList.push(tonChar);
+        }
+
+        for (let i = 0; i < 9; i++) {
+            this._gameLoop.addLoopTimer({
+                callback: ()=>{
+                    f(i);
+                },
+                loopCount: i * 10
+            });
         }
 
         return displayList;
