@@ -98,7 +98,7 @@ export class CoordinatedFieldComponent extends Component {
             0,
             fullWidth,
             fullHeight
-        )
+        );
     }
 
     public addOccupants(occupant: Coordinated) {

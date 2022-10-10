@@ -10,6 +10,7 @@ import {JumpAnimation} from "../../TonkatsuDisplayLib/Animations/Basic/Jump";
 import {AnimationComponent} from "../../TonkatsuDisplayLib/BasicComponents/Animation/AnimationComponent";
 import {TonkatsuOpeningCanvasLayers} from "./TonkatsuOpeningCanvasLayers";
 import {ImageFile} from "../../TonkatsuDisplayLib/ImageLoader/ImageFile";
+import {SpinJumpAnimation} from "../../TonkatsuDisplayLib/Animations/Basic/SpinJump";
 
 export type TonkatsuOpeningOptions = {
     layers: TonkatsuOpeningCanvasLayers,
@@ -83,7 +84,7 @@ export class TonkatsuOpening {
                         height: fieldComponent.tileSize
                     });
             const jumpAnimationComponent = new AnimationComponent(tonChar, {
-                animation: new JumpAnimation(),
+                animation: new SpinJumpAnimation(),
                 loop: false,
                 onFinishedListener: () => {
                     const moverComponent = new MoverComponent(tonChar, coordinationComponent);
