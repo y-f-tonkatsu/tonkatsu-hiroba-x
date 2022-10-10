@@ -27,12 +27,19 @@ export class SpriteComponent extends Component {
         if (!this.parent) return;
         if (!this.image) return;
 
-        layer.context.drawImage(this.image.element,
-            this.parent.renderTransform.position.x,
-            this.parent.renderTransform.position.y,
-            this.size.width,
-            this.size.height
-        )
+        const ctx = layer.context;
+        const {position, scale, rotation} = this.parent.renderTransform;
+        const {x, y} = position;
+        const w = this.size.width * scale.x;
+        const h = this.size.height * scale.y;
+        const cx = x + w * 0.5;
+        const cy = y + h * 0.5;
+        ctx.save();
+        ctx.translate(cx, cy);
+        ctx.rotate(rotation);
+        ctx.translate(-cx, -cy);
+        ctx.drawImage(this.image.element, x, y, w, h);
+        ctx.restore();
     }
 
 }
