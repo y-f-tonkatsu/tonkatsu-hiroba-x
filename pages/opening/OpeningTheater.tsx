@@ -2,7 +2,7 @@ import React, {FC, useEffect, useRef, useState} from "react";
 import {TonkatsuOpening} from "./TonkatsuOpening";
 import {createImageLoader, ImageLoader} from "../../TonkatsuDisplayLib/ImageLoader/ImageLoader";
 import {CanvasLayer} from "../../TonkatsuDisplayLib/Display/CanvasLayer";
-import styles from "./CanvasLayers.module.scss"
+import styles from "./CanvasLayers.module.css"
 import {ImageFile} from "../../TonkatsuDisplayLib/ImageLoader/ImageFile";
 
 export type OpeningTheaterProps = {
