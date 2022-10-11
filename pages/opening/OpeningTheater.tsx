@@ -4,6 +4,7 @@ import {createImageLoader, ImageLoader} from "../../TonkatsuDisplayLib/ImageLoad
 import {CanvasLayer} from "../../TonkatsuDisplayLib/Display/CanvasLayer";
 import styles from "./CanvasLayers.module.css"
 import {ImageFile} from "../../TonkatsuDisplayLib/ImageLoader/ImageFile";
+import {TonImageList} from "./TonImageList";
 
 export type OpeningTheaterProps = {
     theaterRect: TheaterRect,
@@ -51,54 +52,13 @@ export const OpeningTheater: FC<OpeningTheaterProps> = (props) => {
         if (imageList) return;
 
         //ローダー初期化してロード
-        imageLoader = createImageLoader([
-            {
-                id: "logo1",
-                path: "logo/th_separated/logo1.png",
-            },
-            {
-                id: "logo2",
-                path: "logo/th_separated/logo2.png",
-            },
-            {
-                id: "logo3",
-                path: "logo/th_separated/logo3.png",
-            },
-            {
-                id: "logo4",
-                path: "logo/th_separated/logo4.png",
-            },
-            {
-                id: "logo5",
-                path: "logo/th_separated/logo5.png",
-            },
-            {
-                id: "logo6",
-                path: "logo/th_separated/logo6.png",
-            },
-            {
-                id: "logo7",
-                path: "logo/th_separated/logo7.png",
-            },
-            {
-                id: "philosopher_normal",
-                path: "logo/philosopher/philosopher_normal_001.png",
-            },
-            {
-                id: "philosopher_shock",
-                path: "logo/philosopher/philosopher_shock_001.png",
-            },
-            {
-                id: "fieldBG",
-                path: "opening/bg.jpg",
-            },
-        ]);
+        imageLoader = createImageLoader(TonImageList);
         imageLoader.load(
             (list) => {
                 setImageList(list)
             },
             () => {
-                throw new Error();
+                throw new Error("画像ロードに失敗");
             }
         );
 
@@ -177,10 +137,12 @@ export const OpeningTheater: FC<OpeningTheaterProps> = (props) => {
         }
     }, [props.scroll])
 
+    //サイズが不確定なのでプレースホルダーを置けない
     if (!theaterRect) {
         return null;
     }
 
+    //画像リストのロードが終わってない場合はプレースホルダーを返す
     if (!imageList) {
         return (
             <div style={{

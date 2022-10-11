@@ -1,3 +1,7 @@
+/**
+ * 画像をロードして HTMLImageElement をラップしたオブジェクト(ImageFile)に入れるオブジェクトを作る
+ */
+
 import {ImageFile} from "./ImageFile";
 
 export type ImageLoader = {
@@ -15,7 +19,7 @@ export const createImageLoader: (pathList: { id: string, path: string }[]) => Im
             let n: number = 0;
             targetList.forEach(target => {
                 const image = new Image();
-                image.onload = (ev: Event) => {
+                image.onload = () => {
                     console.log("load");
                     console.log(image);
                     n++;
@@ -27,6 +31,9 @@ export const createImageLoader: (pathList: { id: string, path: string }[]) => Im
                     if (n === targetList.length) {
                         onCompleteListener(imageList);
                     }
+                };
+                image.onerror = ()=>{
+                    onErrorListener();
                 }
                 image.src = getUrlFromPath(target.path);
             })
