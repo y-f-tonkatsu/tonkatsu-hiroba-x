@@ -1,5 +1,5 @@
 import {Component} from "../Component";
-import {DisplayObject, Render, Update} from "../../Display/DisplayObject";
+import {DisplayObject} from "../../Display/DisplayObject";
 import {Point} from "../../Display/Point";
 import {CoordinatedFieldComponent} from "./CoordinatedFieldComponent";
 import {CanvasLayer} from "../../Display/CanvasLayer";
@@ -11,8 +11,8 @@ export type CoordinationComponentOptions = {
 
 /**
  * Canvas 座標系とは別の独自の座標系を持つ表示オブジェクト。
- * 座標系自体は CoordinatedFiledComponent で表現され、
- * こちらは座標上で移動する個々のオブエジェクトがそれぞれ所有する。
+ * 座標系自体は CoordinatedFiledComponent で表現される。
+ * CoordinationComponent は座標上で移動する個々のオブエジェクトがそれぞれ所有する。
  * 30px * 30px のような正方形のマスからマスへ移動する。
  * マスからマスへの移動が完了するたびに
  * onMoveComplete() が呼ばれる。
@@ -82,13 +82,13 @@ export class CoordinationComponent extends Component {
         this._coordination = options.initialCoordination;
     }
 
-    override update: Update = delta => {
+    override update = () => {
 
         if (!this.parent) return;
 
-        super.update(delta);
+        super.update();
 
-        this._moveProgress += this._moveSpeed * delta;
+        this._moveProgress += this._moveSpeed;
 
         while (this._moveProgress > 1) {
             this._moveProgress -= 1;

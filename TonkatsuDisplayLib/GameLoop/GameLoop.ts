@@ -17,6 +17,7 @@ export type GameLoopOptions = {
  * update と render を呼び出す。
  */
 export class GameLoop {
+
     get refreshRate(): number {
         return this._refreshRate;
     }
@@ -48,6 +49,8 @@ export class GameLoop {
     private readonly _looper: (prevTimeStamp: number, elapsedTime: number) => void;
 
     private _loopTimers: LoopTimer[] = [];
+    //タイマーに付与するIDをユニークにするため作成数を保持
+    private _loopIDPool = 0;
 
     private _isPlaying: boolean = false;
 
@@ -86,7 +89,11 @@ export class GameLoop {
 
                 //DisplayObject を更新
                 this.displayList.forEach(obj => {
-                    obj.update(updateCount);
+                    //複数フレームをまたいでいたら複数 update
+                    for (let i = 0; i < updateCount; i++) {
+                        obj.update();
+                    }
+                    //render は1回
                     obj.render();
                 })
 
@@ -100,6 +107,7 @@ export class GameLoop {
                     }
                 });
                 remove.forEach(timer => this.removeLoopTimer(timer));
+
             }
 
             //ループする
@@ -109,30 +117,45 @@ export class GameLoop {
         }
     }
 
-    stop() {
-        if (!this._isPlaying) return;
-        cancelAnimationFrame(this.requestID);
-        this._isPlaying = false;
-    }
-
+    /**
+     * ループ開始
+     */
     start() {
         if (this._isPlaying) return;
         this._looper(performance.now(), 0);
         this._isPlaying = true;
     }
 
-    private _loopIDPool = 0;
+    /**
+     * ループ停止
+     */
+    stop() {
+        if (!this._isPlaying) return;
+        cancelAnimationFrame(this.requestID);
+        this._isPlaying = false;
+    }
 
+    /**
+     * 呼び出しごとにユニークなタイマーIDを作成して返す
+     */
     private createTimerID(): string {
         this._loopIDPool++;
         return "__loop_id__" + this._loopIDPool;
     }
 
+    /**
+     * タイマーの実行を予約する
+     * @param timer タイマーオブジェクト
+     */
     addLoopTimer(timer: LoopTimer) {
         if (!timer.id) timer.id = this.createTimerID();
         this._loopTimers.push(timer);
     }
 
+    /**
+     * タイマーの予約を解除する
+     * @param target タイマーオブジェクトまたはそのID
+     */
     removeLoopTimer(target: LoopTimer | string) {
         this._loopTimers = this._loopTimers.filter(timer => {
             if (typeof target === "string") {

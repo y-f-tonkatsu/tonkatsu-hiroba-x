@@ -33,10 +33,10 @@ export class AnimationComponent extends Component {
         this._onFinishListener = options.onFinishedListener;
     }
 
-    update(delta: number) {
-        super.update(delta);
+    update() {
+        super.update();
         if (!this.transform) return;
-        const isFinished = this._animation.animate(this.transform, delta);
+        const isFinished = this._animation.animate(this.transform);
         if (isFinished && !this.loop) {
             this.isActive = false;
             this._onFinishListener();

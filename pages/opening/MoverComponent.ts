@@ -84,8 +84,8 @@ export class MoverComponent extends Component {
         }
     }
 
-    override update(delta: number) {
-        super.update(delta);
+    override update() {
+        super.update();
     }
 
     override render(layer?: CanvasLayer) {

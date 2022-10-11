@@ -40,7 +40,7 @@ export class Component {
         parent.attachComponent(this);
     }
 
-    update(delta: number) {
+    update() {
     };
 
     render(layer?: CanvasLayer) {

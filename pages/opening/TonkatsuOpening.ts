@@ -6,11 +6,10 @@ import {Size} from "../../TonkatsuDisplayLib/Display/Size";
 import {CoordinationComponent} from "../../TonkatsuDisplayLib/BasicComponents/Coordination/CoordinationComponent";
 import {Point} from "../../TonkatsuDisplayLib/Display/Point";
 import {SpriteComponent} from "../../TonkatsuDisplayLib/BasicComponents/Sprite/SpriteComponent";
-import {JumpAnimation} from "../../TonkatsuDisplayLib/Animations/Basic/Jump";
 import {AnimationComponent} from "../../TonkatsuDisplayLib/BasicComponents/Animation/AnimationComponent";
 import {TonkatsuOpeningCanvasLayers} from "./TonkatsuOpeningCanvasLayers";
 import {ImageFile} from "../../TonkatsuDisplayLib/ImageLoader/ImageFile";
-import {SpinJumpAnimation} from "../../TonkatsuDisplayLib/Animations/Basic/SpinJump";
+import {TonkatsuSpinJumpAnimation} from "../../TonkatsuDisplayLib/Animations/Basic/SpinJump";
 
 export type TonkatsuOpeningOptions = {
     layers: TonkatsuOpeningCanvasLayers,
@@ -39,7 +38,7 @@ export class TonkatsuOpening {
         this._fps = options.fps;
 
         //フィールド作成
-        const {field, fieldComponent} = this.createField(options);
+        const {field, fieldComponent} = TonkatsuOpening.createField(options);
 
         //ゲームループ作成
         this._gameLoop = new GameLoop({
@@ -84,7 +83,7 @@ export class TonkatsuOpening {
                         height: fieldComponent.tileSize
                     });
             const jumpAnimationComponent = new AnimationComponent(tonChar, {
-                animation: new SpinJumpAnimation(),
+                animation: new TonkatsuSpinJumpAnimation(),
                 loop: false,
                 onFinishedListener: () => {
                     const moverComponent = new MoverComponent(tonChar, coordinationComponent);
@@ -110,9 +109,8 @@ export class TonkatsuOpening {
 
     /**
      * フィールド作成
-     * @private
      */
-    private createField(options: TonkatsuOpeningOptions) {
+    private static createField(options: TonkatsuOpeningOptions) {
         const field = new DisplayObject(options.layers.mainLayer);
         const tileNum: Size = {
             width: 12,

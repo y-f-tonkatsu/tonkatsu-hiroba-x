@@ -7,7 +7,7 @@ export class Animation {
     _progress: number = 0;
     protected _duration: number = 0;
 
-    animate(transform: Transform, delta: number): boolean {
+    animate(transform: Transform): boolean {
         return false;
     }
 }

@@ -2,7 +2,6 @@ import {Transform} from "./Transform";
 import {Component} from "../BasicComponents/Component";
 import {CanvasLayer} from "./CanvasLayer";
 
-export type Update = (delta: number) => void;
 export type Render = (ctx: CanvasRenderingContext2D) => void;
 
 /**
@@ -11,6 +10,8 @@ export type Render = (ctx: CanvasRenderingContext2D) => void;
  * ゲームループに加えると
  * フレームが更新されるたびに、
  * update, render が呼ばれる。
+ * 複数フレームが一度に更新される場合は
+ * update が複数, render が1回だけ呼ばれることもある。
  * update, render メソッド上で
  * children 及び components に含まれるオブジェクトの
  * update, render が再帰的に呼ばれる。
@@ -94,12 +95,12 @@ export class DisplayObject {
         })
     }
 
-    update(delta: number) {
+    update() {
         if (!this.isActive) return;
         this._renderTransform.substitute(this.transform);
         this._components.forEach(compo => {
             if (!compo.isActive) return;
-            compo.update(delta);
+            compo.update();
             if (compo.transform) {
                 this._renderTransform.add(compo.transform);
             }
