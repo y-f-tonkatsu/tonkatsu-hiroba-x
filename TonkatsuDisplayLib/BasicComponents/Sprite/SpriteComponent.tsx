@@ -3,6 +3,7 @@ import {Size} from "../../Display/Size";
 import {DisplayObject} from "../../Display/DisplayObject";
 import {CanvasLayer} from "../../Display/CanvasLayer";
 import {ImageFile} from "../../ImageLoader/ImageFile";
+import {Point} from "../../Display/Point";
 
 /**
  * 画像を表示するコンポーネント
@@ -10,17 +11,20 @@ import {ImageFile} from "../../ImageLoader/ImageFile";
 export class SpriteComponent extends Component {
     image: ImageFile;
     size: Size;
+    centerPosition: Point;
 
     /**
      * 画像を表示するコンポーネント
      * @param parent 親の DisplayObject
      * @param image 表示する画像
      * @param size 画像の表示サイズ。元画像と合わせる必要はない。
+     * @param centerPosition 中心点の相対座標。デフォルトは(0, 0).
      */
-    constructor(parent: DisplayObject, image: ImageFile, size: Size) {
+    constructor(parent: DisplayObject, image: ImageFile, size: Size, centerPosition?: Point) {
         super(parent);
         this.image = image;
         this.size = size;
+        this.centerPosition = centerPosition || new Point(0, 0);
     }
 
     override render(layer: CanvasLayer) {
@@ -37,8 +41,7 @@ export class SpriteComponent extends Component {
         ctx.save();
         ctx.translate(cx, cy);
         ctx.rotate(rotation);
-        ctx.translate(-cx, -cy);
-        ctx.drawImage(this.image.element, x, y, w, h);
+        ctx.drawImage(this.image.element, -w * 0.5, -h * 0.5, w, h);
         ctx.restore();
     }
 

@@ -168,17 +168,32 @@ export const OpeningTheater: FC<OpeningTheaterProps> = (props) => {
     /**
      * スクロールの副作用
      */
-    useEffect(()=>{
-        if(!opening || !theaterRect) return;
-        if(props.scroll > theaterRect.height * 0.5){
+    useEffect(() => {
+        if (!opening || !theaterRect) return;
+        if (props.scroll > theaterRect.height * 0.5) {
             opening.stop();
         } else {
             opening.start();
         }
     }, [props.scroll])
 
-    if (!theaterRect || !imageList) {
+    if (!theaterRect) {
         return null;
+    }
+
+    if (!imageList) {
+        return (
+            <div style={{
+                position: "sticky",
+                pointerEvents: "none",
+                width: "100%",
+                minHeight: theaterRect.height,
+                left: theaterRect.left,
+                top: theaterRect.top,
+                zIndex: 100,
+            }}>
+            </div>
+        );
     }
 
     return (

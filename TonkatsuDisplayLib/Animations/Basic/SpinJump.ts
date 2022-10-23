@@ -19,7 +19,7 @@ export class TonkatsuSpinJumpAnimation extends Animation {
         this._velocity -= this._gravity;
         this._height += this._velocity * 0.05;
         this._scaleCorrection = Math.min(this._scaleCorrection + 0.1, 1);
-        transform.position = new Point(0, -this._height*3);
+        transform.position = new Point(0, -this._height * 50);
         transform.scale = new Point(this._scaleCorrection + this._height * 0.03, this._scaleCorrection + this._height * 0.03);
         transform.rotation += 0.15;
         if (this._height <= 0) {

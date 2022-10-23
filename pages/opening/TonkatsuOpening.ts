@@ -63,48 +63,88 @@ export class TonkatsuOpening {
      */
     private createCharacters(options: TonkatsuOpeningOptions, fieldComponent: CoordinatedFieldComponent, displayList: DisplayObject[]) {
 
+        //個々のキャラクター作成関数
+        const create = (i: number) => {
 
-        const f = (i:number)=>{
+            //ディスプレイオブジェクトを作る
             const tonChar = new DisplayObject(options.layers.mainLayer);
-            const coordinationComponent =
-                new CoordinationComponent(
-                    tonChar,
-                    {
-                        initialCoordination: new Point(i + 1, 4),
-                        field: fieldComponent,
-                    }
-                );
-            const spriteComponent =
-                new SpriteComponent(
-                    tonChar,
-                    options.imageList[i],
-                    {
-                        width: fieldComponent.tileSize,
-                        height: fieldComponent.tileSize
-                    });
-            const jumpAnimationComponent = new AnimationComponent(tonChar, {
-                animation: new TonkatsuSpinJumpAnimation(),
-                loop: false,
-                onFinishedListener: () => {
-                    const moverComponent = new MoverComponent(tonChar, coordinationComponent);
-                    tonChar.attachComponent(moverComponent);
-                }
-            })
+
+            //コンポーネントをセット
+            const coordinationComponent = TonkatsuOpening.createCoordinationComponent(i, tonChar, fieldComponent);
+            const spriteComponent = this.createSpriteComponent(i, tonChar, fieldComponent, options.imageList);
+            const jumpAnimationComponent = this.createJumpAnimationComponent(tonChar, coordinationComponent);
             tonChar.attachComponent(coordinationComponent, spriteComponent, jumpAnimationComponent);
 
+            //ディスプレイリストに追加
             displayList.push(tonChar);
         }
 
+        //複数のキャラクターを時間差で追加する
         for (let i = 0; i < 9; i++) {
             this._gameLoop.addLoopTimer({
-                callback: ()=>{
-                    f(i);
+                callback: () => {
+                    create(i);
                 },
                 loopCount: i * 10
             });
         }
 
         return displayList;
+    }
+
+    /**
+     * 座標コンポーネントを作る
+     */
+    private static createCoordinationComponent(i: number, tonChar: DisplayObject, fieldComponent: CoordinatedFieldComponent) {
+        const xp = i < 5 ? i + 1 : i + 2;
+        return new CoordinationComponent(
+            tonChar,
+            {
+                initialCoordination: new Point(xp, 4),
+                field: fieldComponent,
+            }
+        );
+    }
+
+    /**
+     * スプライトコンポーネントを作る
+     */
+    private createSpriteComponent(i: number, tonChar: DisplayObject, fieldComponent: CoordinatedFieldComponent, imageList: ImageFile[]) {
+        let img;
+        if (i === 0) {
+            img = imageList.filter(image => image.id === `philosopher_normal`)[0];
+        } else if (i === 8) {
+            img = imageList.filter(image => image.id === `philosopher_shock`)[0];
+        } else {
+            img = imageList.filter(image => image.id === `logo${i}`)[0];
+        }
+        return new SpriteComponent(
+            tonChar,
+            img,
+            {
+                width: fieldComponent.tileSize,
+                height: fieldComponent.tileSize
+            });
+    }
+
+    /**
+     * アニメーションコンポーネントを作る
+     */
+    private createJumpAnimationComponent(tonChar: DisplayObject, coordinationComponent: CoordinationComponent) {
+        return new AnimationComponent(tonChar, {
+            animation: new TonkatsuSpinJumpAnimation(),
+            loop: false,
+            onFinishedListener: () => {
+                //アニメーション再生が完了したら、少し待って MoverComponent をセット
+                this._gameLoop.addLoopTimer({
+                    callback: () => {
+                        const moverComponent = new MoverComponent(tonChar, coordinationComponent);
+                        tonChar.attachComponent(moverComponent);
+                    },
+                    loopCount: 100
+                });
+            }
+        });
     }
 
     /**
