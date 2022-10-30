@@ -73,8 +73,8 @@ export class CoordinatedFieldComponent extends Component {
             ]
     }
 
-    override update = (delta: number) => {
-        super.update(delta);
+    override update = () => {
+        super.update();
     }
 
     override render = () => {
