@@ -124,7 +124,9 @@ export class TonkatsuOpening {
             {
                 width: fieldComponent.tileSize,
                 height: fieldComponent.tileSize
-            });
+            },
+            new Point(fieldComponent.tileSize * 0.5, fieldComponent.tileSize * 0.5)
+        );
     }
 
     /**

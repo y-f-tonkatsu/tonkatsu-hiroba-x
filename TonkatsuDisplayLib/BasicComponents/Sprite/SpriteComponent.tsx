@@ -36,8 +36,8 @@ export class SpriteComponent extends Component {
         const {x, y} = position;
         const w = this.size.width * scale.x;
         const h = this.size.height * scale.y;
-        const cx = x + w * 0.5;
-        const cy = y + h * 0.5;
+        const cx = x + this.centerPosition.x;
+        const cy = y + this.centerPosition.y;
         ctx.save();
         ctx.translate(cx, cy);
         ctx.rotate(rotation);
