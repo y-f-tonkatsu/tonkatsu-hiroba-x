@@ -130,11 +130,7 @@ export const OpeningTheater: FC<OpeningTheaterProps> = (props) => {
      */
     useEffect(() => {
         if (!opening || !theaterRect) return;
-        if (props.scroll > theaterRect.height * 0.5) {
-            opening.stop();
-        } else {
-            opening.start();
-        }
+        opening.collapse(props.scroll);
     }, [props.scroll])
 
     //サイズが不確定なのでプレースホルダーを置けない

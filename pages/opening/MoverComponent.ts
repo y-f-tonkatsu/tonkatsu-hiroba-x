@@ -7,33 +7,39 @@ import {CanvasLayer} from "../../TonkatsuDisplayLib/Display/CanvasLayer";
 export type MoverAnimationPatterns =
     "jump";
 
+type Modes = "mover" | "gotoHome" | "home";
+
 /**
  * 迷路を移動するテキストを表すコンポーネント
  * CoordinationComponent と協調して動作する
  */
 export class MoverComponent extends Component {
 
+    get mode(): Modes {
+        return this._mode;
+    }
+
+    set mode(value: Modes) {
+        this._mode = value;
+    }
+
     private readonly _isPlayer: boolean = false;
-    private _mode: "animation" | "mover" = "animation";
+    private _mode: Modes = "mover";
     private readonly _coordination: CoordinationComponent;
+
+    private readonly _destination: Point;
 
     get coordination(): CoordinationComponent {
         return this._coordination;
     }
 
-    get mode(): "animation" | "mover" {
-        return this._mode;
-    }
-
-    set mode(value: "animation" | "mover") {
-        this._mode = value;
-    }
-
-    constructor(parent: DisplayObject, coordination: CoordinationComponent, isPlayer = false) {
+    constructor(parent: DisplayObject, coordination: CoordinationComponent,
+                destination: Point = new Point(0, 0), isPlayer = false) {
         super(parent);
         this._isPlayer = isPlayer;
         this._coordination = coordination;
         this._coordination.onMoveComplete = this.handleMoveComplete;
+        this._destination = destination;
     }
 
     /**
@@ -48,16 +54,37 @@ export class MoverComponent extends Component {
         let {x, y} = current;
         const tile = this._coordination.field.tiles[y][x];
 
-        //各方向についてランダムな順序でそれぞれ移動可能かどうかを評価する。
-        //可能ならその方向に direction をセットしてループを抜ける
-        if (this._isPlayer) {
+        if (this.mode === "home") {
+            //最終段階なので何もしない
+            return;
+        } else if (this.mode === "gotoHome") {
+            //ホームポジションに向かって方向転換
+            this.gotoHome(current);
 
-        } else {
+            //ホームに着いたか判定
+            if (current.equals(this._destination)) {
+                this.mode = "home";
+            }
+
+        } else if (this.mode === "mover") {
+
+            //方向設定
             this.randomMove(tile, current);
+
+            //崩壊判定
+            if (this.coordination.field.isCollapsed(y)) {
+                this.mode = "gotoHome";
+            }
         }
 
     }
 
+    /**
+     * 次の direction をランダムにセットする。
+     * @param tile 現在位置の地形 #0-#f
+     * @param current 現在位置の座標
+     * @private
+     */
     private randomMove(tile: number, current: Point) {
         const directionList = Object.values(Directions);
         while (directionList.length > 0) {
@@ -80,6 +107,28 @@ export class MoverComponent extends Component {
             if (directionList.length === 0) {
                 this._coordination.direction = new Point(0, 0);
                 break;
+            }
+        }
+    }
+
+    /**
+     * 現在座標から _destination に向けて進むように方向設定する
+     * @param current 現在座標
+     * @private
+     */
+    private gotoHome(current: Point) {
+        console.log(current, this._destination);
+        if (current.y > this._destination.y) {
+            this._coordination.direction = new Point(0, -1);
+        } else if (current.y < this._destination.y) {
+            this._coordination.direction = new Point(0, 1);
+        } else {
+            if (current.x > this._destination.x) {
+                this._coordination.direction = new Point(-1, 0);
+            } else if (current.x < this._destination.x) {
+                this._coordination.direction = new Point(1, 0);
+            } else {
+                this._coordination.direction = new Point(0, 0);
             }
         }
     }

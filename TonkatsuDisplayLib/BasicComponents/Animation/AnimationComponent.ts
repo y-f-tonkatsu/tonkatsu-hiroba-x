@@ -15,7 +15,7 @@ export type AnimationComponentOptions = {
 export class AnimationComponent extends Component {
     private _animation: Animation;
     private _loop: boolean = false;
-    private _onFinishListener: () => void;
+    private readonly _onFinishListener: () => void;
 
     get loop(): boolean {
         return this._loop;

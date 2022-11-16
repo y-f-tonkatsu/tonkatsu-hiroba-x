@@ -22,6 +22,7 @@ export type TonkatsuOpeningOptions = {
  * オプションからオープニングオブジェクトを作成して返す
  */
 export class TonkatsuOpening {
+
     get fps(): Number {
         return this._fps;
     }
@@ -32,13 +33,17 @@ export class TonkatsuOpening {
 
     private _fps: Number;
     private _gameLoop: GameLoop;
+    private _field: DisplayObject;
+    private _fieldComponent: CoordinatedFieldComponent;
 
     constructor(options: TonkatsuOpeningOptions) {
 
         this._fps = options.fps;
 
         //フィールド作成
-        const {field, fieldComponent} = TonkatsuOpening.createField(options);
+        const v = TonkatsuOpening.createField(options);
+        this._field = v.field;
+        this._fieldComponent = v.fieldComponent;
 
         //ゲームループ作成
         this._gameLoop = new GameLoop({
@@ -47,12 +52,12 @@ export class TonkatsuOpening {
                 options.layers.mainLayer,
             ],
             frameRate: options.fps,
-            field: fieldComponent
+            field: this._fieldComponent
         });
 
         //キャラクターを追加したディスプレイリストを作成してゲームループに登録
-        const displayList: DisplayObject[] = [field];
-        this.createCharacters(options, fieldComponent, displayList);
+        const displayList: DisplayObject[] = [this._field];
+        this.createCharacters(options, this._fieldComponent, displayList);
         this._gameLoop.displayList = displayList;
 
     }
@@ -70,9 +75,13 @@ export class TonkatsuOpening {
             const tonChar = new DisplayObject(options.layers.mainLayer);
 
             //コンポーネントをセット
-            const coordinationComponent = TonkatsuOpening.createCoordinationComponent(i, tonChar, fieldComponent);
+            const iniX = i < 5 ? i + 1 : i + 2;
+            const iniY = 4;
+            const initialCoordination = new Point(iniX, iniY);
+            const destination = new Point(iniX, 0);
+            const coordinationComponent = TonkatsuOpening.createCoordinationComponent(initialCoordination, tonChar, fieldComponent);
             const spriteComponent = this.createSpriteComponent(i, tonChar, fieldComponent, options.imageList);
-            const jumpAnimationComponent = this.createJumpAnimationComponent(tonChar, coordinationComponent);
+            const jumpAnimationComponent = this.createJumpAnimationComponent(tonChar, coordinationComponent, destination);
             tonChar.attachComponent(coordinationComponent, spriteComponent, jumpAnimationComponent);
 
             //ディスプレイリストに追加
@@ -95,12 +104,11 @@ export class TonkatsuOpening {
     /**
      * 座標コンポーネントを作る
      */
-    private static createCoordinationComponent(i: number, tonChar: DisplayObject, fieldComponent: CoordinatedFieldComponent) {
-        const xp = i < 5 ? i + 1 : i + 2;
+    private static createCoordinationComponent(initialCoordination: Point, tonChar: DisplayObject, fieldComponent: CoordinatedFieldComponent) {
         return new CoordinationComponent(
             tonChar,
             {
-                initialCoordination: new Point(xp, 4),
+                initialCoordination: initialCoordination,
                 field: fieldComponent,
             }
         );
@@ -132,7 +140,7 @@ export class TonkatsuOpening {
     /**
      * アニメーションコンポーネントを作る
      */
-    private createJumpAnimationComponent(tonChar: DisplayObject, coordinationComponent: CoordinationComponent) {
+    private createJumpAnimationComponent(tonChar: DisplayObject, coordinationComponent: CoordinationComponent, destination: Point) {
         return new AnimationComponent(tonChar, {
             animation: new TonkatsuSpinJumpAnimation(),
             loop: false,
@@ -140,7 +148,7 @@ export class TonkatsuOpening {
                 //アニメーション再生が完了したら、少し待って MoverComponent をセット
                 this._gameLoop.addLoopTimer({
                     callback: () => {
-                        const moverComponent = new MoverComponent(tonChar, coordinationComponent);
+                        const moverComponent = new MoverComponent(tonChar, coordinationComponent, destination, false);
                         tonChar.attachComponent(moverComponent);
                     },
                     loopCount: 100
@@ -177,6 +185,10 @@ export class TonkatsuOpening {
 
     stop() {
         this._gameLoop.stop();
+    }
+
+    collapse(scrollTop: number) {
+        this._fieldComponent.collapse(scrollTop);
     }
 
 }

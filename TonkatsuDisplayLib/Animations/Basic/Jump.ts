@@ -9,7 +9,7 @@ export class JumpAnimation extends Animation {
     _vy: number = -20;
     _gravity = 1;
 
-    override animate(transform: Transform, delta: number): boolean {
+    override animate(transform: Transform): boolean {
 
         this._vy += this._gravity;
         transform.position.add(new Point(0, this._vy));

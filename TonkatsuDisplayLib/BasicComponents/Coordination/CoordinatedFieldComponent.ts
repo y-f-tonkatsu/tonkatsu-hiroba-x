@@ -27,6 +27,7 @@ export class CoordinatedFieldComponent extends Component {
     set margin(value: number) {
         this._margin = value;
     }
+
     get tiles(): number[][] {
         return this._tiles;
     }
@@ -43,6 +44,14 @@ export class CoordinatedFieldComponent extends Component {
         this._tileSize = value;
     }
 
+    get fullWidth(): number {
+        return this._tileNum.width * this._tileSize + this._margin * 2;
+    }
+
+    get fullHeight(): number {
+        return this._tileNum.height * this._tileSize + this._margin * 2;
+    }
+
     private readonly _tileNum: Size;
     private _tileSize: number;
     private _margin: number;
@@ -52,13 +61,20 @@ export class CoordinatedFieldComponent extends Component {
     private _isInitiated: boolean = false;
     private _bgImage: ImageFile;
 
+    //下から何行目まで崩壊したか
+    private _collapseLevel: number = 0;
+    //各業の崩壊の進行度 最大値は fullWidth
+    private readonly _levelCollapses: number[];
+
     constructor(options: CoordinatedFieldComponentOption) {
         super(options.parent);
         this._layer = options.layer;
         this._tileNum = options.tileNum;
+        this._levelCollapses = Array.from(Array(this._tileNum.height)).map(() => 0);
         this._tileSize = options.tileSize;
         this._margin = options.margin;
         this._bgImage = options.bgImage;
+        //固定の迷路をセット
         this._tiles =
             [
                 [9, 8, 10, 8, 10, 10, 8, 10, 10, 8, 10, 12],
@@ -75,6 +91,20 @@ export class CoordinatedFieldComponent extends Component {
 
     override update = () => {
         super.update();
+        this.updateCollapse();
+    }
+
+    /**
+     * 崩壊の進行処理
+     * @private
+     */
+    private updateCollapse() {
+        if (this._collapseLevel === 0) return;
+        const MAX_PROGRESS = this.fullWidth;
+        //現在の崩壊深度以下の改装について崩壊を進行させる
+        for (let i = this._levelCollapses.length - 1; i >= this._tileNum.height - this._collapseLevel; i--) {
+            if (this._levelCollapses[i] < MAX_PROGRESS) this._levelCollapses[i] += 5 + this._levelCollapses[i] * 0.6;
+        }
     }
 
     override render = () => {
@@ -84,9 +114,7 @@ export class CoordinatedFieldComponent extends Component {
 
         const ctx = this._layer.context;
 
-        const {_tileNum, _tileSize, _tiles, _margin} = this;
-        const fullWidth = _tileNum.width * _tileSize + _margin * 2;
-        const fullHeight = _tileNum.height * _tileSize + _margin * 2;
+        const {fullWidth, fullHeight} = this;
         ctx.clearRect(
             0,
             0,
@@ -99,6 +127,44 @@ export class CoordinatedFieldComponent extends Component {
             fullWidth,
             fullHeight
         );
+        this.renderCollapse(ctx);
+    }
+
+    /**
+     * 崩壊の描写
+     * @param ctx Canvas コンテキスト
+     * @private
+     */
+    private renderCollapse(ctx: CanvasRenderingContext2D) {
+        ctx.globalCompositeOperation = 'destination-out';
+        for (let i = 0; i < this._levelCollapses.length; i++) {
+            if (i % 2 == 1) {
+                ctx.fillRect(0, i * this._tileSize + this._margin, this._levelCollapses[i], (i + 1) * this._tileSize);
+            } else {
+                ctx.fillRect(this.fullWidth - this._levelCollapses[i], i * this._tileSize + this._margin, this._levelCollapses[i], (i + 1) * this._tileSize);
+            }
+        }
+        ctx.globalCompositeOperation = 'source-over';
+    }
+
+    /**
+     * 指定深度まで崩壊させる。
+     * 指定深度が現在の崩壊深度より浅い場合は何も起こらない。
+     * @param collapseHeight 指定深度
+     */
+    public collapse(collapseHeight: number) {
+        if (collapseHeight === 0) return;
+        const level = Math.floor(collapseHeight / this.fullHeight * this._tileNum.height) + 1;
+        this._collapseLevel = Math.max(this._collapseLevel, level);
+        this._collapseLevel = Math.min(this._collapseLevel, this._tileNum.height - 1);
+    }
+
+    /**
+     * 対象のy座標が崩壊しているなら true を返す。
+     * @param y 対象の座標
+     */
+    public isCollapsed(y: number) {
+        return y >= this._tileNum.height - this._collapseLevel;
     }
 
     public addOccupants(occupant: Coordinated) {
