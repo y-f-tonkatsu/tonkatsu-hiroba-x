@@ -8,7 +8,8 @@ import {TonImageList} from "./TonImageList";
 
 export type OpeningTheaterProps = {
     theaterRect: TheaterRect,
-    scroll: number
+    scroll: number,
+    isActive: boolean
 };
 
 /**
@@ -132,6 +133,18 @@ export const OpeningTheater: FC<OpeningTheaterProps> = (props) => {
         if (!opening || !theaterRect) return;
         opening.collapse(props.scroll);
     }, [props.scroll])
+
+    /**
+     * 上の階層の状態の変化の副作用
+     */
+    useEffect(()=>{
+        if (!opening || !theaterRect) return;
+        if(props.isActive){
+            opening.start();
+        } else {
+            opening.stop();
+        }
+    }, [props.isActive])
 
     //サイズが不確定なのでプレースホルダーを置けない
     if (!theaterRect) {

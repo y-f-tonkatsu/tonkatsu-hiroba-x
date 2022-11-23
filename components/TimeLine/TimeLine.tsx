@@ -7,13 +7,15 @@ import {CategoryID} from "../../types/Categories";
 import {NextPage} from "next";
 import {OpeningTheater, TheaterRect} from "../../pages/opening/OpeningTheater";
 import {ScreenState, useWindowSize} from "../../TonkatsuDisplayLib/Display/WindowSize";
+import {PlayerState} from "../../pages/works/[category]/[id]";
 
 //タイムラインの列の数
 export const NUM_COLS = 4;
 
 type Props = {
     works: Work[][],
-    timeLineCategory: CategoryID
+    timeLineCategory: CategoryID,
+    playerState: PlayerState
 }
 
 /**
@@ -21,7 +23,7 @@ type Props = {
  * @param works 作品データの列ごとの2重配列
  * @param timelineCategory 表示中のタイムラインのカテゴリを表す
  */
-export const TimeLine: NextPage<Props> = ({works, timeLineCategory}) => {
+export const TimeLine: NextPage<Props> = ({works, timeLineCategory, playerState}) => {
 
     const screenState: ScreenState | undefined = useWindowSize();
     const [theaterRect, setTheaterRect] = useState<TheaterRect>();
@@ -139,6 +141,7 @@ export const TimeLine: NextPage<Props> = ({works, timeLineCategory}) => {
             key="OpeningTheater"
             theaterRect={theaterRect || undefined}
             scroll={scrollTop}
+            isActive={playerState === "hide"}
         />;
 
     return (

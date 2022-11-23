@@ -18,10 +18,12 @@ type Props = {
     id: number;
     works: Work[][];
     timelineCategory: CategoryID
-}
+};
 type PageWithLayout = NextPage<Props> & {
     getLayout?: (page: ReactElement) => ReactNode
 };
+
+export type PlayerState = "show" | "hide";
 
 /**
  * 指定されたカテゴリのタイムラインを表示する
@@ -34,19 +36,21 @@ const WorksPage: PageWithLayout = ({id, works, timelineCategory}) => {
     //表示対象の Work とそのインデックスを取得
     const index = allWorks.findIndex(work => work.id === id);
     const work = allWorks[index];
+    const playerState = id !== ID_NO_CONTENTS ? "show" : "hide";
     //タイムラインを作る
     const timeLine = (
         <TimeLine
             key="TimeLine"
             works={works}
             timeLineCategory={timelineCategory}
+            playerState={playerState}
         />
     );
 
-    //ContentsPlayer を作る
+    //Head と ContentsPlayer を作る
     let player = null;
     let head = null;
-    if (work && id !== ID_NO_CONTENTS) {
+    if (work && playerState === "show") {
         const title = `${work.title} - ${AppData.title}`;
         const url = `${AppData.baseUrl}/works/${timelineCategory}/${work.id}`;
         head = (
@@ -97,16 +101,6 @@ const scripts = (
                           })(document);
                         `
             }}/>
-        <Script
-            key={"CreateJSScript"}
-            src="https://code.createjs.com/1.0.0/createjs.min.js"
-            strategy={"beforeInteractive"}
-        />
-        <Script
-            key={"HomeAnimationScript"}
-            src="/anims/animation_ex.js"
-            strategy={"beforeInteractive"}
-        />
     </div>
 );
 
