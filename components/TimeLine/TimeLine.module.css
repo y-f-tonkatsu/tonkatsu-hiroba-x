@@ -1,122 +1,121 @@
 @charset "UTF-8";
 /* コンテナ */
 .containerOuterTimeLine {
-    display: flex;
-    flex-direction: column;
-    overflow-y: scroll;
-    overflow-x: hidden;
-    height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  height: 100vh;
 }
 
 .containerTimeLine {
-    display: flex;
-    position: relative;
-    flex-wrap: wrap;
+  display: flex;
+  position: relative;
+  flex-wrap: wrap;
 }
 
 /* ヘッドライン */
 .containerHeadline {
-    width: 100%;
-    min-height: 500px;
-    display: flex;
+  width: 100%;
+  min-height: 500px;
+  display: flex;
 }
 
 /* 列 */
 .colsTimeLine {
-    min-height: 100vh;
-    width: 25%;
-    overflow: visible;
+  min-height: 100vh;
+  width: 25%;
+  overflow: visible;
 }
 
 .colsTimeLine:nth-child(1) {
-    background: #FFBF10;
+  background: #FFBF10;
 }
 
 .colsTimeLine:nth-child(2) {
-    background: #FFFF00;
+  background: #FFFF00;
 }
 
 .colsTimeLine:nth-child(3) {
-    background: #B7FF00;
+  background: #B7FF00;
 }
 
 .colsTimeLine:nth-child(4) {
-    background: #33B600;
+  background: #33B600;
 }
 
 /* セル */
 .containerCell {
-    opacity: 0.96;
-    position: relative;
-    overflow: visible;
+  opacity: 0.96;
+  position: relative;
+  overflow: visible;
 }
 
 .containerCell:hover {
-    opacity: 1;
-    animation: cellMouseOver 0.3s;
-    transform: scale(1.2) rotate(0deg);
-    z-index: 1010;
+  opacity: 1;
+  animation: cellMouseOver 0.3s;
+  transform: scale(1.2) rotate(0deg);
+  z-index: 1010;
 }
 
 @keyframes cellMouseOver {
-    0% {
-        transform: scale(1) rotate(0deg);
-    }
-    40% {
-        transform: scale(1.12) rotate(8deg);
-    }
-    80% {
-        transform: scale(1.24) rotate(-4deg);
-    }
-    100% {
-        transform: scale(1.2) rotate(0deg);
-    }
+  0% {
+    transform: scale(1) rotate(0deg);
+  }
+  40% {
+    transform: scale(1.12) rotate(8deg);
+  }
+  80% {
+    transform: scale(1.24) rotate(-4deg);
+  }
+  100% {
+    transform: scale(1.2) rotate(0deg);
+  }
 }
-
 .colsTimeLine:nth-child(1) .containerCell:hover {
-    box-shadow: 0 0 30px #FFBF10;
+  box-shadow: 0 0 30px #FFBF10;
 }
 
 .colsTimeLine:nth-child(2) .containerCell:hover {
-    box-shadow: 0 0 30px #FFFF00;
+  box-shadow: 0 0 30px #FFFF00;
 }
 
 .colsTimeLine:nth-child(3) .containerCell:hover {
-    box-shadow: 0 0 30px #B7FF00;
+  box-shadow: 0 0 30px #B7FF00;
 }
 
 .colsTimeLine:nth-child(4) .containerCell:hover {
-    box-shadow: 0 0 30px #33B600;
+  box-shadow: 0 0 30px #33B600;
 }
 
 /* オーバーレイ */
 .overlayDescription {
-    position: absolute;
-    top: 0;
-    width: 50%;
-    z-index: 1100;
-    pointer-events: none;
+  position: absolute;
+  top: 0;
+  width: 50%;
+  z-index: 1100;
+  pointer-events: none;
 }
 
 .overlayDescriptionTextBox {
-    background: rgba(30, 30, 30, 0.9);
-    margin: 2rem;
-    padding: 1rem;
-    border-radius: 1rem;
-    border: 2px solid rgba(200, 255, 250, 0.5);
-    box-shadow: 0 0 100px 10px #eefff8;
+  background: rgba(30, 30, 30, 0.9);
+  margin: 2rem;
+  padding: 1rem;
+  border-radius: 1rem;
+  border: 2px solid rgba(200, 255, 250, 0.5);
+  box-shadow: 0 0 100px 10px #eefff8;
 }
 
 .overlayDescriptionText {
-    font-size: 1.1rem;
-    color: #eec;
-    filter: drop-shadow(1px 1px 0px #a0a0ee);
+  font-size: 1.1rem;
+  color: #eec;
+  filter: drop-shadow(1px 1px 0px #a0a0ee);
 }
 
 @media (max-width: 1020px) {
-    .overlayDescription {
-        display: none;
-    }
+  .overlayDescription {
+    display: none;
+  }
 }
 
 /*# sourceMappingURL=TimeLine.module.css.map */
