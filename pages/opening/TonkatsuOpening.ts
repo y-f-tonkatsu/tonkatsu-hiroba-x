@@ -78,7 +78,8 @@ export class TonkatsuOpening {
             const iniX = i < 5 ? i + 1 : i + 2;
             const iniY = 4;
             const initialCoordination = new Point(iniX, iniY);
-            const destination = new Point(iniX, 0);
+            const destX = [3, 1, 2, 4, 5, 7, 8, 10, 9];
+            const destination = new Point(destX[i], 0);
             const coordinationComponent = TonkatsuOpening.createCoordinationComponent(initialCoordination, tonChar, fieldComponent);
             const spriteComponent = this.createSpriteComponent(i, tonChar, fieldComponent, options.imageList);
             const jumpAnimationComponent = this.createJumpAnimationComponent(tonChar, coordinationComponent, destination);
