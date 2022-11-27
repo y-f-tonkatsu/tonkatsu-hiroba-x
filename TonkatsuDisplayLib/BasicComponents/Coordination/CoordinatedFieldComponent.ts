@@ -171,6 +171,13 @@ export class CoordinatedFieldComponent extends Component {
         this._occupants.push(occupant);
     }
 
+    public existsTile(tile: Point) {
+        return tile.x > 0 &&
+            tile.x < this._tiles[0].length &&
+            tile.y > 0 &&
+            tile.y < this._tiles.length;
+    }
+
     public isOccupied(current: Point, next: Point) {
         let value = false;
         this._occupants.forEach(target => {

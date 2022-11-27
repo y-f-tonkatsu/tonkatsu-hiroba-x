@@ -94,17 +94,23 @@ export class MoverComponent extends Component {
             const trialDirection = directionList[i];
             directionList.splice(i, 1);
 
-            //壁があるかを判定
-            if ((tile & trialDirection) === 0) {
+            //仮の移動先を設定
+            const directionVector = DirectionToVector(trialDirection);
+            const next = Point.combine(current, directionVector);
+
+            //仮の移動先にタイルが存在するか、仮の移動先と現在位置の間に壁があるかを判定
+            if (this.coordination.field.existsTile(next) &&
+                (tile & trialDirection) === 0) {
                 //壁はないので他のオブジェクトとの衝突を判定
-                const directionVector = DirectionToVector(trialDirection);
-                const next = Point.combine(current, directionVector);
                 if (!this.coordination.field.isOccupied(current, next)) {
                     this._coordination.direction = directionVector;
                     break;
                 }
             }
+
+            //移動先が一つもないケース
             if (directionList.length === 0) {
+                //その場にとどまる
                 this._coordination.direction = new Point(0, 0);
                 break;
             }
