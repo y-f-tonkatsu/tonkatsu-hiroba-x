@@ -90,13 +90,14 @@ export const OpeningTheater: FC<OpeningTheaterProps> = (props) => {
                     context: mainCtx,
                     width: theaterRect.width,
                     height: theaterRect.height,
-                    refresh: true
+                    autoRefresh: true
                 }),
                 bgLayer: new CanvasLayer({
                     canvas: bgCanvasRef,
                     context: bgCtx,
                     width: theaterRect.width,
-                    height: theaterRect.height
+                    height: theaterRect.height,
+                    autoRefresh: false
                 })
             },
             fps: 24,

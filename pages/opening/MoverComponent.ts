@@ -123,7 +123,6 @@ export class MoverComponent extends Component {
      * @private
      */
     private gotoHome(current: Point) {
-        console.log(current, this._destination);
         if (current.y > this._destination.y) {
             this._coordination.direction = new Point(0, -1);
         } else if (current.y < this._destination.y) {

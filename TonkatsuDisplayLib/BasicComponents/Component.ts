@@ -10,6 +10,7 @@ import {CanvasLayer} from "../Display/CanvasLayer";
 export class Component {
     private _parent?: DisplayObject;
     private _isActive: boolean = true;
+    private _canSkipRender: boolean = false;
     private _transform?: Transform;
 
     get transform(): Transform | undefined {
@@ -26,6 +27,14 @@ export class Component {
 
     set isActive(value: boolean) {
         this._isActive = value;
+    }
+
+    get canSkipRender(): boolean {
+        return this._canSkipRender;
+    }
+
+    set canSkipRender(value: boolean) {
+        this._canSkipRender = value;
     }
 
     get parent(): DisplayObject | undefined {

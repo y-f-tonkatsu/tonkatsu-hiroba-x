@@ -84,7 +84,7 @@ export class GameLoop {
 
                 //必要なら Canvas をクリア
                 this._layers.forEach(layer => {
-                    if (layer.refresh) layer.clear();
+                    if (layer.autoRefresh) layer.clear();
                 });
 
                 //DisplayObject を更新

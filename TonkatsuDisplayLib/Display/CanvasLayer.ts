@@ -5,16 +5,16 @@ export type CanvasLayerOption = {
     context: CanvasRenderingContext2D;
     width: number;
     height: number;
-    refresh?: boolean;
+    autoRefresh?: boolean;
 }
 
 export class CanvasLayer {
-    get refresh(): boolean {
-        return this._refresh;
+    get autoRefresh(): boolean {
+        return this._autoRefresh;
     }
 
-    set refresh(value: boolean) {
-        this._refresh = value;
+    set autoRefresh(value: boolean) {
+        this._autoRefresh = value;
     }
     get height(): number {
         return this._height;
@@ -52,14 +52,14 @@ export class CanvasLayer {
     private _context: CanvasRenderingContext2D;
     private _width: number;
     private _height: number;
-    private _refresh: boolean = false;
+    private _autoRefresh: boolean = false;
 
     constructor(options: CanvasLayerOption) {
         this._canvas = options.canvas;
         this._context = options.context;
         this._width = options.width;
         this._height = options.height;
-        this._refresh = options.refresh || false;
+        this._autoRefresh = options.autoRefresh || false;
     }
 
     clear() {

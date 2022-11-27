@@ -110,7 +110,10 @@ export class CoordinatedFieldComponent extends Component {
     override render = () => {
         super.render();
 
-        this._isInitiated = true;
+        if(!this._isInitiated){
+            this._isInitiated = true;
+            this.canSkipRender = true;
+        }
 
         const ctx = this._layer.context;
 
@@ -154,9 +157,11 @@ export class CoordinatedFieldComponent extends Component {
      */
     public collapse(collapseHeight: number) {
         if (collapseHeight === 0) return;
+        if (collapseHeight <= this._collapseLevel) return;
         const level = Math.floor(collapseHeight / this.fullHeight * this._tileNum.height) + 1;
         this._collapseLevel = Math.max(this._collapseLevel, level);
         this._collapseLevel = Math.min(this._collapseLevel, this._tileNum.height - 1);
+        this.canSkipRender = false;
     }
 
     /**

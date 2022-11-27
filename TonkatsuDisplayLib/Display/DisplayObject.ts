@@ -65,12 +65,21 @@ export class DisplayObject {
         this._isActive = value;
     }
 
+    get canSkipRender(): boolean {
+        return this._canSkipRender;
+    }
+
+    set canSkipRender(value: boolean) {
+        this._canSkipRender = value;
+    }
+
     private _transform: Transform = new Transform();
     private _renderTransform: Transform = new Transform();
     private _components: Component[] = [];
     private _children: DisplayObject[] = [];
     private _parent?: DisplayObject;
     private _isActive: boolean = true;
+    private _canSkipRender: boolean = false;
     private _layer: CanvasLayer;
 
     /**
@@ -108,9 +117,9 @@ export class DisplayObject {
     };
 
     render() {
-        if (!this.isActive) return;
+        if (!this.isActive || this.canSkipRender) return;
         this._components.forEach(compo => {
-            if (!compo.isActive) return;
+            if (!compo.isActive || compo.canSkipRender) return;
             compo.render(this._layer);
         })
     };
