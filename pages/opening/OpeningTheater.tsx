@@ -137,9 +137,9 @@ export const OpeningTheater: FC<OpeningTheaterProps> = (props) => {
     /**
      * 上の階層の状態の変化の副作用
      */
-    useEffect(()=>{
+    useEffect(() => {
         if (!opening || !theaterRect) return;
-        if(props.isActive){
+        if (props.isActive) {
             opening.start();
         } else {
             opening.stop();
@@ -168,15 +168,13 @@ export const OpeningTheater: FC<OpeningTheaterProps> = (props) => {
     }
 
     return (
-        <div style={{
-            position: "sticky",
-            pointerEvents: "none",
-            width: "100%",
-            minHeight: theaterRect.height,
-            left: theaterRect.left,
-            top: theaterRect.top,
-            zIndex: 100,
-        }}>
+        <div
+            className={styles.containerCanvas}
+            style={{
+                minHeight: theaterRect.height,
+                left: theaterRect.left,
+                top: theaterRect.top,
+            }}>
             <canvas
                 key="BGCanvas"
                 ref={bgCanvasRef}

@@ -1,8 +1,10 @@
+@import "../../styles/vars.scss";
+
 .containerCanvas {
   position: sticky;
   pointer-events: none;
   width: 100%;
-  z-index: 2000;
+  z-index: $zIndex_opening_canvas;
 }
 
 .canvasLayer {
@@ -10,5 +12,3 @@
   top: 0;
   pointer-events: none;
 }
-
-/*# sourceMappingURL=CanvasLayers.module.css.map */

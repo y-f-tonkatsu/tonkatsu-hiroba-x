@@ -1,1 +1,1 @@
-{"version":3,"sourceRoot":"","sources":["CanvasLayers.module.scss"],"names":[],"mappings":"AAAA;EACE;EACA;EACA","file":"CanvasLayers.module.css"}
+{"version":3,"sourceRoot":"","sources":["CanvasLayers.module.scss","../../styles/vars.scss"],"names":[],"mappings":"AAEA;EACE;EACA;EACA;EACA,SCLsB;;;ADQxB;EACE;EACA;EACA","file":"CanvasLayers.module.css"}
