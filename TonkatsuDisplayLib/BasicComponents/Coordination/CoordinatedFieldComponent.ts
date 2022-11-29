@@ -1,4 +1,4 @@
-import {Point} from "../../Display/Point";
+import {Directions, Point} from "../../Display/Point";
 import {Size} from "../../Display/Size";
 import {DisplayObject} from "../../Display/DisplayObject";
 import {Component} from "../Component";
@@ -77,8 +77,8 @@ export class CoordinatedFieldComponent extends Component {
         //固定の迷路をセット
         this._tiles =
             [
-                [9, 8, 10, 8, 10, 10, 8, 10, 10, 8, 10, 12],
-                [5, 3, 12, 1, 12, 9, 2, 12, 9, 2, 12, 5],
+                [9, 10, 10, 8, 10, 10, 8, 10, 10, 8, 10, 12],
+                [1, 10, 12, 1, 12, 9, 2, 12, 9, 2, 12, 5],
                 [5, 9, 2, 6, 5, 3, 12, 5, 5, 9, 6, 5],
                 [5, 3, 12, 9, 2, 10, 6, 3, 4, 3, 10, 4],
                 [1, 10, 4, 5, 9, 10, 8, 8, 2, 10, 12, 5],
@@ -110,7 +110,7 @@ export class CoordinatedFieldComponent extends Component {
     override render = () => {
         super.render();
 
-        if(!this._isInitiated){
+        if (!this._isInitiated) {
             this._isInitiated = true;
             this.canSkipRender = true;
         }
@@ -130,7 +130,45 @@ export class CoordinatedFieldComponent extends Component {
             fullWidth,
             fullHeight
         );
+
+        //this.showGrid(ctx);
+
         this.renderCollapse(ctx);
+    }
+
+    /**
+     * 迷路のグリッド描画
+     * 確認用
+     * @param ctx コンテキスト
+     * @private
+     */
+    private showGrid(ctx: CanvasRenderingContext2D) {
+        ctx.strokeStyle = "white";
+        ctx.lineWidth = 10;
+        for (let x = 0; x < this._tileNum.width; x++) {
+            for (let y = 0; y < this._tileNum.height; y++) {
+                const tile = this.tiles[y][x];
+                const [left, right, top, bottom] = [x * this._tileSize, (x + 1) * this._tileSize, y * this._tileSize, (y + 1) * this._tileSize];
+                ctx.beginPath()
+                if ((tile & Directions.UP) > 0) {
+                    ctx.moveTo(left, top);
+                    ctx.lineTo(right, top);
+                }
+                if ((tile & Directions.RIGHT) > 0) {
+                    ctx.moveTo(right, top);
+                    ctx.lineTo(right, bottom);
+                }
+                if ((tile & Directions.DOWN) > 0) {
+                    ctx.moveTo(right, bottom);
+                    ctx.lineTo(left, bottom);
+                }
+                if ((tile & Directions.LEFT) > 0) {
+                    ctx.moveTo(left, bottom);
+                    ctx.lineTo(left, top);
+                }
+                ctx.stroke();
+            }
+        }
     }
 
     /**
@@ -177,9 +215,9 @@ export class CoordinatedFieldComponent extends Component {
     }
 
     public existsTile(tile: Point) {
-        return tile.x > 0 &&
+        return tile.x >= 0 &&
             tile.x < this._tiles[0].length &&
-            tile.y > 0 &&
+            tile.y >= 0 &&
             tile.y < this._tiles.length;
     }
 
@@ -188,8 +226,9 @@ export class CoordinatedFieldComponent extends Component {
         this._occupants.forEach(target => {
             const targetCurrent = target.coordination;
             const targetNext = Point.combine(target.coordination, target.direction);
-            //同じ位置への移動禁止
-            if (targetNext.equals(next)) {
+            //同じ位置への移動禁止(自分自身は除く)
+            if (targetNext.equals(next) &&
+                !current.equals(targetCurrent)) {
                 value = true;
             }
             //位置入れ替え禁止

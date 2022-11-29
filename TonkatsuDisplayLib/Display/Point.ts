@@ -10,8 +10,16 @@ export class Point {
         return new Point(a.x + b.x, a.y + b.y);
     }
 
+    static zero() {
+        return new Point(0, 0);
+    }
+
     clone() {
         return new Point(this.x, this.y);
+    }
+
+    reverse() {
+        return new Point(-this.x, -this.y);
     }
 
     isZero() {
@@ -37,7 +45,7 @@ export class Point {
     equals(target: Point) {
         return this.x === target.x && this.y === target.y;
     }
-};
+}
 
 export type DirectionBits = 0b1000 | 0b0100 | 0b0010 | 0b0001;
 
@@ -64,3 +72,17 @@ export const DirectionToVector = (direction: DirectionBits) => {
     }[direction];
 }
 
+export const VectorToDirection = (vector: Point): DirectionBits | 0 => {
+    if (vector.x > 0) {
+        return Directions.RIGHT
+    } else if (vector.x < 0) {
+        return Directions.LEFT
+    } else {
+        if (vector.y > 0) {
+            return Directions.DOWN;
+        } else if (vector.y < 0) {
+            return Directions.UP;
+        }
+    }
+    return 0;
+}

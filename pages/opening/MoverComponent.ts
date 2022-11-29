@@ -1,5 +1,5 @@
 import {DisplayObject} from "../../TonkatsuDisplayLib/Display/DisplayObject";
-import {Directions, DirectionToVector, Point} from "../../TonkatsuDisplayLib/Display/Point";
+import {Directions, DirectionToVector, Point, VectorToDirection} from "../../TonkatsuDisplayLib/Display/Point";
 import {CoordinationComponent} from "../../TonkatsuDisplayLib/BasicComponents/Coordination/CoordinationComponent";
 import {Component} from "../../TonkatsuDisplayLib/BasicComponents/Component";
 import {CanvasLayer} from "../../TonkatsuDisplayLib/Display/CanvasLayer";
@@ -26,6 +26,7 @@ export class MoverComponent extends Component {
     private readonly _isPlayer: boolean = false;
     private _mode: Modes = "mover";
     private readonly _coordination: CoordinationComponent;
+    private _prevDirection: Point = new Point(0, 0);
 
     private readonly _destination: Point;
 
@@ -69,7 +70,7 @@ export class MoverComponent extends Component {
         } else if (this.mode === "mover") {
 
             //方向設定
-            this.randomMove(tile, current);
+            this.randomMove2(tile, current);
 
             //崩壊判定
             if (this.coordination.field.isCollapsed(y)) {
@@ -115,6 +116,70 @@ export class MoverComponent extends Component {
                 break;
             }
         }
+    }
+
+    /**
+     *
+     * @param tile
+     * @param current
+     * @private
+     */
+    private randomMove2(tile: number, current: Point) {
+        const front = this._prevDirection.isZero() ? new Point(0, 1) : this._prevDirection;
+        const back = front.reverse();
+        const sideA = new Point(front.y, front.x);
+        const sideB = new Point(-front.y, -front.x);
+        const canFront = this.canMove(tile, current, front);
+        const canBack = this.canMove(tile, current, back);
+        const canSideA = this.canMove(tile, current, sideA);
+        const canSideB = this.canMove(tile, current, sideB);
+
+        console.log(current);
+        console.log({front, back, sideA, sideB});
+        console.log({canFront, canBack, canSideA, canSideB});
+        if (!canFront && !canSideA && !canSideB) {
+            if(canBack){
+                //後ろにしか移動できない
+                this.setDirection(Point.zero());
+            } else {
+                //移動先が一つもないケース
+                this.setDirection(Point.zero());
+            }
+            return;
+        }
+
+        const list = [];
+        if (canFront) {
+            list.push(front);
+            list.push(front);
+        }
+        if (canSideA) {
+            list.push(sideA);
+        }
+        if (canSideB) {
+            list.push(sideB);
+        }
+        this.setDirection(list[Math.floor(Math.random() * list.length)]);
+
+    }
+
+    private setDirection(direction: Point) {
+        this._coordination.direction = direction;
+        this._prevDirection = direction;
+    }
+
+    /**
+     * 現在地から指定した方向に移動可能か判定
+     * @param tile 現在地のタイル
+     * @param current 現在座標
+     * @param direction 方向
+     * @private
+     */
+    private canMove(tile: number, current: Point, direction: Point) {
+        const next = Point.combine(current, direction);
+        return this.coordination.field.existsTile(next) &&
+            (tile & VectorToDirection(direction)) === 0 &&
+            !this.coordination.field.isOccupied(current, next);
     }
 
     /**
