@@ -7,7 +7,7 @@ import {CoordinationComponent} from "../../TonkatsuDisplayLib/BasicComponents/Co
 import {Point} from "../../TonkatsuDisplayLib/Display/Point";
 import {SpriteComponent} from "../../TonkatsuDisplayLib/BasicComponents/Sprite/SpriteComponent";
 import {AnimationComponent} from "../../TonkatsuDisplayLib/BasicComponents/Animation/AnimationComponent";
-import {TonkatsuOpeningCanvasLayers} from "./TonkatsuOpeningCanvasLayers";
+import {TonkatsuOpeningCanvasLayers} from "../../pages/opening/TonkatsuOpeningCanvasLayers";
 import {ImageFile} from "../../TonkatsuDisplayLib/ImageLoader/ImageFile";
 import {TonkatsuSpinJumpAnimation} from "../../TonkatsuDisplayLib/Animations/Basic/SpinJump";
 

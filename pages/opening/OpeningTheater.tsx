@@ -1,10 +1,10 @@
 import React, {FC, useEffect, useRef, useState} from "react";
-import {TonkatsuOpening} from "./TonkatsuOpening";
+import {TonkatsuOpening} from "../../components/Opening/TonkatsuOpening";
 import {createImageLoader, ImageLoader} from "../../TonkatsuDisplayLib/ImageLoader/ImageLoader";
 import {CanvasLayer} from "../../TonkatsuDisplayLib/Display/CanvasLayer";
 import styles from "./CanvasLayers.module.css"
 import {ImageFile} from "../../TonkatsuDisplayLib/ImageLoader/ImageFile";
-import {TonImageList} from "./TonImageList";
+import {TonImageList} from "../../components/Opening/TonImageList";
 
 export type OpeningTheaterProps = {
     theaterRect: TheaterRect,
