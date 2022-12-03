@@ -5,6 +5,7 @@ import {CanvasLayer} from "../../TonkatsuDisplayLib/Display/CanvasLayer";
 import styles from "./CanvasLayers.module.css"
 import {ImageFile} from "../../TonkatsuDisplayLib/ImageLoader/ImageFile";
 import {TonImageList} from "../../components/Opening/TonImageList";
+import {NextPage} from "next";
 
 export type OpeningTheaterProps = {
     theaterRect: TheaterRect,
@@ -28,7 +29,7 @@ export type TheaterRect = {
  * @param props
  * @constructor
  */
-export const OpeningTheater: FC<OpeningTheaterProps> = (props) => {
+export const OpeningTheater: NextPage<OpeningTheaterProps> = (props) => {
 
     //オープニングオブジェクト
     const [opening, setOpening] = useState<TonkatsuOpening>();
