@@ -167,7 +167,7 @@ export class TonkatsuOpening {
             width: 12,
             height: 9
         }
-        const margin = 15;
+        const margin = Math.floor(options.canvasSize.width * 0.02);
         const bgImage = options.imageList.filter(file => file.id === "fieldBG")[0];
         const fieldComponent = new CoordinatedFieldComponent({
             layer: options.layers.bgLayer,
