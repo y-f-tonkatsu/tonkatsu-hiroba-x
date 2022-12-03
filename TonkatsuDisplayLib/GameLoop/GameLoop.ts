@@ -94,7 +94,7 @@ export class GameLoop {
                         obj.update();
                     }
                     //render は1回
-                    obj.render();
+                    obj.draw();
                 })
 
                 //タイマーを処理

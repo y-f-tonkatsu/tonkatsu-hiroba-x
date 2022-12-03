@@ -27,7 +27,7 @@ export class SpriteComponent extends Component {
         this.centerPosition = centerPosition || new Point(0, 0);
     }
 
-    override render(layer: CanvasLayer) {
+    override draw(layer: CanvasLayer) {
         if (!this.parent) return;
         if (!this.image) return;
 

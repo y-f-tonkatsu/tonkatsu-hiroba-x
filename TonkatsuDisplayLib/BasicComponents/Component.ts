@@ -52,7 +52,7 @@ export class Component {
     update() {
     };
 
-    render(layer?: CanvasLayer) {
+    draw(layer?: CanvasLayer) {
     };
 
 }

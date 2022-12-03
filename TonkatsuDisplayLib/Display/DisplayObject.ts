@@ -116,11 +116,11 @@ export class DisplayObject {
         })
     };
 
-    render() {
+    draw() {
         if (!this.isActive || this.canSkipRender) return;
         this._components.forEach(compo => {
             if (!compo.isActive || compo.canSkipRender) return;
-            compo.render(this._layer);
+            compo.draw(this._layer);
         })
     };
 

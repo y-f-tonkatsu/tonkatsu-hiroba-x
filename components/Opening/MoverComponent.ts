@@ -4,9 +4,6 @@ import {CoordinationComponent} from "../../TonkatsuDisplayLib/BasicComponents/Co
 import {Component} from "../../TonkatsuDisplayLib/BasicComponents/Component";
 import {CanvasLayer} from "../../TonkatsuDisplayLib/Display/CanvasLayer";
 
-export type MoverAnimationPatterns =
-    "jump";
-
 type Modes = "mover" | "gotoHome" | "home";
 
 /**
@@ -204,8 +201,8 @@ export class MoverComponent extends Component {
         super.update();
     }
 
-    override render(layer?: CanvasLayer) {
-        super.render(layer);
+    override draw(layer?: CanvasLayer) {
+        super.draw(layer);
     }
 
 }

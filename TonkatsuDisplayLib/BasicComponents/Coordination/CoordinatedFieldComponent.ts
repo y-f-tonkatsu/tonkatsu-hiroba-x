@@ -110,8 +110,8 @@ export class CoordinatedFieldComponent extends Component {
         }
     }
 
-    override render = () => {
-        super.render();
+    override draw = () => {
+        super.draw();
 
         if (!this._isInitiated) {
             this._isInitiated = true;
