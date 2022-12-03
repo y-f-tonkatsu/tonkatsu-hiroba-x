@@ -5,7 +5,7 @@ import React, {useEffect, useState} from "react";
 import DescriptionOverlay, {DescriptionOverlayProps} from "./DescriptionOverlay";
 import {CategoryID} from "../../types/Categories";
 import {NextPage} from "next";
-import {OpeningTheater, TheaterRect} from "../../pages/opening/OpeningTheater";
+import {OpeningTheater, TheaterRect} from "../Opening/OpeningTheater";
 import {ScreenState, useWindowSize} from "../../TonkatsuDisplayLib/Display/WindowSize";
 import {PlayerState} from "../../pages/works/[category]/[id]";
 import bgImage from "../../public/images/opening/bg2.jpg";

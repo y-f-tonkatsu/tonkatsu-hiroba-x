@@ -1,6 +1,6 @@
 import bgImage from "../../public/images/opening/bg2.jpg";
 import React from "react";
-import {TheaterRect} from "../../pages/opening/OpeningTheater";
+import {TheaterRect} from "../Opening/OpeningTheater";
 import {NextPage} from "next";
 import {Aphorism} from "../../Resource/Aphorism"
 import styles from "./TimeLine.module.css"
