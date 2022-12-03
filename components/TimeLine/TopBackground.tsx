@@ -24,13 +24,13 @@ export const TopBackground: NextPage<Props> = ({theaterRect, isMobile}) => {
             width: "35%",
             left: "10%",
             top: theaterRect ? theaterRect.height * 0.2 : 0,
-            fontSize: isMobile ? "0.8rem" : "1.4rem"
+            fontSize: isMobile ? "0.6rem" : "1.4rem"
         },
         {
             width: "35%",
             left: "55%",
             top: theaterRect ? theaterRect.height * 0.2 : 0,
-            fontSize: isMobile ? "0.8rem" : "1.4rem"
+            fontSize: isMobile ? "0.6rem" : "1.4rem"
         },
     ];
     if (!isMobile) layouts = layouts.concat([
@@ -38,13 +38,13 @@ export const TopBackground: NextPage<Props> = ({theaterRect, isMobile}) => {
             width: "35%",
             left: "10%",
             top: theaterRect ? theaterRect.height * 0.6 : 0,
-            fontSize: isMobile ? "0.8rem" : "1.4rem"
+            fontSize: isMobile ? "0.6rem" : "1.4rem"
         },
         {
             width: "35%",
             left: "55%",
             top: theaterRect ? theaterRect.height * 0.6 : 0,
-            fontSize: isMobile ? "0.8rem" : "1.4rem"
+            fontSize: isMobile ? "0.6rem" : "1.4rem"
         }
     ]);
 
