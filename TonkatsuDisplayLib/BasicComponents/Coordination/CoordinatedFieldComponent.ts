@@ -16,7 +16,8 @@ export type CoordinatedFieldComponentOption = {
     tileNum: Size,
     margin: number,
     tileSize: number,
-    bgImage: ImageFile
+    bgImage: ImageFile,
+    bgImageSize: Size
 }
 
 export class CoordinatedFieldComponent extends Component {
@@ -60,6 +61,7 @@ export class CoordinatedFieldComponent extends Component {
     private readonly _layer: CanvasLayer;
     private _isInitiated: boolean = false;
     private _bgImage: ImageFile;
+    private _bgImageSize: Size;
 
     //下から何行目まで崩壊したか
     private _collapseLevel: number = 0;
@@ -74,6 +76,7 @@ export class CoordinatedFieldComponent extends Component {
         this._tileSize = options.tileSize;
         this._margin = options.margin;
         this._bgImage = options.bgImage;
+        this._bgImageSize = options.bgImageSize;
         //固定の迷路をセット
         this._tiles =
             [
@@ -100,7 +103,7 @@ export class CoordinatedFieldComponent extends Component {
      */
     private updateCollapse() {
         if (this._collapseLevel === 0) return;
-        const MAX_PROGRESS = this.fullWidth;
+        const MAX_PROGRESS = this._bgImageSize.width;
         //現在の崩壊深度以下の改装について崩壊を進行させる
         for (let i = this._levelCollapses.length - 1; i >= this._tileNum.height - this._collapseLevel; i--) {
             if (this._levelCollapses[i] < MAX_PROGRESS) this._levelCollapses[i] += 5 + this._levelCollapses[i] * 0.6;
@@ -117,18 +120,17 @@ export class CoordinatedFieldComponent extends Component {
 
         const ctx = this._layer.context;
 
-        const {fullWidth, fullHeight} = this;
         ctx.clearRect(
             0,
             0,
-            fullWidth,
-            fullHeight
+            this._bgImageSize.width,
+            this._bgImageSize.height
         );
         ctx.drawImage(this._bgImage.element,
             0,
             0,
-            fullWidth,
-            fullHeight
+            this._bgImageSize.width,
+            this._bgImageSize.height
         );
 
         //this.showGrid(ctx);
@@ -182,7 +184,7 @@ export class CoordinatedFieldComponent extends Component {
             if (i % 2 == 1) {
                 ctx.fillRect(0, i * this._tileSize + this._margin, this._levelCollapses[i], (i + 1) * this._tileSize);
             } else {
-                ctx.fillRect(this.fullWidth - this._levelCollapses[i], i * this._tileSize + this._margin, this._levelCollapses[i], (i + 1) * this._tileSize);
+                ctx.fillRect(this._bgImageSize.width - this._levelCollapses[i], i * this._tileSize + this._margin, this._levelCollapses[i], (i + 1) * this._tileSize);
             }
         }
         ctx.globalCompositeOperation = 'source-over';

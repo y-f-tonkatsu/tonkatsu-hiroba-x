@@ -134,9 +134,6 @@ export class MoverComponent extends Component {
         const canSideA = this.canMove(tile, current, sideA);
         const canSideB = this.canMove(tile, current, sideB);
 
-        console.log(current);
-        console.log({front, back, sideA, sideB});
-        console.log({canFront, canBack, canSideA, canSideB});
         if (!canFront && !canSideA && !canSideB) {
             if(canBack){
                 //後ろにしか移動できない

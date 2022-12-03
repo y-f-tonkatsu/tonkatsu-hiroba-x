@@ -8,6 +8,8 @@ import {NextPage} from "next";
 import {OpeningTheater, TheaterRect} from "../../pages/opening/OpeningTheater";
 import {ScreenState, useWindowSize} from "../../TonkatsuDisplayLib/Display/WindowSize";
 import {PlayerState} from "../../pages/works/[category]/[id]";
+import bgImage from "../../public/images/opening/bg2.jpg";
+import {TopBackground} from "./TopBackground";
 
 //タイムラインの列の数
 export const NUM_COLS = 4;
@@ -131,7 +133,7 @@ export const TimeLine: NextPage<Props> = ({works, timeLineCategory, playerState}
     });
 
     //タイムラインのスクロールイベント
-    const onScroll = (e:React.UIEvent<HTMLElement>) => {
+    const onScroll = (e: React.UIEvent<HTMLElement>) => {
         setScrollTop(e.currentTarget.scrollTop)
     }
 
@@ -155,6 +157,10 @@ export const TimeLine: NextPage<Props> = ({works, timeLineCategory, playerState}
                  style={{position: "relative"}}
             >
                 {theater}
+                <TopBackground
+                    theaterRect={theaterRect || undefined}
+                    isMobile={screenState? screenState.isMobile : true}
+                />
                 {cols}
                 <DescriptionOverlay {...overlay} />
             </div>

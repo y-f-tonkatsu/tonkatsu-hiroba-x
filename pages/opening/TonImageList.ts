@@ -28,15 +28,15 @@ export const TonImageList: { id: string, path: string }[] = [
         path: "logo/th_separated/mover7.png",
     },
     {
-        id: "philosopher_normal",
-        path: "logo/philosopher/philosopher_normal_001.png",
+        id: "dogu",
+        path: "logo/philosopher/dogu.png",
     },
     {
-        id: "philosopher_shock",
-        path: "logo/philosopher/philosopher_shock_001.png",
+        id: "dogu2",
+        path: "logo/philosopher/dogu2.png",
     },
     {
         id: "fieldBG",
-        path: "opening/bg.jpg",
+        path: "opening/bg.png",
     },
 ];

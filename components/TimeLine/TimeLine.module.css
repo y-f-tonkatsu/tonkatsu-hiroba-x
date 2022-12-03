@@ -113,6 +113,18 @@
   filter: drop-shadow(1px 1px 0px #a0a0ee);
 }
 
+/* イントロ背景 */
+.aphorism {
+  position: absolute;
+  color: #fffff5;
+  background: rgba(170, 20, 60, 0.7);
+  text-align: center;
+  font-size: 1.4rem;
+  font-weight: 200;
+  font-family: corporate-logo-ver2, sans-serif;
+  padding: 0.5rem;
+}
+
 @media (max-width: 1020px) {
   .overlayDescription {
     display: none;

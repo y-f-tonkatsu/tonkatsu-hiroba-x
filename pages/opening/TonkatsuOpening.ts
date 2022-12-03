@@ -121,9 +121,9 @@ export class TonkatsuOpening {
     private createSpriteComponent(i: number, tonChar: DisplayObject, fieldComponent: CoordinatedFieldComponent, imageList: ImageFile[]) {
         let img;
         if (i === 0) {
-            img = imageList.filter(image => image.id === `philosopher_normal`)[0];
+            img = imageList.filter(image => image.id === `dogu`)[0];
         } else if (i === 8) {
-            img = imageList.filter(image => image.id === `philosopher_shock`)[0];
+            img = imageList.filter(image => image.id === `dogu2`)[0];
         } else {
             img = imageList.filter(image => image.id === `logo${i}`)[0];
         }
@@ -175,7 +175,8 @@ export class TonkatsuOpening {
             tileNum,
             margin,
             tileSize: Math.floor((options.canvasSize.width - margin * 2) / tileNum.width),
-            bgImage
+            bgImage,
+            bgImageSize: options.canvasSize
         });
         return {field, fieldComponent};
     }

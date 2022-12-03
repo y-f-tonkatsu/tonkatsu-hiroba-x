@@ -5,7 +5,6 @@ import {MainContent} from "./MainContent";
 import Head from "next/head";
 import favicon from "../../public/favicon.ico";
 import {AppData} from "../../Resource/AppData";
-import mainBG from "../../public/images/app/main_bg.jpg";
 
 /**
  * レイアウト定義
