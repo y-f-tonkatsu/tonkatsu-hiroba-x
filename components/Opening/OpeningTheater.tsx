@@ -1,4 +1,4 @@
-import React, {FC, useEffect, useRef, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import {TonkatsuOpening} from "./TonkatsuOpening";
 import {createImageLoader, ImageLoader} from "../../TonkatsuDisplayLib/ImageLoader/ImageLoader";
 import {CanvasLayer} from "../../TonkatsuDisplayLib/Display/CanvasLayer";
@@ -146,7 +146,7 @@ export const OpeningTheater: NextPage<OpeningTheaterProps> = (props) => {
         } else {
             opening.stop();
         }
-    }, [props.isActive])
+    }, [props.isActive, opening, theaterRect])
 
     //サイズが不確定なのでプレースホルダーを置けない
     if (!theaterRect) {
