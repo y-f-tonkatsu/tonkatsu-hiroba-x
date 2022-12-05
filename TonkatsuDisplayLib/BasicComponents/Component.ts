@@ -4,8 +4,11 @@ import {CanvasLayer} from "../Display/CanvasLayer";
 
 /**
  * 表示オブジェクトのコンポーネント基本クラス
- * 親の表示クラスの update, render メソッドで
- * すべてのコンポーネントの update, render が呼ばれる
+ * 親の表示クラスの update, draw メソッドで
+ * すべてのコンポーネントの update, draw が呼ばれる
+ * ※ draw メソッドは元の名前は render だったが、
+ * Vercel 上で FC と区別が付かなくなるようで
+ * ビルドエラーになるので draw にした
  */
 export class Component {
     private _parent?: DisplayObject;

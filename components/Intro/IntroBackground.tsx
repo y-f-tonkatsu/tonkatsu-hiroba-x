@@ -1,9 +1,9 @@
 import bgImage from "../../public/images/opening/bg2.jpg";
 import React from "react";
-import {TheaterRect} from "../Opening/OpeningTheater";
+import {TheaterRect} from "./IntroTheater";
 import {NextPage} from "next";
 import {Aphorism} from "../../Resource/Aphorism"
-import styles from "./TimeLine.module.css"
+import styles from "../TimeLine/TimeLine.module.css"
 
 type Props = {
     theaterRect: TheaterRect | undefined,
@@ -16,7 +16,7 @@ Aphorism.forEach(item => {
 })
 
 
-export const TopBackground: NextPage<Props> = ({theaterRect, isMobile}) => {
+export const IntroBackground: NextPage<Props> = ({theaterRect, isMobile}) => {
     if (!theaterRect) return <></>;
 
     let layouts = [

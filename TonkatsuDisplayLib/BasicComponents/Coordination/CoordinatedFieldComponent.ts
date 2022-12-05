@@ -20,6 +20,14 @@ export type CoordinatedFieldComponentOption = {
     bgImageSize: Size
 }
 
+/**
+ * 座標を持つフィールドを表すコンポーネント
+ * 座標上に存在する DisplayObject は CoordinationComponent を持ち、
+ * 各 DisplayObject の CoordinationComponent は
+ * 共通の CoordinatedFieldComponent を参照することで、
+ * 同じフィールドに共存することができ、
+ * 衝突判定などが行える
+ */
 export class CoordinatedFieldComponent extends Component {
     get margin(): number {
         return this._margin;

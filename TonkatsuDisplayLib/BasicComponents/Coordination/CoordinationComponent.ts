@@ -13,6 +13,8 @@ export type CoordinationComponentOptions = {
  * Canvas 座標系とは別の独自の座標系を持つ表示オブジェクト。
  * 座標系自体は CoordinatedFiledComponent で表現される。
  * CoordinationComponent は座標上で移動する個々のオブエジェクトがそれぞれ所有する。
+ * (共通の CoordinatedFiledComponent を参照することで、
+ * 共通にフィールドでの共存が表現される)
  * 30px * 30px のような正方形のマスからマスへ移動する。
  * マスからマスへの移動が完了するたびに
  * onMoveComplete() が呼ばれる。

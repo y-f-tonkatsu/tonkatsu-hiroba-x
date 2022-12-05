@@ -1,5 +1,5 @@
-import React, {useEffect, useRef, useState} from "react";
-import {TonkatsuOpening} from "./TonkatsuOpening";
+import React, {RefObject, useEffect, useRef, useState} from "react";
+import {TonkatsuIntro} from "./TonkatsuIntro";
 import {createImageLoader, ImageLoader} from "../../TonkatsuDisplayLib/ImageLoader/ImageLoader";
 import {CanvasLayer} from "../../TonkatsuDisplayLib/Display/CanvasLayer";
 import styles from "./CanvasLayers.module.css"
@@ -25,14 +25,13 @@ export type TheaterRect = {
 } | undefined;
 
 /**
- * とんかつひろばトップのインタラクティブムービーコンポーネント
- * @param props
+ * とんかつひろばトップのイントロムービーコンポーネント
  * @constructor
  */
-export const OpeningTheater: NextPage<OpeningTheaterProps> = (props) => {
+export const IntroTheater: NextPage<OpeningTheaterProps> = (props) => {
 
     //オープニングオブジェクト
-    const [opening, setOpening] = useState<TonkatsuOpening>();
+    const [opening, setOpening] = useState<TonkatsuIntro>();
 
     //canvas 要素への参照
     const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -84,7 +83,7 @@ export const OpeningTheater: NextPage<OpeningTheaterProps> = (props) => {
         if (!bgCtx) return;
 
         //オープニングを開始
-        setOpening(new TonkatsuOpening({
+        setOpening(new TonkatsuIntro({
             layers: {
                 mainLayer: new CanvasLayer({
                     canvas: canvasRef,
@@ -177,32 +176,45 @@ export const OpeningTheater: NextPage<OpeningTheaterProps> = (props) => {
                 left: theaterRect.left,
                 top: theaterRect.top,
             }}>
-            <canvas
-                key="BGCanvas"
-                ref={bgCanvasRef}
-                className={styles.canvasLayer}
-                style={{
-                    position: "absolute",
-                    zIndex: 1,
-                    left: theaterRect.margin
-                }}
-                width={theaterRect.width}
-                height={theaterRect.height}
-            >
-            </canvas>
-            <canvas
-                key="MainCanvas"
-                ref={canvasRef}
-                className={styles.canvasLayer}
-                style={{
-                    position: "absolute",
-                    zIndex: 2,
-                    left: theaterRect.margin
-                }}
-                width={theaterRect.width}
-                height={theaterRect.height}
-            >
-            </canvas>
+            {createCanvasLayer({
+                name: "BGCanvas",
+                ref: bgCanvasRef,
+                theaterRect: theaterRect,
+                zIndex: 1,
+            })},
+            {createCanvasLayer({
+                name: "MainCanvas",
+                ref: canvasRef,
+                theaterRect: theaterRect,
+                zIndex: 2
+            })},
         </div>
     );
+}
+
+type CanvasLayerProps = {
+    name: string,
+    zIndex: number,
+    ref: RefObject<HTMLCanvasElement>,
+    theaterRect: TheaterRect
+}
+
+/**
+ * CanvasLayer を作って返す
+ * @param props
+ */
+const createCanvasLayer = (props: CanvasLayerProps) => {
+    return <canvas
+        key={props.name}
+        ref={props.ref}
+        className={styles.canvasLayer}
+        style={{
+            position: "absolute",
+            zIndex: 1,
+            left: props.theaterRect?.margin || 0
+        }}
+        width={props.theaterRect?.width || 0}
+        height={props.theaterRect?.height || 0}
+    >
+    </canvas>
 }

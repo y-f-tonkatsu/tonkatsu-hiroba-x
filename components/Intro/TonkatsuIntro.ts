@@ -7,12 +7,12 @@ import {CoordinationComponent} from "../../TonkatsuDisplayLib/BasicComponents/Co
 import {Point} from "../../TonkatsuDisplayLib/Display/Point";
 import {SpriteComponent} from "../../TonkatsuDisplayLib/BasicComponents/Sprite/SpriteComponent";
 import {AnimationComponent} from "../../TonkatsuDisplayLib/BasicComponents/Animation/AnimationComponent";
-import {TonkatsuOpeningCanvasLayers} from "./TonkatsuOpeningCanvasLayers";
+import {TonkatsuIntroCanvasLayers} from "./TonkatsuIntroCanvasLayers";
 import {ImageFile} from "../../TonkatsuDisplayLib/ImageLoader/ImageFile";
 import {TonkatsuSpinJumpAnimation} from "../../TonkatsuDisplayLib/Animations/Basic/SpinJump";
 
 export type TonkatsuOpeningOptions = {
-    layers: TonkatsuOpeningCanvasLayers,
+    layers: TonkatsuIntroCanvasLayers,
     fps: number;
     imageList: ImageFile[];
     canvasSize: Size;
@@ -21,7 +21,7 @@ export type TonkatsuOpeningOptions = {
 /**
  * オプションからオープニングオブジェクトを作成して返す
  */
-export class TonkatsuOpening {
+export class TonkatsuIntro {
 
     get fps(): Number {
         return this._fps;
@@ -41,7 +41,7 @@ export class TonkatsuOpening {
         this._fps = options.fps;
 
         //フィールド作成
-        const v = TonkatsuOpening.createField(options);
+        const v = TonkatsuIntro.createField(options);
         this._field = v.field;
         this._fieldComponent = v.fieldComponent;
 
@@ -80,7 +80,7 @@ export class TonkatsuOpening {
             const initialCoordination = new Point(iniX, iniY);
             const destX = [3, 1, 2, 4, 5, 7, 8, 10, 9];
             const destination = new Point(destX[i], 0);
-            const coordinationComponent = TonkatsuOpening.createCoordinationComponent(initialCoordination, tonChar, fieldComponent);
+            const coordinationComponent = TonkatsuIntro.createCoordinationComponent(initialCoordination, tonChar, fieldComponent);
             const spriteComponent = this.createSpriteComponent(i, tonChar, fieldComponent, options.imageList);
             const jumpAnimationComponent = this.createJumpAnimationComponent(tonChar, coordinationComponent, destination);
             tonChar.attachComponent(coordinationComponent, spriteComponent, jumpAnimationComponent);

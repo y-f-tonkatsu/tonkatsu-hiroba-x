@@ -7,7 +7,6 @@ import worksJson from "../../../public/works/works-size-added.json";
 import React, {ReactElement, ReactNode} from "react";
 import {Layout} from "../../../components/Layouts/Layout";
 import {Categories, CategoryID, isCategory} from "../../../types/Categories";
-import Script from 'next/script'
 import Head from "next/head";
 import {AppData} from "../../../Resource/AppData";
 

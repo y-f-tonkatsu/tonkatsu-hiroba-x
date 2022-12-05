@@ -1,7 +1,7 @@
 import {Transform} from "../Display/Transform";
 
 /**
- * アニメーションを定義するオブジェクト型
+ * アニメーションを定義するオブジェクトの基本クラス
  */
 export class Animation {
     _progress: number = 0;

@@ -11,6 +11,7 @@ export type AnimationComponentOptions = {
 
 /**
  * 表示オブジェクトにアニメーションを設定するコンポーネント
+ * 対応するアニメーションの Animation オブジェクトをセットする
  */
 export class AnimationComponent extends Component {
     private _animation: Animation;

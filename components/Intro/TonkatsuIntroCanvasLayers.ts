@@ -1,6 +1,6 @@
 import {CanvasLayer} from "../../TonkatsuDisplayLib/Display/CanvasLayer";
 
-export type TonkatsuOpeningCanvasLayers = {
+export type TonkatsuIntroCanvasLayers = {
     bgLayer: CanvasLayer,
     mainLayer: CanvasLayer,
 }

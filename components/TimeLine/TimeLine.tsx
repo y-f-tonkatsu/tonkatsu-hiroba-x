@@ -5,11 +5,10 @@ import React, {useEffect, useState} from "react";
 import DescriptionOverlay, {DescriptionOverlayProps} from "./DescriptionOverlay";
 import {CategoryID} from "../../types/Categories";
 import {NextPage} from "next";
-import {OpeningTheater, TheaterRect} from "../Opening/OpeningTheater";
+import {IntroTheater, TheaterRect} from "../Intro/IntroTheater";
 import {ScreenState, useWindowSize} from "../../TonkatsuDisplayLib/Display/WindowSize";
 import {PlayerState} from "../../pages/works/[category]/[id]";
-import bgImage from "../../public/images/opening/bg2.jpg";
-import {TopBackground} from "./TopBackground";
+import {IntroBackground} from "../Intro/IntroBackground";
 
 //タイムラインの列の数
 export const NUM_COLS = 4;
@@ -19,6 +18,9 @@ type Props = {
     timeLineCategory: CategoryID,
     playerState: PlayerState
 }
+
+/** PC レイアウトの左ツールバーのサイズ */
+const LAYOUT_LEFT_MARGIN = 120;
 
 /**
  * タイムラインコンポーネント
@@ -42,7 +44,7 @@ export const TimeLine: NextPage<Props> = ({works, timeLineCategory, playerState}
         let left = 0;
         const top = 0;
         if (!screenState.isMobile) {
-            left = 120;
+            left = LAYOUT_LEFT_MARGIN;
         }
         let width = screenState.size.width - left;
         let height = width * 0.75;
@@ -139,8 +141,8 @@ export const TimeLine: NextPage<Props> = ({works, timeLineCategory, playerState}
 
     //Canvas アニメーション
     const theater =
-        <OpeningTheater
-            key="OpeningTheater"
+        <IntroTheater
+            key="IntroTheater"
             theaterRect={theaterRect || undefined}
             scroll={scrollTop}
             isActive={playerState === "hide"}
@@ -157,7 +159,7 @@ export const TimeLine: NextPage<Props> = ({works, timeLineCategory, playerState}
                  style={{position: "relative"}}
             >
                 {theater}
-                <TopBackground
+                <IntroBackground
                     theaterRect={theaterRect || undefined}
                     isMobile={screenState? screenState.isMobile : true}
                 />
