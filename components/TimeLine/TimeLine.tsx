@@ -29,38 +29,21 @@ const LAYOUT_LEFT_MARGIN = 120;
  */
 export const TimeLine: NextPage<Props> = ({works, timeLineCategory, playerState}) => {
 
+    /** ウィンドウのサイズとモバイル判定 */
     const screenState: ScreenState | undefined = useWindowSize();
+    /** イントロ用シアターのサイズ */
     const [theaterRect, setTheaterRect] = useState<TheaterRect>();
+    /** スクロール位置 */
     const [scrollTop, setScrollTop] = useState<number>(0)
 
     /**
      * ウインドウサイズ変更の副作用
      */
     useEffect(() => {
-
+        //スクリーンサイズを取得できていない場合はスキップ
         if (!screenState) return;
-
         //シアターサイズを決定
-        let left = 0;
-        const top = 0;
-        if (!screenState.isMobile) {
-            left = LAYOUT_LEFT_MARGIN;
-        }
-        let width = screenState.size.width - left;
-        let height = width * 0.75;
-        if (height > (screenState.size.height * 0.8)) {
-            height = Math.floor(screenState.size.height * 0.8);
-            width = Math.floor(height / 3 * 4);
-        }
-        const margin = (screenState.size.width - width - left) * 0.5;
-        setTheaterRect({
-            left,
-            top,
-            width,
-            height,
-            margin
-        })
-
+        setTheaterRect(calcTheaterRect(screenState))
     }, [screenState]);
 
     /**
@@ -102,9 +85,8 @@ export const TimeLine: NextPage<Props> = ({works, timeLineCategory, playerState}
 
     /**
      * セルのマウスアウトのハンドラ
-     * @param e イベントオブジェクト
      */
-    const onCellMouseOut = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    const onCellMouseOut = () => {
         //オーバーレイの state を更新して非表示にする
         setOverlay({
             description: "",
@@ -161,7 +143,7 @@ export const TimeLine: NextPage<Props> = ({works, timeLineCategory, playerState}
                 {theater}
                 <IntroBackground
                     theaterRect={theaterRect || undefined}
-                    isMobile={screenState? screenState.isMobile : true}
+                    isMobile={screenState ? screenState.isMobile : true}
                 />
                 {cols}
                 <DescriptionOverlay {...overlay} />
@@ -169,4 +151,25 @@ export const TimeLine: NextPage<Props> = ({works, timeLineCategory, playerState}
         </div>
     );
 
+}
+
+/**
+ * ScreenState (ウィンドウサイズ) から
+ * TheaterRect (イントロのシアターのサイズ)の値を計算して返す
+ * @param screenState
+ */
+function calcTheaterRect(screenState: ScreenState): TheaterRect {
+    let left = 0;
+    const top = 0;
+    if (!screenState.isMobile) {
+        left = LAYOUT_LEFT_MARGIN;
+    }
+    let width = screenState.size.width - left;
+    let height = width * 0.75;
+    if (height > (screenState.size.height * 0.8)) {
+        height = Math.floor(screenState.size.height * 0.8);
+        width = Math.floor(height / 3 * 4);
+    }
+    const margin = (screenState.size.width - width - left) * 0.5;
+    return {left, top, width, height, margin};
 }
