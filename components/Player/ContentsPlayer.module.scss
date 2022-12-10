@@ -174,13 +174,13 @@ $marginS: 0.3rem;
 }
 
 .btnPlayerNext {
-  position: absolute;
+  position: fixed;
   top: calc(50vh - #{$btnSizeM});
-  left: calc(100% - #{$btnSizeM + $marginM});
+  left: calc(75% - #{$btnSizeM + $marginM});
 }
 
 .btnPlayerPrev {
-  position: absolute;
+  position: fixed;
   top: calc(50vh - #{$btnSizeM});
   left: $marginM;
 }

@@ -154,13 +154,13 @@
 }
 
 .btnPlayerNext {
-  position: absolute;
+  position: fixed;
   top: calc(50vh - 4rem);
-  left: calc(100% - 4.5rem);
+  left: calc(75% - 4.5rem);
 }
 
 .btnPlayerPrev {
-  position: absolute;
+  position: fixed;
   top: calc(50vh - 4rem);
   left: 0.5rem;
 }
