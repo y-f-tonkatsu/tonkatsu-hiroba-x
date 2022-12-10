@@ -108,10 +108,10 @@ const scripts = (
  */
 const createPlayer = (allWorks: Work[], work: Work, index: number, timelineCategory: CategoryID) => {
     let next, prev;
-    let prevWork = allWorks[index - 1];
-    let nextWork = allWorks[index + 1];
-    prev = index > 0 ? `/works/${timelineCategory}/${prevWork.id}` : null;
-    next = index < allWorks.length - 1 ? `/works/${timelineCategory}/${nextWork.id}` : null;
+    let prevWorks = [allWorks[index + 1], allWorks[index + 2]];
+    let nextWorks = [allWorks[index - 1], allWorks[index - 2]];
+    next = index > 0 ? `/works/${timelineCategory}/${nextWorks[0].id}` : null;
+    prev = index < allWorks.length - 1 ? `/works/${timelineCategory}/${prevWorks[0].id}` : null;
     const links = {
         list: `/works/${timelineCategory}/${ID_NO_CONTENTS}`,
         prev: prev,
@@ -122,8 +122,8 @@ const createPlayer = (allWorks: Work[], work: Work, index: number, timelineCateg
             key="ContentsPlayer"
             work={work}
             links={links}
-            prevWork={prevWork}
-            nextWork={nextWork}/>
+            prevWorks={prevWorks}
+            nextWorks={nextWorks}/>
     );
 };
 

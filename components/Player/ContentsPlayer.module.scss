@@ -48,12 +48,11 @@ $marginS: 0.3rem;
 /* コンテント */
 
 .contentController {
+  position: relative;
+  width: 100%;
+  height: 0;
   display: flex;
-  flex-direction: column;
-  width: #{$btnSizeM + $marginM * 2};
-  height: 100%;
-  flex-grow: 0;
-  text-align: center;
+  justify-content: space-between;
 }
 
 .contentMain {
@@ -79,7 +78,7 @@ $marginS: 0.3rem;
 
 /* タイトル */
 
-.mainTitle{
+.mainTitle {
   font-size: 2.4rem;
   color: #fff3ae;
   filter: drop-shadow(0px 0px 2px #aaaaff);
@@ -87,7 +86,7 @@ $marginS: 0.3rem;
 }
 
 @media (max-width: #{$media_s}px) {
-  .mainTitle{
+  .mainTitle {
     font-size: 1.2rem;
     margin: $marginS;
   }
@@ -176,17 +175,23 @@ $marginS: 0.3rem;
 
 .btnPlayerNext {
   position: absolute;
-  top: 40%;
-  left: $marginM;
+  top: calc(50vh - #{$btnSizeM});
+  left: calc(100% - #{$btnSizeM + $marginM});
 }
 
 .btnPlayerPrev {
   position: absolute;
-  bottom: 40%;
+  top: calc(50vh - #{$btnSizeM});
   left: $marginM;
 }
 
 @media (max-width: #{$media_s}px) {
+  .contentController{
+    display: flex;
+    justify-content: space-between;
+    padding: $marginS 30%;
+  }
+
   .btnPlayer {
     width: $btnSizeS;
     height: $btnSizeS;
@@ -194,16 +199,12 @@ $marginS: 0.3rem;
 
   .btnPlayerPrev {
     position: static;
-    margin-left: $marginS;
-    margin-right: $marginS;
-    margin-top: $marginS;
+    display: inline-block;
   }
 
   .btnPlayerNext {
     position: static;
-    margin-left: $marginS;
-    margin-right: $marginS;
-    margin-top: $marginS;
+    display: inline-block;
   }
 
 }

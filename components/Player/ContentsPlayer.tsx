@@ -15,14 +15,14 @@ type Links = {
 
 type Props = {
     work: Work;
-    prevWork: Work;
-    nextWork: Work;
+    prevWorks: Work[];
+    nextWorks: Work[];
     links: Links;
 }
 
 export type TransitAnimation = {
     to: Work,
-    direction: "up" | "down";
+    direction: "next" | "prev";
     onAnimationCompleteListener: () => void;
     status: "play" | "stop";
 }
@@ -32,7 +32,7 @@ export type TransitAnimation = {
  * @param work 表示するコンテンツ
  * @param links TLに戻る、PREV/NEXT の各 URL
  */
-const ContentsPlayer: FC<Props> = ({work, links, prevWork, nextWork}) => {
+const ContentsPlayer: FC<Props> = ({work, links, prevWorks, nextWorks}) => {
 
     const router = useRouter();
 
@@ -44,7 +44,7 @@ const ContentsPlayer: FC<Props> = ({work, links, prevWork, nextWork}) => {
     //ボタン設定
     let prevButton, nextButton;
     //Prev/Nextボタン
-    let onPrevNextButtonClicked = async (work: Work, direction: "up" | "down", link: string | null) => {
+    let onPrevNextButtonClicked = async (work: Work, direction: "next" | "prev", link: string | null) => {
         if (link === null) return;
         if (transitAnimation !== null) return;
         setTransitAnimation({
@@ -68,17 +68,19 @@ const ContentsPlayer: FC<Props> = ({work, links, prevWork, nextWork}) => {
     //トランジションアニメ再生中は表示しない
     if (!transitAnimation) {
         //リンク設定が null なら表示しない
-        if (links.prev !== null) {
-            prevButton =
-                <PrevButton key="PrevButton" onClickListener={async () => {
-                    await onPrevNextButtonClicked(prevWork, "down", links.prev)
-                }}/>;
-        }
+        prevButton =
+            <PrevButton key="PrevButton"
+                        visible={links.prev !== null}
+                        onClickListener={async () => {
+                            await onPrevNextButtonClicked(prevWorks[0], "prev", links.prev)
+                        }}/>;
         //リンク設定が null なら表示しない
         if (links.next !== null && !transitAnimation) {
             nextButton =
-                <NextButton key="NextButton" onClickListener={async () => {
-                    await onPrevNextButtonClicked(nextWork, "up", links.next)
+                <NextButton key="NextButton"
+                            visible={links.next !== null}
+                            onClickListener={async () => {
+                    await onPrevNextButtonClicked(nextWorks[0], "next", links.next)
                 }}/>;
         }
     }
@@ -96,12 +98,13 @@ const ContentsPlayer: FC<Props> = ({work, links, prevWork, nextWork}) => {
     //コントローラー
     const controllerContent = (
         <div key="controllerContent" className={styles.contentController}>
-            {[nextButton, prevButton]}
+            {[prevButton, nextButton]}
         </div>
     )
     //メイン
     const mainContent = (
         <div key="mainContent" className={`${styles.contentMain}`}>
+            {controllerContent}
             <Contents work={currentWork} transitAnimation={transitAnimation}/>
         </div>
     );
@@ -119,13 +122,23 @@ const ContentsPlayer: FC<Props> = ({work, links, prevWork, nextWork}) => {
         <div key="mainContainer" className={`${styles.containerMain}`}
              style={{overflowY: transitAnimation ? "hidden" : "auto"}}
         >
-            {[controllerContent, mainContent, sideContent]}
+            {[mainContent, sideContent]}
         </div>
     );
 
+    //前後画像のプリロード
+    const preloads = [...nextWorks, ...prevWorks].filter(work => work).map(work => {
+        return <link
+            key={`preload_${work.id}`}
+            rel="preload"
+            as="image"
+            href={work.path}
+        />
+    })
+
     return (
-        <div className={styles.containerPlayer}>
-            {[headerContainer, mainContainer]}
+        <div key="ContainerPlayer" className={styles.containerPlayer}>
+            {[headerContainer, mainContainer, preloads]}
         </div>
     );
 }

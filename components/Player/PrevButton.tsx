@@ -9,12 +9,17 @@ import {FC} from "react";
  */
 
 type Props = {
-    onClickListener: () => void
+    onClickListener: () => void,
+    visible: boolean
 }
 
-const PrevButton: FC<Props> = ({onClickListener}) => {
+const PrevButton: FC<Props> = ({onClickListener, visible}) => {
     return (
-        <a onClick={onClickListener}>
+        <a onClick={onClickListener}
+           style={{
+               visibility: visible ? "visible" : "hidden"
+           }}
+        >
             <img src={btnPrev.src} className={`${styles.btnPlayer} ${styles.btnPlayerPrev}`}
                  alt="前"/>
         </a>

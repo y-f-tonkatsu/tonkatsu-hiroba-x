@@ -3,7 +3,6 @@ import styles from "./ContentsPlayer.module.scss";
 import {motion} from "framer-motion";
 import {TransitAnimation} from "./ContentsPlayer";
 import {FC} from "react";
-import {CategoryID} from "../../types/Categories";
 
 type Props = {
     work: Work;
@@ -21,7 +20,7 @@ const Contents: FC<Props> = ({work, transitAnimation}) => {
     let klass = getKlass(work.category);
 
     if (transitAnimation == null || transitAnimation.status === "stop") {
-        if(transitAnimation) work = transitAnimation.to;
+        if (transitAnimation) work = transitAnimation.to;
         return (
             <img key={`${work.path}`}
                  className={klass}
@@ -35,17 +34,15 @@ const Contents: FC<Props> = ({work, transitAnimation}) => {
         const newWork = transitAnimation.to;
         const newKlass = getKlass(newWork.category);
 
-        let anim = {};
-        let newAnim = {};
-        let newStyle = {};
-        if (transitAnimation.direction == "down") {
-            anim = {scale: 0, marginTop: "-100%"}
-            newAnim = {opacity: 1, marginTop: "0%"}
-            newStyle = {opacity: 0, marginTop: "100%"}
+        let anim;
+        let newAnim = {opacity: 1, marginLeft: "0%"};
+        let newStyle;
+        if (transitAnimation.direction == "prev") {
+            anim = {scale: 0, marginLeft: "-100%"}
+            newStyle = {opacity: 0, marginLeft: "100%"}
         } else {
-            anim = {scale: 0, marginTop: "100%"}
-            newAnim = {opacity: 1, marginTop: "0%"}
-            newStyle = {opacity: 0, marginTop: "-100%"}
+            anim = {scale: 0, marginLeft: "100%"}
+            newStyle = {opacity: 0, marginLeft: "-100%"}
         }
 
         newImage = (
@@ -70,25 +67,20 @@ const Contents: FC<Props> = ({work, transitAnimation}) => {
                 onAnimationComplete={transitAnimation.onAnimationCompleteListener}
                 key={`${work.path}`}
                 className={klass}
+                style={{
+                    position: "absolute"
+                }}
                 width={work.width}
                 height={work.height}
                 src={`${work.path}`}
                 alt={work.title}
             />
         );
-        if (transitAnimation.direction == "down") {
-            return (
-                <>
-                    {[image, newImage]}
-                </>
-            );
-        } else {
-            return (
-                <>
-                    {[newImage, image]}
-                </>
-            );
-        }
+        return (
+            <>
+                {[image, newImage]}
+            </>
+        );
     }
 
 }
