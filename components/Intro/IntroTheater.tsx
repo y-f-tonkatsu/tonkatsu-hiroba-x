@@ -181,13 +181,13 @@ export const IntroTheater: NextPage<OpeningTheaterProps> = (props) => {
                 ref: bgCanvasRef,
                 theaterRect: theaterRect,
                 zIndex: 1,
-            })},
+            })}
             {createCanvasLayer({
                 name: "MainCanvas",
                 ref: canvasRef,
                 theaterRect: theaterRect,
                 zIndex: 2
-            })},
+            })}
         </div>
     );
 }
