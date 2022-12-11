@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>TSnake - とんかつひろば</title>
+    <meta name="description" content="古典的スネークゲームをアレンジしたシンプルなゲームです">
+
+    <link rel="icon" href="favicon.ico">
+
+    <!-- css reset -->
+    <link rel="stylesheet" href="http://yui.yahooapis.com/3.18.1/build/cssreset/cssreset-min.css">
+    <!-- css main -->
+    <link rel="stylesheet" href="styles/style.css">
+    <!-- awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
+          integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+
+    <!--
+    <meta property="og:title" content="<%= og_title %>">
+    <meta property="og:description" content="<%= og_description %>">
+    <meta property="og:type" content="game">
+    <meta property="og:url" content="<%= og_url %>">
+    <meta property="og:image" content="<%= og_thumb %>">
+    <meta property="og:site_name" content="YFT Games">
+    <meta property="fb:admins" content="100001501165698">
+    <meta property="fb:app_id" content="2053222231399593">
+    <link rel="index" href="<%= og_url %>">
+    -->
+
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="version" content="1.0">
+
+    <script
+            src="https://code.jquery.com/jquery-2.2.4.min.js"
+            integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.4/lodash.js"></script>
+    <script src="https://code.createjs.com/createjs-2015.11.26.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/9.6.7/firebase-compat.min.js"></script>
+
+    <script src="scripts_dest/bundle-min.js"></script>
+
+</head>
+
+<body data-base-url="">
+
+<div id="bg--high-score" class="popups">
+
+</div>
+
+<div id="popup--loader" class="popups">
+    <h1 id="title--loader">LOADING..</h1>
+    <div id="popup--loader__button--go" class="buttons">▷</div>
+</div>
+
+<div id="popup--author" class="popups">
+    <img class="img--author" src="images/author.jpg">
+    <h1 id="title--author">山田.F.とんかつ</h1>
+    <div id="desc--author">
+        <a target="_blank" href="http://twitter.com/TonkatsuHiroba/">http://twitter.com/TonkatsuHiroba/</a><br>
+        パリ近郊の都市・内灘出身の普通の人間。1st アルバム「ティッシュケースカバー」は7週連続で脳内チャート1位を獲得した。頭上の星、内なる道徳律、目前のカレー。<br>
+        <img class="img--experimental" src="images/experimentals.jpg">
+    </div>
+</div>
+
+<div id="popup--high-score" class="popups">
+    <h1 id="title--high-score">RANKING</h1>
+    <div id="wrapper--score"></div>
+</div>
+
+<div id="popup--input-high-score" class="popups">
+    <h1 id="title--input-high-score">RANK IN!</h1>
+    <div id="popup--high-score__text--score">SCORE:</div>
+    <div id="popup--input-high-score__label--player">Name</div>
+    <input id="popup--input-high-score__input--player" type="text" name="player" maxlength="8">
+    <div id="popup--input-high-score__button--submit" class="buttons" type="submit">Submit</div>
+</div>
+
+
+<div id="wrapper--canvas">
+    <img class="canvas--game" id="canvas--bg" src="images/map.png">
+    <canvas class="canvas--game" id="canvas--main" width="780" height="780"></canvas>
+</div>
+
+<div id="controller">
+    <div id="controller__button--left" class="button button--parent"><i class="fas fa-caret-left"></i></div>
+    <div id="controller__button--vertical" class="button--parent">
+        <div id="controller__button--up" class="button"><i class="fas fa-caret-up"></i></div>
+        <div id="controller__button--down" class="button"><i class="fas fa-caret-down"></i></div>
+    </div>
+    <div id="controller__button--right" class="button button--parent"><i class="fas fa-caret-right"></i></div>
+</div>
+
+
+</body>
+
+</html>

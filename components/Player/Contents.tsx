@@ -21,7 +21,7 @@ const Contents: FC<Props> = ({work, transitAnimation}) => {
 
     if (transitAnimation == null || transitAnimation.status === "stop") {
         if (transitAnimation) work = transitAnimation.to;
-        return (
+        const img = (
             <img key={`${work.path}`}
                  className={klass}
                  width={work.width}
@@ -30,6 +30,11 @@ const Contents: FC<Props> = ({work, transitAnimation}) => {
                  alt={work.title}
             />
         );
+        if (work.link) {
+            return <a href={work.link}>{img}</a>
+        } else {
+            return img;
+        }
     } else {
         const newWork = transitAnimation.to;
         const newKlass = getKlass(newWork.category);
@@ -58,7 +63,9 @@ const Contents: FC<Props> = ({work, transitAnimation}) => {
                 alt={newWork.title}
             />
         );
-
+        if (work.link) {
+            newImage = <a href={work.link} key={`${newWork.path}`}>{newImage}</a>
+        }
 
         image = (
             <motion.img

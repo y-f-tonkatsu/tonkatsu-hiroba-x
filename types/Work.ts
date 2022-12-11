@@ -10,5 +10,6 @@ export type Work = {
     height: number
     thumbWidth: number,
     thumbHeight: number,
-    category: string
+    category: string,
+    link?: string
 }

@@ -23,6 +23,10 @@ export const NavBar = () => {
             label: "マンガ",
             link: "/works/manga/0"
         },
+        {
+            label: "ゲーム",
+            link: "/works/game/0"
+        },
     ]
 
     return (
