@@ -30,7 +30,7 @@ $marginS: 0.3rem;
   flex-direction: row;
   width: 100%;
   height: calc(100% - #{$btnSizeM + $marginM * 2});
-  overflow-y: auto;
+  overflow-y: scroll;
 }
 
 @media (max-width: #{$media_s}px) {
@@ -59,7 +59,7 @@ $marginS: 0.3rem;
   width: 48%;
   flex-grow: 1;
   text-align: center;
-  max-height: 90%;
+  max-height: 100%;
 }
 
 .contentSide {
@@ -95,23 +95,26 @@ $marginS: 0.3rem;
 
 /* メイン */
 
+.contentCarousel {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  overflow-x: visible;
+}
+
 .imageMain {
   width: auto;
   height: auto;
   max-width: 100%;
   max-height: 100%;
+  padding: 1rem 5rem;
 }
 
 .imageManga {
   width: auto;
   height: auto;
   max-width: 90%;
-}
-
-.imageNew {
-  top: #{$btnSizeM + $marginM * 2};
-  left: 0;
-  opacity: 0;
+  padding: 1rem 5rem;
 }
 
 @media (max-width: #{$media_s}px) {
@@ -186,7 +189,7 @@ $marginS: 0.3rem;
 }
 
 @media (max-width: #{$media_s}px) {
-  .contentController{
+  .contentController {
     display: flex;
     justify-content: space-between;
     padding: $marginS 30%;

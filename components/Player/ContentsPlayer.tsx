@@ -31,6 +31,8 @@ export type TransitAnimation = {
  * コンテンツ単体表示コンポーネント
  * @param work 表示するコンテンツ
  * @param links TLに戻る、PREV/NEXT の各 URL
+ * @param prevWorks プリロード対象のコンテンツ
+ * @param nextWorks プリロード対象のコンテンツ
  */
 const ContentsPlayer: FC<Props> = ({work, links, prevWorks, nextWorks}) => {
 
@@ -65,24 +67,21 @@ const ContentsPlayer: FC<Props> = ({work, links, prevWorks, nextWorks}) => {
             status: "play",
         });
     };
-    //トランジションアニメ再生中は表示しない
-    if (!transitAnimation) {
-        //リンク設定が null なら表示しない
+    if (links.prev !== null && !transitAnimation) {
+        //トランジションアニメ再生中かリンク設定が null なら表示しない
         prevButton =
             <PrevButton key="PrevButton"
-                        visible={links.prev !== null}
                         onClickListener={async () => {
                             await onPrevNextButtonClicked(prevWorks[0], "prev", links.prev)
                         }}/>;
-        //リンク設定が null なら表示しない
-        if (links.next !== null && !transitAnimation) {
-            nextButton =
-                <NextButton key="NextButton"
-                            visible={links.next !== null}
-                            onClickListener={async () => {
-                    await onPrevNextButtonClicked(nextWorks[0], "next", links.next)
-                }}/>;
-        }
+    }
+    if (links.next !== null && !transitAnimation) {
+        //トランジションアニメ再生中かリンク設定が null なら表示しない
+        nextButton =
+            <NextButton key="NextButton"
+                        onClickListener={async () => {
+                            await onPrevNextButtonClicked(nextWorks[0], "next", links.next)
+                        }}/>;
     }
     //戻るボタン
     let backButton = <BackButton key="BackButton" href={links.list}/>;
@@ -120,7 +119,6 @@ const ContentsPlayer: FC<Props> = ({work, links, prevWorks, nextWorks}) => {
     //コンテナ
     const mainContainer = (
         <div key="mainContainer" className={`${styles.containerMain}`}
-             style={{overflowY: transitAnimation ? "hidden" : "auto"}}
         >
             {[mainContent, sideContent]}
         </div>

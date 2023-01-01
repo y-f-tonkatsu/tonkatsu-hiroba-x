@@ -3,25 +3,59 @@ import styles from "./ContentsPlayer.module.scss";
 import {motion} from "framer-motion";
 import {TransitAnimation} from "./ContentsPlayer";
 import {FC} from "react";
+import AnimationWorkContent from "./AnimationWorkContent";
 
 type Props = {
     work: Work;
     transitAnimation: TransitAnimation | null;
 }
 
+const containerStyle = {
+    minWidth: "100%",
+    maxWidth: "100%",
+}
+
 /**
  * コンテンツのカテゴリに応じたコンポーネントを作って返す
- * @param work コンテンツ
  */
 const Contents: FC<Props> = ({work, transitAnimation}) => {
 
-    let image = null;
-    let newImage = null;
-    let klass = getKlass(work.category);
-
+    let content;
     if (transitAnimation == null || transitAnimation.status === "stop") {
+        //遷移アニメーションなしの場合
+        //遷移してこの状態になった場合は TransitAnimation オブジェクトが表示すべき Work を持っている
+        //そうでない場合は work にそのまま入っている
         if (transitAnimation) work = transitAnimation.to;
-        const img = (
+        content = getNoTransitionContent(work);
+    } else {
+        content = getTransitionContent(work, transitAnimation);
+    }
+
+    return (
+        <div
+            key={"contentCarousel"}
+            className={styles.contentCarousel}
+        >
+            {content}
+        </div>
+
+    )
+}
+
+/**
+ * Work オブジェクトからコンテンツのJSXを作って返す。
+ * 遷移アニメーションがない場合。
+ * @param work Work オブジェクト
+ */
+function getNoTransitionContent(work: Work) {
+    let content;
+    const klass = getKlass(work.category);
+    if (work.category === "animation") {
+        content = <AnimationWorkContent
+            work={work}
+        />
+    } else {
+        content = (
             <img key={`${work.path}`}
                  className={klass}
                  width={work.width}
@@ -31,67 +65,139 @@ const Contents: FC<Props> = ({work, transitAnimation}) => {
             />
         );
         if (work.link) {
-            return <a href={work.link}>{img}</a>
-        } else {
-            return img;
+            content = <a href={work.link}>{content}</a>
         }
+    }
+
+    content = (
+        <div
+            key={"newContentContainer_" + work.id}
+            style={{
+                ...containerStyle,
+                marginLeft: "0",
+                opacity: 1,
+            }}
+        >
+            {content}
+        </div>
+    );
+
+    return content;
+
+}
+
+/**
+ * Work オブジェクトからコンテンツのJSXを作って返す。
+ * 遷移アニメーションがある場合。
+ * @param work Work オブジェクト
+ * @param transitAnimation アニメーションオブエジェクト
+ */
+function getTransitionContent(work: Work, transitAnimation: TransitAnimation) {
+
+    let oldContent;
+    let newContent;
+
+    //work が遷移前に表示される Work
+    //transitAnimation.to が遷移後に表示される Work(newWork)
+    const newWork = transitAnimation.to;
+    const newKlass = getKlass(newWork.category);
+
+    //アニメーションの設定
+    const duration = 0.5;
+
+    //入ってくる方の要素を作る
+    if (newWork.category === "animation") {
+        //アニメ作品の場合
+        newContent = (
+            <AnimationWorkContent
+                work={newWork}
+            />
+        );
     } else {
-        const newWork = transitAnimation.to;
-        const newKlass = getKlass(newWork.category);
-
-        let anim;
-        let newAnim = {opacity: 1, marginLeft: "0%"};
-        let newStyle;
-        if (transitAnimation.direction == "prev") {
-            anim = {scale: 0, marginLeft: "-100%"}
-            newStyle = {opacity: 0, marginLeft: "100%"}
-        } else {
-            anim = {scale: 0, marginLeft: "100%"}
-            newStyle = {opacity: 0, marginLeft: "-100%"}
-        }
-
-        newImage = (
-            <motion.img
-                animate={newAnim}
-                transition={{duration: 0.5}}
-                key={`${newWork.path}`}
-                className={`${newKlass} ${styles.imageNew}`}
-                style={newStyle}
+        newContent = (
+            <img
+                className={`${newKlass}`}
                 width={newWork.width}
                 height={newWork.height}
                 src={`${newWork.path}`}
                 alt={newWork.title}
             />
         );
+        //ゲームなどリンクが設定されている場合は <a> タグで囲む
         if (work.link) {
-            newImage = <a href={work.link} key={`${newWork.path}`}>{newImage}</a>
+            newContent = <a href={work.link} key={`${newWork.path}`}>{newContent}</a>
         }
+    }
+    const newContainer = (
+        <motion.div
+            key={"newContentContainer_" + newWork.id}
+            style={{
+                ...containerStyle,
+                opacity: 0,
+                marginLeft: transitAnimation.direction === "next" ? "-100%" : 0,
+            }}
+            animate={{
+                opacity: 1,
+                marginLeft: 0,
+            }}
+            transition={{
+                duration
+            }}
+            onAnimationComplete={transitAnimation.onAnimationCompleteListener}
+        >
+            {newContent}
+        </motion.div>
+    )
 
-        image = (
-            <motion.img
-                animate={anim}
-                transition={{duration: 0.5}}
-                onAnimationComplete={transitAnimation.onAnimationCompleteListener}
-                key={`${work.path}`}
+
+    //消える方の要素を作る
+    if (work.category === "animation") {
+        oldContent = <AnimationWorkContent
+            work={work}
+        />
+    } else {
+        const klass = getKlass(work.category);
+        oldContent = (
+            <img
                 className={klass}
-                style={{
-                    position: "absolute"
-                }}
                 width={work.width}
                 height={work.height}
                 src={`${work.path}`}
                 alt={work.title}
             />
         );
-        return (
-            <>
-                {[image, newImage]}
-            </>
-        );
     }
+    const oldContainer = (
+        <motion.div
+            key={"oldContentContainer_" + work.id}
+            style={{
+                ...containerStyle,
+                marginLeft: "0",
+                opacity: 1,
+            }}
+            animate={{
+                marginLeft: transitAnimation.direction === "prev" ? "-100%" : "100%",
+                opacity: 0,
+            }}
+            transition={{
+                duration
+            }}
+        >
+            {oldContent}
+        </motion.div>
+    )
 
+    if (transitAnimation.direction === "prev") {
+        return [oldContainer, newContainer];
+    } else {
+        return [newContainer, oldContainer];
+    }
 }
 
+/**
+ * カテゴリに応じてコンテナに付与すべき CSS クラスを返す
+ * @param category カテゴリ
+ */
 const getKlass = function (category: string): string {
     if (category === "manga") {
         return styles.imageManga;

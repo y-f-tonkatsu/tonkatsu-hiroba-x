@@ -6,7 +6,7 @@ import {LoopTimer} from "./LoopTimer";
 export type GameLoopOptions = {
     layers: CanvasLayer[];
     frameRate: number;
-    field: CoordinatedFieldComponent;
+    field?: CoordinatedFieldComponent;
 }
 
 

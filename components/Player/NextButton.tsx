@@ -10,16 +10,11 @@ import {FC} from "react";
 
 type Props = {
     onClickListener: () => void,
-    visible: boolean
 }
 
-const NextButton: FC<Props> = ({onClickListener, visible}) => {
+const NextButton: FC<Props> = ({onClickListener}) => {
     return (
-        <a onClick={onClickListener}
-           style={{
-               visibility: visible ? "visible" : "hidden"
-           }}
-        >
+        <a onClick={onClickListener}>
             <img src={btnNext.src} className={`${styles.btnPlayer} ${styles.btnPlayerNext}`}
                  alt="次"/>
         </a>
