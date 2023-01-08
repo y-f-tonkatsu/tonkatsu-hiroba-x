@@ -27,6 +27,10 @@ export const NavBar = () => {
             label: "ゲーム",
             link: "/works/game/0"
         },
+        {
+            label: "モーション",
+            link: "/works/animation/0"
+        },
     ]
 
     return (
