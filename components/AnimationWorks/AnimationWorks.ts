@@ -1,5 +1,5 @@
 import {DisplayObject} from "../../TonkatsuDisplayLib/Display/DisplayObject";
-import {Mo01Sakura} from "./Motion01-Sakura/Mo01-Sakura";
+import {Mo01Snow} from "./Motion01-Sakura/Mo01Snow";
 import {CanvasLayer} from "../../TonkatsuDisplayLib/Display/CanvasLayer";
 
 export type AnimationWork = { id: string, displayObject: typeof DisplayObject };
@@ -10,7 +10,7 @@ export type AnimationWork = { id: string, displayObject: typeof DisplayObject };
 const works: AnimationWork[] = [
     {
         id: "181",
-        displayObject: Mo01Sakura
+        displayObject: Mo01Snow
     },
 ];
 
