@@ -29,22 +29,6 @@
   overflow: visible;
 }
 
-.colsTimeLine:nth-child(1) {
-  background: #FFBF10;
-}
-
-.colsTimeLine:nth-child(2) {
-  background: #FFFF00;
-}
-
-.colsTimeLine:nth-child(3) {
-  background: #B7FF00;
-}
-
-.colsTimeLine:nth-child(4) {
-  background: #33B600;
-}
-
 /* セル */
 .containerCell {
   opacity: 0.96;

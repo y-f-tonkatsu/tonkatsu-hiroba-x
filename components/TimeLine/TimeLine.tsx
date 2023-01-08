@@ -99,7 +99,9 @@ export const TimeLine: NextPage<Props> = ({works, timeLineCategory, playerState}
     const cols = works.map((col, index) => {
         //列
         return (
-            <div key={index} className={styles.colsTimeLine}>
+            <div key={index} className={styles.colsTimeLine} style={{
+                background: ["#FFBF10", "#FFFF00", "#B7FF00", "#33B600"][index]
+            }}>
                 {col.map((work) => {
                     //セル
                     return (
