@@ -1,4 +1,5 @@
 import {FC, useEffect, useRef} from "react";
+import styles from "./ContentsPlayer.module.scss";
 import {CanvasLayer} from "../../TonkatsuDisplayLib/Display/CanvasLayer";
 import {getAnimationWork} from "../AnimationWorks/AnimationWorks";
 import {GameLoop} from "../../TonkatsuDisplayLib/GameLoop/GameLoop";
@@ -48,8 +49,8 @@ const AnimationWorkContent: FC<Props> = (props) => {
             style={{
                 minWidth: "100%",
                 maxWidth: "100%",
-                padding: "1rem 5rem",
             }}
+            className={styles.imageCanvas}
             ref={canvasRef}
             width={work.width}
             height={work.height}

@@ -67,22 +67,21 @@ const ContentsPlayer: FC<Props> = ({work, links, prevWorks, nextWorks}) => {
             status: "play",
         });
     };
-    if (links.prev !== null && !transitAnimation) {
-        //トランジションアニメ再生中かリンク設定が null なら表示しない
-        prevButton =
-            <PrevButton key="PrevButton"
-                        onClickListener={async () => {
-                            await onPrevNextButtonClicked(prevWorks[0], "prev", links.prev)
-                        }}/>;
-    }
-    if (links.next !== null && !transitAnimation) {
-        //トランジションアニメ再生中かリンク設定が null なら表示しない
-        nextButton =
-            <NextButton key="NextButton"
-                        onClickListener={async () => {
-                            await onPrevNextButtonClicked(nextWorks[0], "next", links.next)
-                        }}/>;
-    }
+    //トランジションアニメ再生中かリンク設定が null なら表示しない
+    prevButton =
+        <PrevButton key="PrevButton"
+                    visibility={links.prev !== null && !transitAnimation ? "visible" : "hidden"}
+                    onClickListener={async () => {
+                        await onPrevNextButtonClicked(prevWorks[0], "prev", links.prev)
+                    }}/>;
+
+    //トランジションアニメ再生中かリンク設定が null なら表示しない
+    nextButton =
+        <NextButton key="NextButton"
+                    visibility={links.next !== null && !transitAnimation ? "visible" : "hidden"}
+                    onClickListener={async () => {
+                        await onPrevNextButtonClicked(nextWorks[0], "next", links.next)
+                    }}/>;
     //戻るボタン
     let backButton = <BackButton key="BackButton" href={links.list}/>;
 

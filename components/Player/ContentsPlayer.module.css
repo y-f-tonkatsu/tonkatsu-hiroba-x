@@ -102,11 +102,19 @@
   padding: 1rem 5rem;
 }
 
+.imageCanvas {
+  padding: 1rem 5rem;
+}
+
 @media (max-width: 1020px) {
   .contentMain {
     margin-left: 3%;
     width: 94%;
     max-height: revert;
+  }
+
+  .imageMain, .imageManga, .imageCanvas {
+    padding: 1rem 0.5rem;
   }
 }
 /* サイド */
