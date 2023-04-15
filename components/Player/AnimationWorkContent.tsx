@@ -26,13 +26,13 @@ const AnimationWorkContent: FC<Props> = (props) => {
             height: work.height,
             autoRefresh: true
         });
-        const anim = getAnimationWork("181", layer);
+        const anim = getAnimationWork(work.id.toString(), layer);
         if (!anim) return;
         const gameLoop = new GameLoop({
             layers: [
                 layer
             ],
-            frameRate: 30,
+            frameRate: 8,
         });
         gameLoop.displayList = [anim];
         gameLoop.start();
@@ -47,7 +47,6 @@ const AnimationWorkContent: FC<Props> = (props) => {
         <canvas
             key={"AnimationWork_" + work.id}
             style={{
-                minWidth: "100%",
                 maxWidth: "100%",
             }}
             className={styles.imageCanvas}
