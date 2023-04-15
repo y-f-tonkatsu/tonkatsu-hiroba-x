@@ -96,9 +96,6 @@ export class Mo02CellAutomaton extends DisplayObject {
         const ctx = this.layer.context;
         const [w, h] = [this._size.width, this._size.height];
 
-        ctx.fillStyle = "#000";
-        ctx.fillRect(0, 0, w, h);
-
         this._cell.forEach((raw, y) => {
             raw.forEach((dot, x) => {
                 if (x == this._walker.x && y == this._walker.y) {
@@ -106,7 +103,7 @@ export class Mo02CellAutomaton extends DisplayObject {
                 } else {
                     ctx.fillStyle = dot ? "black" : "white";
                 }
-                ctx.fillRect(x * this._cellSize.width, y * this._cellSize.height, this._cellSize.width, this._cellSize.height);
+                ctx.fillRect(x * this._cellSize.width, y * this._cellSize.height, this._cellSize.width+1, this._cellSize.height+1);
             })
         })
     }
