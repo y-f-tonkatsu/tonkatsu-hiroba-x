@@ -48,6 +48,7 @@ const AnimationWorkContent: FC<Props> = (props) => {
             key={"AnimationWork_" + work.id}
             style={{
                 maxWidth: "100%",
+                maxHeight: "90%"
             }}
             className={styles.imageCanvas}
             ref={canvasRef}

@@ -9,6 +9,9 @@ export class Point {
     static combine(a: Point, b: Point) {
         return new Point(a.x + b.x, a.y + b.y);
     }
+    static multiply(a: Point, b: number) {
+        return new Point(a.x * b, a.y * b);
+    }
 
     static zero() {
         return new Point(0, 0);
@@ -38,8 +41,12 @@ export class Point {
         [this.x, this.y] = [this.x + target.x, this.y + target.y];
     }
 
-    multiply(target: Point) {
-        [this.x, this.y] = [this.x * target.x, this.y * target.y];
+    multiply(target: Point | number) {
+        if (typeof target === "number") {
+            [this.x, this.y] = [this.x * target, this.y * target];
+        } else {
+            [this.x, this.y] = [this.x * target.x, this.y * target.y];
+        }
     }
 
     equals(target: Point) {

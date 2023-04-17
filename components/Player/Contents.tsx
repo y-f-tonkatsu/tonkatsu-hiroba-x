@@ -50,7 +50,7 @@ const Contents: FC<Props> = ({work, transitAnimation}) => {
 function getNoTransitionContent(work: Work) {
     let content;
     const klass = getKlass(work.category);
-    if (work.category === "animation") {
+    if (isCanvasWork(work)) {
         content = <AnimationWorkContent
             work={work}
         />
@@ -106,7 +106,7 @@ function getTransitionContent(work: Work, transitAnimation: TransitAnimation) {
     const duration = 0.5;
 
     //入ってくる方の要素を作る
-    if (newWork.category === "animation") {
+    if (isCanvasWork(newWork)) {
         //アニメ作品の場合
         newContent = (
             <AnimationWorkContent
@@ -151,7 +151,7 @@ function getTransitionContent(work: Work, transitAnimation: TransitAnimation) {
 
 
     //消える方の要素を作る
-    if (work.category === "animation") {
+    if (isCanvasWork(work)) {
         oldContent = <AnimationWorkContent
             work={work}
         />
@@ -192,6 +192,15 @@ function getTransitionContent(work: Work, transitAnimation: TransitAnimation) {
     } else {
         return [newContainer, oldContainer];
     }
+}
+
+/**
+ * work がモーションやゲームのような Canvas コンテンツがどうかを判定する。
+ * ただし、リンクが張ってあるだけのものは false を返す。
+ */
+function isCanvasWork(work: Work):boolean {
+    return work.category === "animation" ||
+        (work.category === "game" && typeof work.link === "undefined");
 }
 
 /**
