@@ -114,6 +114,10 @@ export class DisplayObject {
                 this._renderTransform.add(compo.transform);
             }
         })
+        this._children.forEach(child => {
+            if (!child.isActive) return;
+            child.update();
+        })
     };
 
     draw() {
@@ -121,6 +125,10 @@ export class DisplayObject {
         this._components.forEach(compo => {
             if (!compo.isActive || compo.canSkipRender) return;
             compo.draw(this._layer);
+        })
+        this._children.forEach(child => {
+            if (!child.isActive || child.canSkipRender) return;
+            child.draw();
         })
     };
 

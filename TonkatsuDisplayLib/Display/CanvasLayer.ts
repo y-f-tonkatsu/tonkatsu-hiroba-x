@@ -6,9 +6,17 @@ export type CanvasLayerOption = {
     width: number;
     height: number;
     autoRefresh?: boolean;
+    name?: string;
 }
 
 export class CanvasLayer {
+    get name(): string{
+        return this._name;
+    }
+
+    set name(value: string) {
+        this._name = value;
+    }
     get autoRefresh(): boolean {
         return this._autoRefresh;
     }
@@ -53,6 +61,7 @@ export class CanvasLayer {
     private _width: number;
     private _height: number;
     private _autoRefresh: boolean = false;
+    private _name:string;
 
     constructor(options: CanvasLayerOption) {
         this._canvas = options.canvas;
@@ -60,6 +69,7 @@ export class CanvasLayer {
         this._width = options.width;
         this._height = options.height;
         this._autoRefresh = options.autoRefresh || false;
+        this._name = options.name || "";
     }
 
     clear() {
