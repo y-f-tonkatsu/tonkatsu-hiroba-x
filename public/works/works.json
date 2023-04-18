@@ -6,12 +6,33 @@
     "category": "game",
     "info": "TypeScript",
     "path": "190_drop.jpg",
-    "layers": 2,
-    "imageList": [
-      "",
-      ""
-    ],
-    "lastBuildDate": "Fri, 14 Apr 2023 12:55:00 +0900"
+    "lastBuildDate": "Fri, 14 Apr 2023 12:55:00 +0900",
+    "gameWorkOptions": {
+      "canvasLayers": [
+        {
+          "name": "bg",
+          "zIndex": 1
+        },
+        {
+          "name": "main",
+          "zIndex": 2
+        },
+        {
+          "name": "effect",
+          "zIndex": 3
+        }
+      ],
+      "imageList": [
+        {
+          "name": "block1",
+          "path": "b1.png"
+        },
+        {
+          "name": "block2",
+          "path": "b2.png"
+        }
+      ]
+    }
   },
   {
     "id": 189,

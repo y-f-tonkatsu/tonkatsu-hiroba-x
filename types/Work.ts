@@ -1,3 +1,5 @@
+import {GameWorkOptions} from "./GameWorkOptions";
+
 export type Work = {
     id: number,
     title: string,
@@ -11,5 +13,6 @@ export type Work = {
     thumbWidth: number,
     thumbHeight: number,
     category: string,
-    link?: string
-}
+    link?: string,
+    gameOptions?: GameWorkOptions,
+};
