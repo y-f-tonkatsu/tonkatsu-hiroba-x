@@ -117,7 +117,7 @@ $marginS: 0.3rem;
   padding: 1rem 5rem;
 }
 
-.imageCanvas {
+.imageCanvasContainer {
   padding: 1rem 5rem;
 }
 
@@ -128,7 +128,7 @@ $marginS: 0.3rem;
     max-height: revert;
   }
 
-  .imageMain, .imageManga, .imageCanvas {
+  .imageMain, .imageManga, .imageCanvasContainer {
     padding: 1rem 0.5rem;
   }
 

@@ -14,5 +14,5 @@ export type Work = {
     thumbHeight: number,
     category: string,
     link?: string,
-    gameOptions?: GameWorkOptions,
+    gameWorkOptions?: GameWorkOptions,
 };

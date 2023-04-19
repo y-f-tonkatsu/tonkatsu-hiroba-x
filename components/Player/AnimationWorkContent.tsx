@@ -43,19 +43,38 @@ const AnimationWorkContent: FC<Props> = (props) => {
         };
     }, [canvasRef])
 
-    return (
-        <canvas
-            key={"AnimationWork_" + work.id}
-            style={{
-                maxWidth: "100%",
-                maxHeight: "90%"
-            }}
-            className={styles.imageCanvas}
+    const canvases = work.gameWorkOptions?.canvasLayers.map(layer => {
+        return <canvas
+            key={"CanvasLayer_" + layer.name}
             ref={canvasRef}
             width={work.width}
             height={work.height}
+            style={{
+                maxWidth: "100%",
+                maxHeight: "100%",
+                position: "absolute",
+                top: 0,
+                left: 0,
+            }}
         >
         </canvas>
+    });
+
+
+    return (
+        <div
+            key={"AnimationWorkContainer_" + work.id}
+            className={styles.imageCanvasContainer}
+            style={{
+                maxHeight: "80vh",
+                aspectRatio: work.width + " / " + work.height,
+                margin: "auto",
+                position: "relative",
+                padding: 0,
+            }}
+        >
+            {canvases}
+        </div>
     );
 }
 
