@@ -8,6 +8,7 @@
     "path": "190_drop.jpg",
     "lastBuildDate": "Fri, 14 Apr 2023 12:55:00 +0900",
     "gameWorkOptions": {
+      "frameRate": 30,
       "canvasLayers": [
         {
           "name": "bg",
@@ -24,11 +25,11 @@
       ],
       "imageList": [
         {
-          "name": "block1",
+          "id": "block1",
           "path": "b1.png"
         },
         {
-          "name": "block2",
+          "id": "block2",
           "path": "b2.png"
         }
       ]

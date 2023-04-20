@@ -3,7 +3,7 @@ import styles from "./ContentsPlayer.module.scss";
 import {motion} from "framer-motion";
 import {TransitAnimation} from "./ContentsPlayer";
 import {FC} from "react";
-import AnimationWorkContent from "./AnimationWorkContent";
+import CanvasWorkContent from "./CanvasWorkContent";
 
 type Props = {
     work: Work;
@@ -51,7 +51,7 @@ function getNoTransitionContent(work: Work) {
     let content;
     const klass = getKlass(work.category);
     if (isCanvasWork(work)) {
-        content = <AnimationWorkContent
+        content = <CanvasWorkContent
             work={work}
         />
     } else {
@@ -109,7 +109,7 @@ function getTransitionContent(work: Work, transitAnimation: TransitAnimation) {
     if (isCanvasWork(newWork)) {
         //アニメ作品の場合
         newContent = (
-            <AnimationWorkContent
+            <CanvasWorkContent
                 work={newWork}
             />
         );
@@ -152,7 +152,7 @@ function getTransitionContent(work: Work, transitAnimation: TransitAnimation) {
 
     //消える方の要素を作る
     if (isCanvasWork(work)) {
-        oldContent = <AnimationWorkContent
+        oldContent = <CanvasWorkContent
             work={work}
         />
     } else {

@@ -53,7 +53,7 @@ export const IntroTheater: NextPage<OpeningTheaterProps> = (props) => {
         if (imageList) return;
 
         //ローダー初期化してロード
-        imageLoader = createImageLoader(TonImageList);
+        imageLoader = createImageLoader(TonImageList, "../../images/");
         imageLoader.load(
             (list) => {
                 setImageList(list)

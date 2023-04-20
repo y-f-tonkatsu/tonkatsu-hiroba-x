@@ -1,4 +1,4 @@
-import {DisplayObject} from "../../../TonkatsuDisplayLib/Display/DisplayObject";
+import {DisplayObject, DisplayObjectOptions} from "../../../TonkatsuDisplayLib/Display/DisplayObject";
 import {CanvasLayer} from "../../../TonkatsuDisplayLib/Display/CanvasLayer";
 import {Point} from "../../../TonkatsuDisplayLib/Display/Point";
 import {Field} from "./Field";
@@ -9,16 +9,19 @@ export function rnd(n: number) {
 
 export type GameState = "stop" | "play" | "check" | "drop";
 
-export class Mo03Falling extends DisplayObject {
+export class Game02Falling extends DisplayObject {
 
     private readonly _field:Field;
 
     private _gameState: GameState = "play";
 
-    constructor(layer: CanvasLayer) {
-        super(layer);
+    constructor(layer: CanvasLayer, options:DisplayObjectOptions) {
+        super(layer, options);
 
-        this._field = new Field(layer);
+        this._field = new Field(layer, {
+            layerList: [],
+            imageFileList: this.imageFileList
+        });
         this.add(this._field);
         this.initKeyEvents();
     }
@@ -42,9 +45,13 @@ export class Mo03Falling extends DisplayObject {
         super.draw();
     }
 
+    override destruct() {
+        super.destruct();
+    }
+
     private initKeyEvents() {
 
-        document.addEventListener("keydown", e => {
+        document.addEventListener("keypress", e => {
             if (e.key === "s") {
                 this._field.down();
             }

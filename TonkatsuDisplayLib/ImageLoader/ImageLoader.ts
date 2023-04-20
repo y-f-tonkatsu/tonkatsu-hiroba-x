@@ -11,8 +11,8 @@ export type ImageLoader = {
     ) => void;
 }
 
-export const createImageLoader: (pathList: { id: string, path: string }[]) => ImageLoader
-    = (targetList: { id: string, path: string }[]) => {
+export const createImageLoader: (pathList: { id: string, path: string }[], root: string) => ImageLoader
+    = (targetList: { id: string, path: string }[], root = "") => {
     return {
         load: (onCompleteListener, onErrorListener) => {
             const imageList: ImageFile[] = [];
@@ -32,10 +32,14 @@ export const createImageLoader: (pathList: { id: string, path: string }[]) => Im
                         onCompleteListener(imageList);
                     }
                 };
-                image.onerror = ()=>{
+                image.onerror = () => {
                     onErrorListener();
                 }
-                image.src = getUrlFromPath(target.path);
+                if(root === ""){
+                    image.src = getUrlFromPath(target.path);
+                } else {
+                    image.src = `${root}${target.path}`;
+                }
             })
         }
     };

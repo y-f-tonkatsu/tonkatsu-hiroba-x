@@ -1,7 +1,6 @@
 import {DisplayObject} from "../../../TonkatsuDisplayLib/Display/DisplayObject";
 import {CanvasLayer} from "../../../TonkatsuDisplayLib/Display/CanvasLayer";
 import {Point} from "../../../TonkatsuDisplayLib/Display/Point";
-import generate from "@babel/generator";
 
 export class Mo01Snow extends DisplayObject {
 

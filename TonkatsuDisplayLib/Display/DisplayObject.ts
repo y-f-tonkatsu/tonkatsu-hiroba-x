@@ -1,8 +1,13 @@
 import {Transform} from "./Transform";
 import {Component} from "../BasicComponents/Component";
 import {CanvasLayer} from "./CanvasLayer";
+import {ImageFile} from "../ImageLoader/ImageFile";
 
 export type Render = (ctx: CanvasRenderingContext2D) => void;
+export type DisplayObjectOptions = {
+    layerList: CanvasLayer[],
+    imageFileList: ImageFile[]
+}
 
 /**
  * 表示可能なオブジェクト
@@ -17,6 +22,22 @@ export type Render = (ctx: CanvasRenderingContext2D) => void;
  * update, render が再帰的に呼ばれる。
  */
 export class DisplayObject {
+    get imageFileList(): ImageFile[] {
+        return this._imageFileList;
+    }
+
+    set imageFileList(value: ImageFile[]) {
+        this._imageFileList = value;
+    }
+
+    get layerList(): CanvasLayer[] {
+        return this._layerList;
+    }
+
+    set layerList(value: CanvasLayer[]) {
+        this._layerList = value;
+    }
+
     get layer(): CanvasLayer {
         return this._layer;
     }
@@ -81,6 +102,8 @@ export class DisplayObject {
     private _isActive: boolean = true;
     private _canSkipRender: boolean = false;
     private _layer: CanvasLayer;
+    private _layerList: CanvasLayer[] = [];
+    private _imageFileList: ImageFile[] = [];
 
     /**
      * 別の DisplayObject を children に加える
@@ -132,7 +155,19 @@ export class DisplayObject {
         })
     };
 
-    constructor(layer: CanvasLayer) {
+    destruct() {
+        this._children.forEach(child => {
+            child.destruct();
+        })
+    }
+
+    constructor(layer: CanvasLayer, options?:DisplayObjectOptions) {
         this._layer = layer;
+        this._layerList = [];
+        this._imageFileList = [];
+        if(options){
+            this.layerList = options.layerList;
+            this.imageFileList = options.imageFileList;
+        }
     }
 }

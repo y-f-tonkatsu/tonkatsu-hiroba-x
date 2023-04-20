@@ -1,8 +1,8 @@
-import {DisplayObject} from "../../../TonkatsuDisplayLib/Display/DisplayObject";
+import {DisplayObject, DisplayObjectOptions} from "../../../TonkatsuDisplayLib/Display/DisplayObject";
 import {CanvasLayer} from "../../../TonkatsuDisplayLib/Display/CanvasLayer";
 import {Size} from "../../../TonkatsuDisplayLib/Display/Size";
 import {Point} from "../../../TonkatsuDisplayLib/Display/Point";
-import {rnd} from "./Mo03Falling";
+import {rnd} from "./Game02Falling";
 
 /**
  * 回転の状態毎のサブブロックの位置をベクトルで表す。
@@ -61,12 +61,13 @@ export class Field extends DisplayObject {
         rotation: 0
     };
 
-    constructor(layer: CanvasLayer) {
+    constructor(layer: CanvasLayer, options:DisplayObjectOptions) {
         super(layer);
         this._offsetSize = new Point(layer.width * 0.5 / 13, layer.height * 2 / 23);
         this.initFieldSize(layer);
         this.initCells();
         this.resetCurrentBlocks();
+        this.imageFileList = options.imageFileList;
     }
 
     //初期化
@@ -246,7 +247,7 @@ export class Field extends DisplayObject {
      * ブロックの落下を1フレーム分進める。
      */
     progressDown() {
-        this._currentBlocks.subPosition.add(new Point(0, 0.2));
+        this._currentBlocks.subPosition.add(new Point(0, 0.1));
         if (this._currentBlocks.subPosition.y >= 1) {
             this._currentBlocks.subPosition = new Point(0, 0);
             this._currentBlocks.position.add(new Point(0, 1));
@@ -285,7 +286,7 @@ export class Field extends DisplayObject {
         ctx.fillStyle = BLOCK_IMAGES[this._currentBlocks.colors[0]].color;
         const x1 = this._offsetSize.x + this._cellSize.width * this._currentBlocks.position.x + subP.x;
         const y1 = this._offsetSize.y + this._cellSize.height * this._currentBlocks.position.y + subP.y;
-        ctx.fillRect(x1, y1, this._cellSize.width, this._cellSize.height);
+        ctx.drawImage(this.imageFileList[0].element, x1, y1, this._cellSize.width, this._cellSize.height);
 
         ctx.fillStyle = BLOCK_IMAGES[this._currentBlocks.colors[1]].color;
         const x2 = this._offsetSize.x + this._cellSize.width * Point.combine(this._currentBlocks.position, this._currentBlocks.direction).x + subP.x;

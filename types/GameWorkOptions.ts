@@ -1,10 +1,11 @@
 export type GameWorkOptions = {
+    frameRate: number,
     canvasLayers: {
-        "name": string,
-        "zIndex": number,
+        name: string,
+        zIndex: number,
     }[],
     imageList?: {
-        name: string,
+        id: string,
         path: string
     }[]
 };
