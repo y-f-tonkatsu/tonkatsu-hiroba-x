@@ -1,8 +1,9 @@
-import {DisplayObject, DisplayObjectOptions} from "../../../TonkatsuDisplayLib/Display/DisplayObject";
+import {DisplayObject} from "../../../TonkatsuDisplayLib/Display/DisplayObject";
 import {CanvasLayer} from "../../../TonkatsuDisplayLib/Display/CanvasLayer";
 import {Size} from "../../../TonkatsuDisplayLib/Display/Size";
 import {Point} from "../../../TonkatsuDisplayLib/Display/Point";
 import {rnd} from "./Game02Falling";
+import {Component} from "../../../TonkatsuDisplayLib/BasicComponents/Component";
 
 /**
  * 回転の状態毎のサブブロックの位置をベクトルで表す。
@@ -30,22 +31,44 @@ export type Cell = {
  */
 export const BLOCK_IMAGES = [
     {
-        color: "black",
-    }, {
-        color: "green",
-    }, {
-        color: "yellow",
+        color: "none",
+        index: -1,
     }, {
         color: "blue",
+        index: 0,
+    }, {
+        color: "yellow",
+        index: 1,
+    }, {
+        color: "green",
+        index: 2,
+    }, {
+        color: "teal",
+        index: 3
+    }, {
+        color: "orange",
+        index: 4
+    }, {
+        color: "pink",
+        index: 5
     }, {
         color: "purple",
+        index: 6
     }
 ];
 
-export class Field extends DisplayObject {
+export class FieldComponent extends Component {
+    set fieldSize(value: Size) {
+        this._fieldSize = value;
+        this._cellSize = {
+            width: this._fieldSize.width / this._numCells.width,
+            height: this._fieldSize.height / this._numCells.height,
+        }
+    }
 
-    get offsetSize(): Point {
-        return this._offsetSize;
+    set offsetSize(value: Point) {
+        this._offsetSize = value;
+        this.transform.position = this._offsetSize;
     }
 
     private _numCells: Size = {width: 12, height: 20};
@@ -60,30 +83,16 @@ export class Field extends DisplayObject {
         colors: [1, 2],
         rotation: 0
     };
+    private _layer: CanvasLayer;
 
-    constructor(layer: CanvasLayer, options:DisplayObjectOptions) {
-        super(layer);
-        this._offsetSize = new Point(layer.width * 0.5 / 13, layer.height * 2 / 23);
-        this.initFieldSize(layer);
+    constructor(parent: DisplayObject) {
+        super(parent);
+        this._layer = parent.layer;
         this.initCells();
         this.resetCurrentBlocks();
-        this.imageFileList = options.imageFileList;
     }
 
     //初期化
-
-    /**
-     * レイヤーの大きさに対して適切なフィールドサイズを計算し、設定する。
-     */
-    private initFieldSize(layer: CanvasLayer) {
-        const width = layer.width * 12 / 13;
-        const height = width / 12 * 20;
-        this._fieldSize = {width, height};
-        this._cellSize = {
-            width: this._fieldSize.width / this._numCells.width,
-            height: this._fieldSize.height / this._numCells.height,
-        }
-    }
 
     /**
      * セル状態を初期化
@@ -258,22 +267,17 @@ export class Field extends DisplayObject {
 
     override draw() {
         super.draw();
-        const ctx = this.layer.context;
-        this.drawBG(ctx);
-        this.drawStaticBlocks(ctx);
+        const ctx = this._layer.context;
+        ctx.save();
+        ctx.translate(this._offsetSize.x, this._offsetSize.y);
         this.drawCurrentBlocks(ctx);
+        this.drawStaticBlocks(ctx);
+        ctx.restore();
     }
 
-    /**
-     * 背景を描画
-     */
-    private drawBG(ctx: CanvasRenderingContext2D) {
-        ctx.fillStyle = "#aaaaaa";
-        ctx.moveTo(0, 0);
-        ctx.fillRect(0, 0, this.layer.width, this.layer.height);
-        ctx.fillStyle = "#333344";
-        ctx.moveTo(this._offsetSize.x, this._offsetSize.y);
-        ctx.fillRect(this._offsetSize.x, this._offsetSize.y, this._fieldSize.width, this._fieldSize.height);
+    private getBlockImage(color: number) {
+        const img = this.parent.imageFileList.filter(item => item.id == `block${color}`)[0];
+        return img.element;
     }
 
     /**
@@ -283,16 +287,13 @@ export class Field extends DisplayObject {
 
         const subP = Point.multiply(this._currentBlocks.subPosition, this._cellSize.height);
 
-        ctx.fillStyle = BLOCK_IMAGES[this._currentBlocks.colors[0]].color;
-        const x1 = this._offsetSize.x + this._cellSize.width * this._currentBlocks.position.x + subP.x;
-        const y1 = this._offsetSize.y + this._cellSize.height * this._currentBlocks.position.y + subP.y;
-        ctx.drawImage(this.imageFileList[0].element, x1, y1, this._cellSize.width, this._cellSize.height);
+        const x1 = this._cellSize.width * this._currentBlocks.position.x + subP.x;
+        const y1 = this._cellSize.height * this._currentBlocks.position.y + subP.y;
+        ctx.drawImage(this.getBlockImage(this._currentBlocks.colors[0]), x1, y1, this._cellSize.width, this._cellSize.height);
 
-        ctx.fillStyle = BLOCK_IMAGES[this._currentBlocks.colors[1]].color;
-        const x2 = this._offsetSize.x + this._cellSize.width * Point.combine(this._currentBlocks.position, this._currentBlocks.direction).x + subP.x;
-        const y2 = this._offsetSize.y + this._cellSize.height * Point.combine(this._currentBlocks.position, this._currentBlocks.direction).y + subP.y;
-        ctx.fillRect(x2, y2, this._cellSize.width, this._cellSize.height);
-
+        const x2 = this._cellSize.width * Point.combine(this._currentBlocks.position, this._currentBlocks.direction).x + subP.x;
+        const y2 = this._cellSize.height * Point.combine(this._currentBlocks.position, this._currentBlocks.direction).y + subP.y;
+        ctx.drawImage(this.getBlockImage(this._currentBlocks.colors[1]), x2, y2, this._cellSize.width, this._cellSize.height);
     }
 
     /**
@@ -302,10 +303,10 @@ export class Field extends DisplayObject {
         for (let y = 0; y < this._numCells.height; y++) {
             for (let x = 0; x < this._numCells.width; x++) {
                 const cell = this._cells[y][x];
-                ctx.fillStyle = BLOCK_IMAGES[cell.color].color;
-                ctx.fillRect(
-                    this._offsetSize.x + this._cellSize.width * x + cell.subPosition.x,
-                    this._offsetSize.y + this._cellSize.height * y + cell.subPosition.y,
+                if (cell.color === 0) continue;
+                ctx.drawImage(this.getBlockImage(cell.color),
+                    this._cellSize.width * x + cell.subPosition.x,
+                    this._cellSize.height * y + cell.subPosition.y,
                     this._cellSize.width, this._cellSize.height);
             }
         }

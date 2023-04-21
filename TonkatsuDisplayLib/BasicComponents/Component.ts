@@ -11,16 +11,16 @@ import {CanvasLayer} from "../Display/CanvasLayer";
  * ビルドエラーになるので draw にした
  */
 export class Component {
-    private _parent?: DisplayObject;
+    private _parent: DisplayObject;
     private _isActive: boolean = true;
     private _canSkipRender: boolean = false;
-    private _transform?: Transform;
+    private _transform: Transform = new Transform();
 
-    get transform(): Transform | undefined {
+    get transform(): Transform {
         return this._transform;
     }
 
-    set transform(value: Transform | undefined) {
+    set transform(value: Transform) {
         this._transform = value;
     }
 
@@ -40,15 +40,16 @@ export class Component {
         this._canSkipRender = value;
     }
 
-    get parent(): DisplayObject | undefined {
+    get parent(): DisplayObject {
         return this._parent;
     }
 
-    set parent(value: DisplayObject | undefined) {
+    set parent(value: DisplayObject) {
         this._parent = value;
     }
 
     constructor(parent: DisplayObject) {
+        this._parent = parent;
         parent.attachComponent(this);
     }
 

@@ -31,6 +31,26 @@
         {
           "id": "block2",
           "path": "b2.png"
+        },
+        {
+          "id": "block3",
+          "path": "b3.png"
+        },
+        {
+          "id": "block4",
+          "path": "b4.png"
+        },
+        {
+          "id": "block5",
+          "path": "b5.png"
+        },
+        {
+          "id": "block6",
+          "path": "b6.png"
+        },
+        {
+          "id": "block7",
+          "path": "b7.png"
         }
       ]
     }

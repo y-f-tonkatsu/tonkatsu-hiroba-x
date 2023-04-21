@@ -1,7 +1,8 @@
 import {DisplayObject, DisplayObjectOptions} from "../../../TonkatsuDisplayLib/Display/DisplayObject";
 import {CanvasLayer} from "../../../TonkatsuDisplayLib/Display/CanvasLayer";
 import {Point} from "../../../TonkatsuDisplayLib/Display/Point";
-import {Field} from "./Field";
+import {FieldComponent} from "./FieldComponent";
+import {BackgroundComponent} from "./BackgroundComponent";
 
 export function rnd(n: number) {
     return Math.floor(Math.random() * n);
@@ -11,33 +12,47 @@ export type GameState = "stop" | "play" | "check" | "drop";
 
 export class Game02Falling extends DisplayObject {
 
-    private readonly _field:Field;
+    private readonly _field: DisplayObject;
+    private readonly _fieldComponent: FieldComponent;
+    private readonly _background: DisplayObject;
+    private readonly _backgroundComponent: BackgroundComponent;
 
     private _gameState: GameState = "play";
+    private _removeKeyBoardEventListeners: () => void = () => {
+    };
 
-    constructor(layer: CanvasLayer, options:DisplayObjectOptions) {
+    constructor(layer: CanvasLayer, options: DisplayObjectOptions) {
         super(layer, options);
 
-        this._field = new Field(layer, {
-            layerList: [],
-            imageFileList: this.imageFileList
-        });
+        this._field = new DisplayObject(options.layerList[1]);
+        this._field.imageFileList = options.imageFileList;
+        this._fieldComponent = new FieldComponent(this._field);
+        this._background = new DisplayObject(options.layerList[0]);
+        this._backgroundComponent = new BackgroundComponent(this, this._fieldComponent);
         this.add(this._field);
+        this.add(this._background);
         this.initKeyEvents();
     }
 
     override update() {
         super.update();
         if (this._gameState === "check") {
-            this._field.checkDrop();
-            this._field.resetCurrentBlocks();
-            this._gameState = "play";
-        } else if (this._gameState === "play") {
-            this._field.progressDown();
-            if (!this._field.canMoveCurrent(new Point(0, 1))) {
-                this._field.setCurrentToStatic();
+            if (this._fieldComponent.checkDrop()) {
+                this._gameState = "play";
+            } else {
+                this._gameState = "play";
+            }
+            this._fieldComponent.resetCurrentBlocks();
+        }
+
+        if (this._gameState === "play") {
+            this._fieldComponent.progressDown();
+            if (!this._fieldComponent.canMoveCurrent(new Point(0, 1))) {
+                this._fieldComponent.setCurrentToStatic();
                 this._gameState = "check";
             }
+        } else if (this._gameState === "drop") {
+            //this._fieldComponent.progressDrop();
         }
     }
 
@@ -47,27 +62,35 @@ export class Game02Falling extends DisplayObject {
 
     override destruct() {
         super.destruct();
+        this._removeKeyBoardEventListeners();
     }
 
     private initKeyEvents() {
 
-        document.addEventListener("keypress", e => {
+        const onKeyPress = (e: KeyboardEvent) => {
             if (e.key === "s") {
-                this._field.down();
+                this._fieldComponent.down();
             }
-        });
-        document.addEventListener("keydown", e => {
+        };
+        const onKeyDown = (e: KeyboardEvent) => {
             if (e.key === "a") {
-                this._field.left();
+                this._fieldComponent.left();
             } else if (e.key === "d") {
-                this._field.right();
+                this._fieldComponent.right();
             } else if (e.key === "q") {
-                this._field.rotateLeft();
+                this._fieldComponent.rotateLeft();
             } else if (e.key === "e") {
-                this._field.rotateRight();
+                this._fieldComponent.rotateRight();
             }
-        });
+        }
 
+        document.addEventListener("keypress", onKeyPress);
+        document.addEventListener("keydown", onKeyDown);
+
+        this._removeKeyBoardEventListeners = () => {
+            document.removeEventListener("keypress", onKeyPress);
+            document.removeEventListener("keydown", onKeyDown);
+        }
     }
 
 }
