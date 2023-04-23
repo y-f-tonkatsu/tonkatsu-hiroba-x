@@ -25,6 +25,11 @@ export class Point {
         return new Point(-this.x, -this.y);
     }
 
+    reset(){
+        this.x = 0;
+        this.y = 0;
+    }
+
     isZero() {
         return this.x === 0 && this.y === 0;
     }

@@ -23,6 +23,10 @@ export type Cell = {
     position: Point,
     subPosition: Point,
     direction: Point,
+    flash: {
+        num: number,
+        direction: Point,
+    }
 }
 
 /**
@@ -81,15 +85,19 @@ export class FieldComponent extends Component {
         subPosition: new Point(0, 0),
         direction: ROTATION[0].clone(),
         colors: [1, 2],
-        rotation: 0
+        rotation: 0,
+        visible: true
     };
     private _layer: CanvasLayer;
+
+    private static readonly START_POSITION: Point = new Point(5, 0);
+    private static readonly START_DIRECTION: Point = ROTATION[0].clone();
 
     constructor(parent: DisplayObject) {
         super(parent);
         this._layer = parent.layer;
         this.initCells();
-        this.resetCurrentBlocks();
+        this.resetCurrentBlocks(true);
     }
 
     //初期化
@@ -107,6 +115,10 @@ export class FieldComponent extends Component {
                     position: new Point(0, 0),
                     subPosition: new Point(0, 0),
                     direction: new Point(0, 0),
+                    flash: {
+                        num: 0,
+                        direction: Point.zero(),
+                    }
                 });
             }
         }
@@ -115,13 +127,14 @@ export class FieldComponent extends Component {
     /**
      * 次の落下ブロックを初期化する
      */
-    resetCurrentBlocks() {
+    resetCurrentBlocks(visible: boolean) {
         this._currentBlocks = {
-            position: new Point(5, 0),
+            position: FieldComponent.START_POSITION.clone(),
+            direction: FieldComponent.START_DIRECTION.clone(),
             subPosition: new Point(0, 0),
-            direction: ROTATION[0].clone(),
             colors: [rnd(BLOCK_IMAGES.length - 1) + 1, rnd(BLOCK_IMAGES.length - 1) + 1],
-            rotation: 0
+            rotation: 0,
+            visible
         }
     }
 
@@ -221,24 +234,92 @@ export class FieldComponent extends Component {
         return this.canMove(this._currentBlocks.position, ROTATION[newR]);
     }
 
+    getCell(x: number, y: number): Cell | null {
+        if (x < 0 || x > this._numCells.width - 1 || y < 0 || y > this._numCells.height - 1) {
+            return null;
+        } else {
+            return this._cells[y][x];
+        }
+    }
+
+    checkGameOver(): boolean {
+        const cell1 = this.getCell(FieldComponent.START_POSITION.x, FieldComponent.START_POSITION.y);
+        const cell2 = this.getCell(FieldComponent.START_POSITION.x + FieldComponent.START_DIRECTION.x,
+            FieldComponent.START_POSITION.y + FieldComponent.START_DIRECTION.y);
+        if (cell1 == null || cell2 == null) return false;
+        console.log(FieldComponent.START_POSITION);
+        return cell1.color !== 0 || cell2.color !== 0;
+    }
+
     /**
      * 全てのセルについて、
      * 落下が発生するかどうかをチェックする。
      */
     checkDrop() {
         let flg = false;
-        for (let y = 0; y < this._numCells.height - 1; y++) {
-            for (let x = 0; x < this._numCells.width; x++) {
+        for (let x = 0; x < this._numCells.width; x++) {
+            let drop = 0;
+            for (let y = this._numCells.height - 1; y >= 0; y--) {
+
                 const cell = this._cells[y][x];
-                const underCell = this._cells[y + 1][x];
-                if (underCell.color === 0) {
-                    flg = true;
-                    cell.direction = new Point(0, 1);
+
+                if (cell.color === 0) {
+                    cell.direction.reset();
+                    drop++;
+                } else {
+                    if (drop > 0) flg = true;
+                    cell.direction = new Point(0, drop);
                 }
 
             }
         }
-        return flg
+        return flg;
+    }
+
+    /**
+     * ラインが揃っているかチェック
+     */
+    checkFlash(): boolean {
+        let flg = false
+        for (let x = 0; x < this._numCells.width; x++) {
+            for (let y = 0; y < this._numCells.height; y++) {
+                const cell = this.getCell(x, y);
+                if (!cell || cell.color == 0) continue;
+
+                const check = (cood: Point, v: Point): boolean => {
+                    const current = this.getCell(cood.x, cood.y);
+                    const target = this.getCell(cood.x + v.x, cood.y + v.y);
+                    if (current == null || target == null) {
+                        return false;
+                    } else {
+                        return current.color == target.color;
+                    }
+                }
+
+                [new Point(1, 0), new Point(0, 1), new Point(1, 1), new Point(-1, 1)].forEach(v => {
+                    let r = 1;
+                    const checkR = (cood: Point, v: Point): boolean => {
+                        if (check(cood, v)) {
+                            r++;
+                            return checkR(Point.combine(cood, v), v);
+                        } else {
+                            return false;
+                        }
+                    }
+                    checkR(new Point(x, y), v);
+                    if (r >= 3) {
+                        cell.flash = {
+                            num: r,
+                            direction: v
+                        }
+                        flg = true;
+                        console.log("flash!", cell.flash);
+                    }
+                })
+
+            }
+        }
+        return flg;
     }
 
     /**
@@ -253,7 +334,7 @@ export class FieldComponent extends Component {
     }
 
     /**
-     * ブロックの落下を1フレーム分進める。
+     * 現在のブロックの落下を1フレーム分進める。
      */
     progressDown() {
         this._currentBlocks.subPosition.add(new Point(0, 0.1));
@@ -261,6 +342,65 @@ export class FieldComponent extends Component {
             this._currentBlocks.subPosition = new Point(0, 0);
             this._currentBlocks.position.add(new Point(0, 1));
         }
+    }
+
+    /**
+     * 全固定ブロックの落下を1フレーム分進める。
+     */
+    private _dropProgress = 0;
+
+    progressDrop(): boolean {
+        let flg = false;
+        this._dropProgress += 0.05;
+        if (this._dropProgress >= 1) {
+            flg = true;
+            this._dropProgress = 0;
+        }
+        for (let x = 0; x < this._numCells.width; x++) {
+            for (let y = this._numCells.height - 1; y >= 0; y--) {
+                const cell = this._cells[y][x];
+                if (cell.color !== 0) {
+                    if (flg && cell.direction.y > 0) {
+                        this._cells[y + cell.direction.y][x].color = cell.color;
+                        cell.color = 0;
+                        cell.subPosition.reset();
+                        cell.direction.reset();
+                    } else {
+                        cell.subPosition = new Point(0, cell.direction.y * this._dropProgress * this._cellSize.height);
+                    }
+                }
+            }
+        }
+        return flg;
+    }
+
+    progressFlash(): boolean {
+        let flg = false
+        for (let x = 0; x < this._numCells.width; x++) {
+            for (let y = this._numCells.height - 1; y >= 0; y--) {
+                const cell = this._cells[y][x];
+                if (cell == null) continue;
+                const num = cell.flash.num;
+                if (num === 0) continue;
+                for (let i = 0; i < num; i++) {
+                    const target = this._cells[y + cell.flash.direction.y * i][x + cell.flash.direction.x * i];
+                    target.color = 0;
+                }
+                flg = true;
+            }
+        }
+        if (flg) {
+            for (let x = 0; x < this._numCells.width; x++) {
+                for (let y = this._numCells.height - 1; y >= 0; y--) {
+                    const cell = this._cells[y][x];
+                    cell.flash = {
+                        num: 0,
+                        direction: Point.zero()
+                    }
+                }
+            }
+        }
+        return flg;
     }
 
     //描画
@@ -284,6 +424,7 @@ export class FieldComponent extends Component {
      * 落下ブロックを描画
      */
     private drawCurrentBlocks(ctx: CanvasRenderingContext2D) {
+        if (!this._currentBlocks.visible) return;
 
         const subP = Point.multiply(this._currentBlocks.subPosition, this._cellSize.height);
 

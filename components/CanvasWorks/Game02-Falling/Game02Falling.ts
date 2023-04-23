@@ -8,7 +8,7 @@ export function rnd(n: number) {
     return Math.floor(Math.random() * n);
 }
 
-export type GameState = "stop" | "play" | "check" | "drop";
+export type GameState = "stop" | "play" | "flash" | "check" | "drop";
 
 export class Game02Falling extends DisplayObject {
 
@@ -37,12 +37,19 @@ export class Game02Falling extends DisplayObject {
     override update() {
         super.update();
         if (this._gameState === "check") {
-            if (this._fieldComponent.checkDrop()) {
-                this._gameState = "play";
+            if (this._fieldComponent.checkGameOver()) {
+                console.log("GameOver!!");
+                this._gameState = "stop"
+            } else if (this._fieldComponent.checkDrop()) {
+                this._gameState = "drop";
+                this._fieldComponent.resetCurrentBlocks(false);
+            } else if (this._fieldComponent.checkFlash()) {
+                this._gameState = "flash";
+                this._fieldComponent.resetCurrentBlocks(false);
             } else {
                 this._gameState = "play";
+                this._fieldComponent.resetCurrentBlocks(true);
             }
-            this._fieldComponent.resetCurrentBlocks();
         }
 
         if (this._gameState === "play") {
@@ -52,7 +59,13 @@ export class Game02Falling extends DisplayObject {
                 this._gameState = "check";
             }
         } else if (this._gameState === "drop") {
-            //this._fieldComponent.progressDrop();
+            if (this._fieldComponent.progressDrop()) {
+                this._gameState = "check";
+            }
+        } else if (this._gameState === "flash") {
+            if (this._fieldComponent.progressFlash()) {
+                this._gameState = "check";
+            }
         }
     }
 
@@ -68,11 +81,13 @@ export class Game02Falling extends DisplayObject {
     private initKeyEvents() {
 
         const onKeyPress = (e: KeyboardEvent) => {
+            if (this._gameState !== "play") return;
             if (e.key === "s") {
                 this._fieldComponent.down();
             }
         };
         const onKeyDown = (e: KeyboardEvent) => {
+            if (this._gameState !== "play") return;
             if (e.key === "a") {
                 this._fieldComponent.left();
             } else if (e.key === "d") {
