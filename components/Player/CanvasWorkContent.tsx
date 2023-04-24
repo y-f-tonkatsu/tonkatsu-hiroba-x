@@ -73,7 +73,7 @@ const CanvasWorkContent: FC<Props> = (props) => {
         let canvasWork: CanvasWork | null;
         if (work.gameWorkOptions && work.gameWorkOptions.imageList && work.gameWorkOptions.imageList.length > 0) {
             const frameRate = work.gameWorkOptions.frameRate;
-            const imageLoader = createImageLoader(work.gameWorkOptions.imageList, "../../works/game/falling/");
+            const imageLoader = createImageLoader(work.gameWorkOptions.imageList, work.gameWorkOptions.imageRoot || "");
             imageLoader.load(imageList => {
                 canvasWork = getCanvasWork(work.id.toString(), frameRate, layers, imageList);
             }, () => {

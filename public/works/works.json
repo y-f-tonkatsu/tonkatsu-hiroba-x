@@ -5,7 +5,7 @@
     "description": "",
     "category": "game",
     "info": "TypeScript",
-    "path": "190_drop.jpg",
+    "path": "190_falling.jpg",
     "lastBuildDate": "Fri, 14 Apr 2023 12:55:00 +0900",
     "gameWorkOptions": {
       "frameRate": 30,
@@ -49,10 +49,11 @@
           "path": "b6.png"
         },
         {
-          "id": "block7",
-          "path": "b7.png"
+          "id": "bg",
+          "path": "bg.jpg"
         }
-      ]
+      ],
+      "imageRoot": "../../works/game/190_falling/"
     }
   },
   {

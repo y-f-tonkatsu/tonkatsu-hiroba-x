@@ -55,10 +55,7 @@ export const BLOCK_IMAGES = [
     }, {
         color: "pink",
         index: 5
-    }, {
-        color: "purple",
-        index: 6
-    }
+    },
 ];
 
 export class FieldComponent extends Component {
@@ -75,7 +72,7 @@ export class FieldComponent extends Component {
         this.transform.position = this._offsetSize;
     }
 
-    private _numCells: Size = {width: 12, height: 20};
+    private _numCells: Size = {width: 8, height: 14};
     private _fieldSize: Size = {width: 0, height: 0};
     private _offsetSize: Point = new Point(0, 0);
     private _cellSize: Size = {width: 0, height: 0};
@@ -90,7 +87,7 @@ export class FieldComponent extends Component {
     };
     private _layer: CanvasLayer;
 
-    private static readonly START_POSITION: Point = new Point(5, 0);
+    private static readonly START_POSITION: Point = new Point(3, 0);
     private static readonly START_DIRECTION: Point = ROTATION[0].clone();
 
     constructor(parent: DisplayObject) {
@@ -133,7 +130,7 @@ export class FieldComponent extends Component {
             direction: FieldComponent.START_DIRECTION.clone(),
             subPosition: new Point(0, 0),
             colors: [rnd(BLOCK_IMAGES.length - 1) + 1, rnd(BLOCK_IMAGES.length - 1) + 1],
-            rotation: 0,
+            rotation: 1,
             visible
         }
     }

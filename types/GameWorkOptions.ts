@@ -7,5 +7,6 @@ export type GameWorkOptions = {
     imageList?: {
         id: string,
         path: string
-    }[]
+    }[],
+    imageRoot?: string
 };

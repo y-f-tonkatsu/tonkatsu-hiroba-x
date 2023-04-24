@@ -18,7 +18,7 @@ export class BackgroundComponent extends Component {
     constructor(parent: DisplayObject, fieldComponent: FieldComponent) {
         super(parent);
         this._layer = parent.layer;
-        this._offsetSize = new Point(this._layer.width * 0.5 / 13, this._layer.height * 2 / 23);
+        this._offsetSize = new Point(this._layer.width * 0.5 / 13, this._layer.height * 2.5 / 23);
         this.initFieldSize();
         fieldComponent.offsetSize = this._offsetSize;
         fieldComponent.fieldSize = this._fieldSize;
@@ -41,9 +41,8 @@ export class BackgroundComponent extends Component {
     override draw() {
         super.draw();
         const ctx = this._layer.context;
-        ctx.clearRect(0, 0, this._layer.width, this._layer.height);
-        ctx.fillStyle = "#333344";
-        ctx.fillRect(this._offsetSize.x, this._offsetSize.y, this._fieldSize.width, this._fieldSize.height);
+        const img = this.parent.imageFileList.filter(item => item.id == `bg`)[0].element;
+        ctx.drawImage(img, 0, 0, this._layer.width, this._layer.height);
     }
 
 }
