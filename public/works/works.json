@@ -19,8 +19,12 @@
           "zIndex": 2
         },
         {
-          "name": "effect",
+          "name": "ui",
           "zIndex": 3
+        },
+        {
+          "name": "effect",
+          "zIndex": 4
         }
       ],
       "imageList": [

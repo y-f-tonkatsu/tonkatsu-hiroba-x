@@ -3,6 +3,8 @@ import {CanvasLayer} from "../../../TonkatsuDisplayLib/Display/CanvasLayer";
 import {Point} from "../../../TonkatsuDisplayLib/Display/Point";
 import {FieldComponent} from "./FieldComponent";
 import {BackgroundComponent} from "./BackgroundComponent";
+import {GameUIComponent} from "./GameUIComponent";
+import {EffectComponent} from "./EffectComponent";
 
 export function rnd(n: number) {
     return Math.floor(Math.random() * n);
@@ -16,21 +18,33 @@ export class Game02Falling extends DisplayObject {
     private readonly _fieldComponent: FieldComponent;
     private readonly _background: DisplayObject;
     private readonly _backgroundComponent: BackgroundComponent;
+    private readonly _gameUI: DisplayObject;
+    private readonly _gameUIComponent: GameUIComponent;
+    private readonly _effectManager: DisplayObject;
+    private readonly _effectComponent: EffectComponent;
 
     private _gameState: GameState = "play";
     private _removeKeyBoardEventListeners: () => void = () => {
     };
 
+    private _chain: number = 0;
+
     constructor(layer: CanvasLayer, options: DisplayObjectOptions) {
         super(layer, options);
 
+        this._gameUI = new DisplayObject(options.layerList[2]);
+        this._gameUIComponent = new GameUIComponent(this._gameUI)
+        this._effectManager = new DisplayObject(options.layerList[3]);
+        this._effectComponent = new EffectComponent(this._effectManager)
         this._field = new DisplayObject(options.layerList[1]);
         this._field.imageFileList = options.imageFileList;
-        this._fieldComponent = new FieldComponent(this._field);
+        this._fieldComponent = new FieldComponent(this._field, this._gameUIComponent, this._effectComponent);
         this._background = new DisplayObject(options.layerList[0]);
         this._backgroundComponent = new BackgroundComponent(this, this._fieldComponent);
         this.add(this._field);
         this.add(this._background);
+        this.add(this._gameUI);
+        this.add(this._effectManager);
         this.initKeyEvents();
     }
 
@@ -44,11 +58,14 @@ export class Game02Falling extends DisplayObject {
                 this._gameState = "drop";
                 this._fieldComponent.resetCurrentBlocks(false);
             } else if (this._fieldComponent.checkFlash()) {
+                this._chain += 1;
                 this._gameState = "flash";
                 this._fieldComponent.resetCurrentBlocks(false);
             } else {
+                this._chain = 1;
                 this._gameState = "play";
                 this._fieldComponent.resetCurrentBlocks(true);
+                this._fieldComponent.resetNextBlocks();
             }
         }
 
@@ -63,7 +80,7 @@ export class Game02Falling extends DisplayObject {
                 this._gameState = "check";
             }
         } else if (this._gameState === "flash") {
-            if (this._fieldComponent.progressFlash()) {
+            if (this._fieldComponent.progressFlash(this._chain)) {
                 this._gameState = "check";
             }
         }

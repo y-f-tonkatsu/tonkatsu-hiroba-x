@@ -4,6 +4,8 @@ import {Size} from "../../../TonkatsuDisplayLib/Display/Size";
 import {Point} from "../../../TonkatsuDisplayLib/Display/Point";
 import {rnd} from "./Game02Falling";
 import {Component} from "../../../TonkatsuDisplayLib/BasicComponents/Component";
+import {GameUIComponent} from "./GameUIComponent";
+import {EffectComponent} from "./EffectComponent";
 
 /**
  * 回転の状態毎のサブブロックの位置をベクトルで表す。
@@ -85,16 +87,23 @@ export class FieldComponent extends Component {
         rotation: 0,
         visible: true
     };
+    private _nextBlocks = [1, 2];
     private _layer: CanvasLayer;
+    private _gameUIComponent: GameUIComponent;
+    private _effectComponent: EffectComponent;
 
     private static readonly START_POSITION: Point = new Point(3, 0);
     private static readonly START_DIRECTION: Point = ROTATION[0].clone();
 
-    constructor(parent: DisplayObject) {
+    constructor(parent: DisplayObject, gameUIComponent: GameUIComponent, effectComponent: EffectComponent) {
         super(parent);
         this._layer = parent.layer;
+        this._gameUIComponent = gameUIComponent;
+        this._effectComponent = effectComponent;
         this.initCells();
+        this.resetNextBlocks();
         this.resetCurrentBlocks(true);
+        this.resetNextBlocks();
     }
 
     //初期化
@@ -129,10 +138,18 @@ export class FieldComponent extends Component {
             position: FieldComponent.START_POSITION.clone(),
             direction: FieldComponent.START_DIRECTION.clone(),
             subPosition: new Point(0, 0),
-            colors: [rnd(BLOCK_IMAGES.length - 1) + 1, rnd(BLOCK_IMAGES.length - 1) + 1],
-            rotation: 1,
+            colors: this._nextBlocks,
+            rotation: 0,
             visible
         }
+    }
+
+    resetNextBlocks(){
+        this._nextBlocks = [rnd(BLOCK_IMAGES.length - 1) + 1, rnd(BLOCK_IMAGES.length - 1) + 1];
+        this._gameUIComponent.setNextBlockImages(
+            this.getBlockImage(this._nextBlocks[0]),
+            this.getBlockImage(this._nextBlocks[1])
+        );
     }
 
     //操作
@@ -197,8 +214,8 @@ export class FieldComponent extends Component {
      * 左回転
      */
     rotateLeft() {
-        if (this.canRotateCurrent(1)) {
-            this.rotateCurrent(1);
+        if (this.canRotateCurrent(-1)) {
+            this.rotateCurrent(-1);
         }
     }
 
@@ -206,8 +223,8 @@ export class FieldComponent extends Component {
      * 右回転
      */
     rotateRight() {
-        if (this.canRotateCurrent(-1)) {
-            this.rotateCurrent(-1);
+        if (this.canRotateCurrent(1)) {
+            this.rotateCurrent(1);
         }
     }
 
@@ -244,7 +261,6 @@ export class FieldComponent extends Component {
         const cell2 = this.getCell(FieldComponent.START_POSITION.x + FieldComponent.START_DIRECTION.x,
             FieldComponent.START_POSITION.y + FieldComponent.START_DIRECTION.y);
         if (cell1 == null || cell2 == null) return false;
-        console.log(FieldComponent.START_POSITION);
         return cell1.color !== 0 || cell2.color !== 0;
     }
 
@@ -371,7 +387,7 @@ export class FieldComponent extends Component {
         return flg;
     }
 
-    progressFlash(): boolean {
+    progressFlash(chain:number = 1): boolean {
         let flg = false
         for (let x = 0; x < this._numCells.width; x++) {
             for (let y = this._numCells.height - 1; y >= 0; y--) {
@@ -382,6 +398,7 @@ export class FieldComponent extends Component {
                 for (let i = 0; i < num; i++) {
                     const target = this._cells[y + cell.flash.direction.y * i][x + cell.flash.direction.x * i];
                     target.color = 0;
+                    this._gameUIComponent.addScore(chain);
                 }
                 flg = true;
             }
