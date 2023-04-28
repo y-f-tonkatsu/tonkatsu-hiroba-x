@@ -28,11 +28,14 @@ const CanvasWorkContent: FC<Props> = (props) => {
         }]
     }
 
-    const canvasRef = useRef<HTMLCanvasElement>(null);
+    for(let i = 0; i < layerSettings.length; i++){
+        canvasRefs.push(useRef<HTMLCanvasElement>(null))
+    }
+    let i = 0;
     const canvases = layerSettings.map(layer => {
         const canvas = <canvas
             key={"CanvasLayer_" + layer.name}
-            ref={canvasRef}
+            ref={canvasRefs[i]}
             width={work.width}
             height={work.height}
             style={{
@@ -44,7 +47,7 @@ const CanvasWorkContent: FC<Props> = (props) => {
             }}
         >
         </canvas>;
-        canvasRefs.push(canvasRef);
+        i++;
         return canvas;
     });
 
