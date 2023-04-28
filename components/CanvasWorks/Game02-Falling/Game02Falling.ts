@@ -168,19 +168,14 @@ export class Game02Falling extends DisplayObject {
                 this.reset();
             } else if (this._gameState === "play") {
                 if (e.offsetY > canvas.offsetHeight * 3 / 4) return;
-                if (e.offsetY < canvas.offsetHeight / 4) {
-                    if (e.offsetX < canvas.offsetWidth * 0.5) {
-                        this._fieldComponent.rotateLeft();
-                    } else {
-                        this._fieldComponent.rotateRight();
-                    }
+                if (e.offsetX > canvas.offsetWidth * 0.75) {
+                    this._fieldComponent.right();
+                } else if (e.offsetX > canvas.offsetWidth * 0.5) {
+                    this._fieldComponent.rotateRight();
+                } else if (e.offsetX > canvas.offsetWidth * 0.25) {
+                    this._fieldComponent.rotateLeft();
                 } else {
-                    if (e.offsetX < canvas.offsetWidth * 0.5) {
-                        this._fieldComponent.left();
-                    } else {
-                        this._fieldComponent.right();
-                    }
-
+                    this._fieldComponent.left();
                 }
             }
         }
