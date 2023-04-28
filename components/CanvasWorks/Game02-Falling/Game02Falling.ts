@@ -159,7 +159,7 @@ export class Game02Falling extends DisplayObject {
 
         let canvas: HTMLCanvasElement;
         if (this._gameOverLayer.canvas.current == null) {
-            throw new Error("Canvas 要素を取得できない");
+            return;
         }
         canvas = this._gameOverLayer.canvas.current
 

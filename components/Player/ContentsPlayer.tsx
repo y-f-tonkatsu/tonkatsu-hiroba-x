@@ -1,6 +1,6 @@
 import styles from "./ContentsPlayer.module.scss"
 import {Work} from "../../types/Work";
-import {FC, useState} from "react";
+import {FC, ReactNode, useState} from "react";
 import {useRouter} from "next/router";
 import PrevButton from "./PrevButton";
 import NextButton from "./NextButton";
@@ -107,10 +107,15 @@ const ContentsPlayer: FC<Props> = ({work, links, prevWorks, nextWorks}) => {
         </div>
     );
     //サイド
+    let desc:ReactNode[] = [];
+    work.description.split("\n\n").forEach((d, i) => {
+        desc.push(d);
+        desc.push(<br key={"desc_br_" + i}/>);
+    });
     const sideContent = (
         <div key="sideContent" className={styles.contentSide}>
             <h3 className={styles.labelSide}>Description</h3>
-            <div className={styles.contentSideDescription}>{transitAnimation ? "" : work.description}</div>
+            <div className={styles.contentSideDescription}>{transitAnimation ? "" : desc}</div>
             <h3 className={styles.labelSide}>Tools</h3>
             <div className={styles.contentSideDescription}>{transitAnimation ? "" : work.info}</div>
         </div>

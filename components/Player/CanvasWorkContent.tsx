@@ -1,4 +1,4 @@
-import {createRef, FC, RefObject, useEffect} from "react";
+import {createRef, FC, RefObject, useEffect, useState} from "react";
 import styles from "./ContentsPlayer.module.scss";
 import {CanvasLayer} from "../../TonkatsuDisplayLib/Display/CanvasLayer";
 import {CanvasWork, getCanvasWork} from "../CanvasWorks/CanvasWork";
@@ -12,6 +12,8 @@ type Props = {
 const CanvasWorkContent: FC<Props> = (props) => {
 
     const {work} = props;
+
+    const [isLoading, setIsLoading] = useState<boolean>(false);
 
     //Canvas 要素とその ref のリストを作る
     const canvasRefs: RefObject<HTMLCanvasElement>[] = [];
@@ -28,7 +30,7 @@ const CanvasWorkContent: FC<Props> = (props) => {
         }]
     }
 
-    for(let i = 0; i < layerSettings.length; i++){
+    for (let i = 0; i < layerSettings.length; i++) {
         canvasRefs[i] = createRef<HTMLCanvasElement>();
     }
     let i = 0;
@@ -50,6 +52,21 @@ const CanvasWorkContent: FC<Props> = (props) => {
         i++;
         return canvas;
     });
+    const loader = <img
+        src={"../../works/game/190_falling.jpg"}
+        key="loader"
+        alt={work.description}
+        style={{
+            width: work.width,
+            height: work.height,
+            maxWidth: "100%",
+            maxHeight: "100%",
+            position: "absolute",
+            top: 0,
+            left: 0,
+            display: isLoading ? "block" : "none"
+        }}
+    />;
 
     //CanvasWork 開始の副作用
     useEffect(() => {
@@ -77,7 +94,9 @@ const CanvasWorkContent: FC<Props> = (props) => {
         if (work.gameWorkOptions && work.gameWorkOptions.imageList && work.gameWorkOptions.imageList.length > 0) {
             const frameRate = work.gameWorkOptions.frameRate;
             const imageLoader = createImageLoader(work.gameWorkOptions.imageList, work.gameWorkOptions.imageRoot || "");
+            setIsLoading(true);
             imageLoader.load(imageList => {
+                setIsLoading(false);
                 canvasWork = getCanvasWork(work.id.toString(), frameRate, layers, imageList);
             }, () => {
                 if (canvasWork) return;
@@ -111,6 +130,7 @@ const CanvasWorkContent: FC<Props> = (props) => {
             }}
         >
             {canvases}
+            {loader}
         </div>
     );
 }
