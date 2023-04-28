@@ -5,12 +5,13 @@ import {FieldComponent} from "./FieldComponent";
 import {BackgroundComponent} from "./BackgroundComponent";
 import {GameUIComponent} from "./GameUIComponent";
 import {EffectComponent} from "./EffectComponent";
+import {options} from "jest-cli/build/cli/args";
 
 export function rnd(n: number) {
     return Math.floor(Math.random() * n);
 }
 
-export type GameState = "stop" | "play" | "flash" | "check" | "drop";
+export type GameState = "stop" | "play" | "flash" | "check" | "drop" | "gameOver";
 
 export class Game02Falling extends DisplayObject {
 
@@ -24,13 +25,18 @@ export class Game02Falling extends DisplayObject {
     private readonly _effectComponent: EffectComponent;
 
     private _gameState: GameState = "play";
-    private _removeKeyBoardEventListeners: () => void = () => {
+    private _gameOverLayer: CanvasLayer;
+    private _gameOverImage: HTMLImageElement;
+    private _removeEventListeners: () => void = () => {
     };
+    private _isDropping: boolean = false;
 
     private _chain: number = 0;
 
     constructor(layer: CanvasLayer, options: DisplayObjectOptions) {
         super(layer, options);
+        this._gameOverLayer = options.layerList[4];
+        this._gameOverImage = options.imageFileList.filter(item => item.id == "gameOver")[0].element;
 
         this._gameUI = new DisplayObject(options.layerList[2]);
         this._gameUIComponent = new GameUIComponent(this._gameUI)
@@ -45,15 +51,27 @@ export class Game02Falling extends DisplayObject {
         this.add(this._background);
         this.add(this._gameUI);
         this.add(this._effectManager);
-        this.initKeyEvents();
+        this.initEventListeners();
+    }
+
+    reset() {
+        this._fieldComponent.reset();
+        this._gameUIComponent.reset();
+        this._effectComponent.reset();
+        this._gameState = "check";
+        this._isDropping = false;
+        this._chain = 0;
     }
 
     override update() {
         super.update();
+        if (this._fieldComponent.checkWait()) {
+            return;
+        }
+
         if (this._gameState === "check") {
             if (this._fieldComponent.checkGameOver()) {
-                console.log("GameOver!!");
-                this._gameState = "stop"
+                this._gameState = "gameOver"
             } else if (this._fieldComponent.checkDrop()) {
                 this._gameState = "drop";
                 this._fieldComponent.resetCurrentBlocks(false);
@@ -62,7 +80,7 @@ export class Game02Falling extends DisplayObject {
                 this._gameState = "flash";
                 this._fieldComponent.resetCurrentBlocks(false);
             } else {
-                this._chain = 1;
+                this._chain = 0;
                 this._gameState = "play";
                 this._fieldComponent.resetCurrentBlocks(true);
                 this._fieldComponent.resetNextBlocks();
@@ -71,8 +89,12 @@ export class Game02Falling extends DisplayObject {
 
         if (this._gameState === "play") {
             this._fieldComponent.progressDown();
+            if (this._isDropping) {
+                this._fieldComponent.down();
+            }
             if (!this._fieldComponent.canMoveCurrent(new Point(0, 1))) {
                 this._fieldComponent.setCurrentToStatic();
+                this._isDropping = false;
                 this._gameState = "check";
             }
         } else if (this._gameState === "drop") {
@@ -83,19 +105,39 @@ export class Game02Falling extends DisplayObject {
             if (this._fieldComponent.progressFlash(this._chain)) {
                 this._gameState = "check";
             }
+        } else if (this._gameState === "gameOver") {
+            this.gameOverScreen();
         }
     }
 
     override draw() {
         super.draw();
+        const ctx = this._gameOverLayer.context;
+        if (this._gameState == "gameOver") {
+            ctx.drawImage(this._gameOverImage, 0, 0, this._gameOverLayer.width, this._gameOverLayer.height);
+            ctx.textAlign = "center";
+            ctx.fillStyle = "red";
+            ctx.font = "300px corporate-logo-ver2";
+            ctx.fillText(this._gameUIComponent.realScore.toString(), this._gameOverLayer.width * 0.5, this._gameOverLayer.height * 0.6);
+        } else {
+            ctx.clearRect(0, 0, this._gameOverLayer.width, this._gameOverLayer.height);
+        }
     }
 
     override destruct() {
         super.destruct();
-        this._removeKeyBoardEventListeners();
+        this._removeEventListeners();
     }
 
-    private initKeyEvents() {
+    private gameOverScreen() {
+
+    }
+
+    /**
+     * イベントリスナー設定
+     * アンマウント時のリスナー削除処理の設定も行う
+     */
+    private initEventListeners() {
 
         const onKeyPress = (e: KeyboardEvent) => {
             if (this._gameState !== "play") return;
@@ -116,12 +158,61 @@ export class Game02Falling extends DisplayObject {
             }
         }
 
-        document.addEventListener("keypress", onKeyPress);
-        document.addEventListener("keydown", onKeyDown);
+        let canvas: HTMLCanvasElement;
+        if (this._gameOverLayer.canvas.current == null) {
+            throw new Error("Canvas 要素を取得できない");
+            return;
+        }
+        canvas = this._gameOverLayer.canvas.current
 
-        this._removeKeyBoardEventListeners = () => {
-            document.removeEventListener("keypress", onKeyPress);
-            document.removeEventListener("keydown", onKeyDown);
+        const onClick = (e: MouseEvent) => {
+            if (this._gameState === "gameOver") {
+                this.reset();
+            } else if (this._gameState === "play") {
+                if (e.offsetY > canvas.offsetHeight * 3 / 4) return;
+                if (e.offsetX > canvas.offsetWidth * 0.7) {
+                    this._fieldComponent.right();
+                } else if (e.offsetX > canvas.offsetWidth * 0.5) {
+                    this._fieldComponent.rotateRight();
+                } else if (e.offsetX > canvas.offsetWidth * 0.2) {
+                    this._fieldComponent.rotateLeft();
+                } else {
+                    this._fieldComponent.left();
+                }
+            }
+        }
+
+        const onMouseDown = (e: MouseEvent) => {
+            if (this._gameState === "play") {
+                if (e.offsetY > canvas.offsetHeight * 3 / 4) {
+                    this._isDropping = true;
+                }
+            }
+        }
+
+        const onMouseUpOrOut = (e: MouseEvent) => {
+            if (this._gameState === "play") {
+                this._isDropping = false;
+            }
+        }
+
+        const eventListeners = [
+            {target: canvas, type: "click", listener: onClick},
+            {target: canvas, type: "mousedown", listener: onMouseDown},
+            {target: canvas, type: "mouseup", listener: onMouseUpOrOut},
+            {target: canvas, type: "mouseout", listener: onMouseUpOrOut},
+            {target: document, type: "keypress", listener: onKeyPress},
+            {target: document, type: "keydown", listener: onKeyDown},
+        ];
+
+        eventListeners.forEach(pair => {
+            pair.target.addEventListener(pair.type, pair.listener as () => void);
+        });
+
+        this._removeEventListeners = () => {
+            eventListeners.forEach(pair => {
+                pair.target.removeEventListener(pair.type, pair.listener as () => void);
+            });
         }
     }
 

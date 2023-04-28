@@ -25,6 +25,10 @@
         {
           "name": "effect",
           "zIndex": 4
+        },
+        {
+          "name": "gameOver",
+          "zIndex": 5
         }
       ],
       "imageList": [
@@ -55,6 +59,10 @@
         {
           "id": "bg",
           "path": "bg.jpg"
+        },
+        {
+          "id": "gameOver",
+          "path": "gameover.png"
         }
       ],
       "imageRoot": "../../works/game/190_falling/"

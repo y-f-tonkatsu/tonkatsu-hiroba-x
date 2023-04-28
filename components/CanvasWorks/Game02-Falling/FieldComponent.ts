@@ -6,6 +6,8 @@ import {rnd} from "./Game02Falling";
 import {Component} from "../../../TonkatsuDisplayLib/BasicComponents/Component";
 import {GameUIComponent} from "./GameUIComponent";
 import {EffectComponent} from "./EffectComponent";
+import {FlashEffect} from "./FlashEffect";
+import {Transform} from "../../../TonkatsuDisplayLib/Display/Transform";
 
 /**
  * 回転の状態毎のサブブロックの位置をベクトルで表す。
@@ -25,10 +27,7 @@ export type Cell = {
     position: Point,
     subPosition: Point,
     direction: Point,
-    flash: {
-        num: number,
-        direction: Point,
-    }
+    flash: boolean
 }
 
 /**
@@ -40,22 +39,22 @@ export const BLOCK_IMAGES = [
         color: "none",
         index: -1,
     }, {
-        color: "blue",
+        color: "#ff4444",
         index: 0,
     }, {
-        color: "yellow",
+        color: "#ffaa44",
         index: 1,
     }, {
-        color: "green",
+        color: "#ffff44",
         index: 2,
     }, {
-        color: "teal",
+        color: "#44ff44",
         index: 3
     }, {
-        color: "orange",
+        color: "#8888ee",
         index: 4
     }, {
-        color: "pink",
+        color: "#ff2288",
         index: 5
     },
 ];
@@ -90,7 +89,9 @@ export class FieldComponent extends Component {
     private _nextBlocks = [1, 2];
     private _layer: CanvasLayer;
     private _gameUIComponent: GameUIComponent;
-    private _effectComponent: EffectComponent;
+    private readonly _effectComponent: EffectComponent;
+    private _wait: number = 0;
+    private _round: number = 0;
 
     private static readonly START_POSITION: Point = new Point(3, 0);
     private static readonly START_DIRECTION: Point = ROTATION[0].clone();
@@ -100,10 +101,16 @@ export class FieldComponent extends Component {
         this._layer = parent.layer;
         this._gameUIComponent = gameUIComponent;
         this._effectComponent = effectComponent;
+        this.reset();
+    }
+
+    reset() {
         this.initCells();
         this.resetNextBlocks();
         this.resetCurrentBlocks(true);
         this.resetNextBlocks();
+        this._wait = 0;
+        this._round = 0;
     }
 
     //初期化
@@ -121,10 +128,7 @@ export class FieldComponent extends Component {
                     position: new Point(0, 0),
                     subPosition: new Point(0, 0),
                     direction: new Point(0, 0),
-                    flash: {
-                        num: 0,
-                        direction: Point.zero(),
-                    }
+                    flash: false
                 });
             }
         }
@@ -142,9 +146,10 @@ export class FieldComponent extends Component {
             rotation: 0,
             visible
         }
+        this._round++;
     }
 
-    resetNextBlocks(){
+    resetNextBlocks() {
         this._nextBlocks = [rnd(BLOCK_IMAGES.length - 1) + 1, rnd(BLOCK_IMAGES.length - 1) + 1];
         this._gameUIComponent.setNextBlockImages(
             this.getBlockImage(this._nextBlocks[0]),
@@ -216,6 +221,18 @@ export class FieldComponent extends Component {
     rotateLeft() {
         if (this.canRotateCurrent(-1)) {
             this.rotateCurrent(-1);
+        } else {
+            const right = new Point(1, 0);
+            const left = new Point(-1, 0);
+            if (this._currentBlocks.rotation === 3 &&
+                this.canMoveCurrent(right)) {
+                this._currentBlocks.position.add(right);
+                this.rotateCurrent(-1);
+            } else if (this._currentBlocks.rotation === 1 &&
+                this.canMoveCurrent(left)) {
+                this._currentBlocks.position.add(left);
+                this.rotateCurrent(-1);
+            }
         }
     }
 
@@ -225,6 +242,18 @@ export class FieldComponent extends Component {
     rotateRight() {
         if (this.canRotateCurrent(1)) {
             this.rotateCurrent(1);
+        } else {
+            const right = new Point(1, 0);
+            const left = new Point(-1, 0);
+            if (this._currentBlocks.rotation === 3 &&
+                this.canMoveCurrent(left)) {
+                this._currentBlocks.position.add(left);
+                this.rotateCurrent(1);
+            } else if (this._currentBlocks.rotation === 1 &&
+                this.canMoveCurrent(right)) {
+                this._currentBlocks.position.add(right);
+                this.rotateCurrent(1);
+            }
         }
     }
 
@@ -253,6 +282,15 @@ export class FieldComponent extends Component {
             return null;
         } else {
             return this._cells[y][x];
+        }
+    }
+
+    checkWait(): boolean {
+        if (this._wait > 0) {
+            this._wait--;
+            return true;
+        } else {
+            return false;
         }
     }
 
@@ -290,52 +328,6 @@ export class FieldComponent extends Component {
     }
 
     /**
-     * ラインが揃っているかチェック
-     */
-    checkFlash(): boolean {
-        let flg = false
-        for (let x = 0; x < this._numCells.width; x++) {
-            for (let y = 0; y < this._numCells.height; y++) {
-                const cell = this.getCell(x, y);
-                if (!cell || cell.color == 0) continue;
-
-                const check = (cood: Point, v: Point): boolean => {
-                    const current = this.getCell(cood.x, cood.y);
-                    const target = this.getCell(cood.x + v.x, cood.y + v.y);
-                    if (current == null || target == null) {
-                        return false;
-                    } else {
-                        return current.color == target.color;
-                    }
-                }
-
-                [new Point(1, 0), new Point(0, 1), new Point(1, 1), new Point(-1, 1)].forEach(v => {
-                    let r = 1;
-                    const checkR = (cood: Point, v: Point): boolean => {
-                        if (check(cood, v)) {
-                            r++;
-                            return checkR(Point.combine(cood, v), v);
-                        } else {
-                            return false;
-                        }
-                    }
-                    checkR(new Point(x, y), v);
-                    if (r >= 3) {
-                        cell.flash = {
-                            num: r,
-                            direction: v
-                        }
-                        flg = true;
-                        console.log("flash!", cell.flash);
-                    }
-                })
-
-            }
-        }
-        return flg;
-    }
-
-    /**
      * 落下ブロックを固定ブロックに変える。
      * 落下ブロック自体は残る。
      */
@@ -350,7 +342,8 @@ export class FieldComponent extends Component {
      * 現在のブロックの落下を1フレーム分進める。
      */
     progressDown() {
-        this._currentBlocks.subPosition.add(new Point(0, 0.1));
+        const speed = Math.min(1.5, Math.max(0.03, 0.01 * this._round % 10 * 0.01 + 0.03));
+        this._currentBlocks.subPosition.add(new Point(0, speed));
         if (this._currentBlocks.subPosition.y >= 1) {
             this._currentBlocks.subPosition = new Point(0, 0);
             this._currentBlocks.position.add(new Point(0, 1));
@@ -387,34 +380,91 @@ export class FieldComponent extends Component {
         return flg;
     }
 
-    progressFlash(chain:number = 1): boolean {
+    /**
+     * ラインが揃っているかチェック
+     */
+    checkFlash(): boolean {
         let flg = false
         for (let x = 0; x < this._numCells.width; x++) {
-            for (let y = this._numCells.height - 1; y >= 0; y--) {
-                const cell = this._cells[y][x];
-                if (cell == null) continue;
-                const num = cell.flash.num;
-                if (num === 0) continue;
-                for (let i = 0; i < num; i++) {
-                    const target = this._cells[y + cell.flash.direction.y * i][x + cell.flash.direction.x * i];
-                    target.color = 0;
-                    this._gameUIComponent.addScore(chain);
-                }
-                flg = true;
+            for (let y = 0; y < this._numCells.height; y++) {
+                const cell = this.getCell(x, y);
+                if (cell) cell.flash = false;
             }
         }
-        if (flg) {
-            for (let x = 0; x < this._numCells.width; x++) {
-                for (let y = this._numCells.height - 1; y >= 0; y--) {
-                    const cell = this._cells[y][x];
-                    cell.flash = {
-                        num: 0,
-                        direction: Point.zero()
+        for (let x = 0; x < this._numCells.width; x++) {
+            for (let y = 0; y < this._numCells.height; y++) {
+                const cell = this.getCell(x, y);
+                if (!cell || cell.color == 0) continue;
+
+                const check = (cood: Point, v: Point): boolean => {
+                    const current = this.getCell(cood.x, cood.y);
+                    const target = this.getCell(cood.x + v.x, cood.y + v.y);
+                    if (current == null || target == null || target.color == 0) {
+                        return false;
+                    } else {
+                        return current.color == target.color;
                     }
                 }
+
+                [new Point(1, 0), new Point(0, 1), new Point(1, 1), new Point(-1, 1)].forEach(v => {
+                    let r = 1;
+                    const checkR = (cood: Point, v: Point): boolean => {
+                        if (check(cood, v)) {
+                            r++;
+                            return checkR(Point.combine(cood, v), v);
+                        } else {
+                            return false;
+                        }
+                    }
+                    checkR(new Point(x, y), v);
+                    if (r >= 3) {
+                        cell.flash = true;
+                        r--;
+                        while (r > 0) {
+                            const current = this.getCell(x + v.x * r, y + v.y * r);
+                            console.log("flash!", x + v.x * r, y + v.y * r);
+                            if (current) current.flash = true;
+                            r--;
+                        }
+                        flg = true;
+                    }
+                })
+
             }
         }
         return flg;
+    }
+
+    progressFlash(chain: number = 1): boolean {
+        for (let y = this._numCells.height - 1; y >= 0; y--) {
+            for (let x = 0; x < this._numCells.width; x++) {
+                const cell = this._cells[y][x];
+                if (cell == null) continue;
+                if (cell.flash) {
+                    const transform = new Transform();
+                    transform.position = new Point(
+                        this._offsetSize.x + x * this._cellSize.width,
+                        this._offsetSize.y + y * this._cellSize.height
+                    );
+                    new FlashEffect(this._effectComponent, {
+                        color: BLOCK_IMAGES[cell.color].color,
+                        image: this.getBlockImage(cell.color),
+                        size: this._cellSize,
+                        score: chain,
+                        transform,
+                        onEndListener: () => {
+                        }
+                    });
+                    cell.color = 0;
+                    cell.flash = false;
+                    this._gameUIComponent.addScore(chain);
+                    this._wait = 2;
+                    return false;
+                }
+            }
+        }
+        this._wait = 30;
+        return true;
     }
 
     //描画

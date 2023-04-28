@@ -1,9 +1,6 @@
 import {DisplayObject} from "../../../TonkatsuDisplayLib/Display/DisplayObject";
 import {CanvasLayer} from "../../../TonkatsuDisplayLib/Display/CanvasLayer";
-import {Size} from "../../../TonkatsuDisplayLib/Display/Size";
-import {Point} from "../../../TonkatsuDisplayLib/Display/Point";
 import {Component} from "../../../TonkatsuDisplayLib/BasicComponents/Component";
-import {FieldComponent} from "./FieldComponent";
 
 export class GameUIComponent extends Component {
     get realScore(): number {
@@ -31,6 +28,12 @@ export class GameUIComponent extends Component {
     constructor(parent: DisplayObject,) {
         super(parent);
         this._layer = parent.layer;
+        this.reset();
+    }
+
+    reset(){
+        this._realScore = 0;
+        this._displayScore = 0;
     }
 
     override update() {

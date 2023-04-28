@@ -1,15 +1,20 @@
 import {DisplayObject} from "../../../TonkatsuDisplayLib/Display/DisplayObject";
 import {CanvasLayer} from "../../../TonkatsuDisplayLib/Display/CanvasLayer";
-import {Size} from "../../../TonkatsuDisplayLib/Display/Size";
-import {Point} from "../../../TonkatsuDisplayLib/Display/Point";
 import {Component} from "../../../TonkatsuDisplayLib/BasicComponents/Component";
-import {FieldComponent} from "./FieldComponent";
-
-export type Effect = {
-    progress: number,
-}
+import {Effect} from "./Effect";
 
 export class EffectComponent extends Component {
+    get layer(): CanvasLayer {
+        return this._layer;
+    }
+
+    set layer(value: CanvasLayer) {
+        this._layer = value;
+    }
+
+    addEffect(effect: Effect) {
+        this._effects.push(effect);
+    }
 
     private _layer: CanvasLayer;
     private _effects: Effect[] = [];
@@ -19,20 +24,27 @@ export class EffectComponent extends Component {
         this._layer = parent.layer;
     }
 
+    reset(){
+        this._effects = [];
+    }
+
     override update() {
         super.update();
-        this._effects.forEach(effect=>{
+        this._effects.forEach(effect => {
+            effect.update();
             effect.progress++;
+            if (effect.progress >= effect.length) {
+                effect.onEndListener();
+                this._effects = this._effects.filter(eff => eff !== effect);
+            }
         })
     }
 
     override draw() {
         super.draw();
-        this.drawEffects();
-    }
-
-    private drawEffects() {
-        const ctx = this._layer.context;
+        this._effects.forEach(effect => {
+            effect.draw();
+        })
     }
 
 }

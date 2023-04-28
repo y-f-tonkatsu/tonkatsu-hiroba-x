@@ -20,6 +20,7 @@ export class BackgroundComponent extends Component {
         this._layer = parent.layer;
         this._offsetSize = new Point(this._layer.width * 0.5 / 13, this._layer.height * 2.5 / 23);
         this.initFieldSize();
+        this._layer.autoRefresh = false;
         fieldComponent.offsetSize = this._offsetSize;
         fieldComponent.fieldSize = this._fieldSize;
     }
@@ -43,6 +44,7 @@ export class BackgroundComponent extends Component {
         const ctx = this._layer.context;
         const img = this.parent.imageFileList.filter(item => item.id == `bg`)[0].element;
         ctx.drawImage(img, 0, 0, this._layer.width, this._layer.height);
+        this.canSkipRender = true;
     }
 
 }
