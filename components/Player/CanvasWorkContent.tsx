@@ -53,7 +53,7 @@ const CanvasWorkContent: FC<Props> = (props) => {
     const loaderRef = createRef<HTMLImageElement>();
     const loader = <img
         ref={loaderRef}
-        src={"../../works/game/190_falling.jpg"}
+        src={work.path}
         key="loader"
         alt={work.description}
         style={{
@@ -95,7 +95,7 @@ const CanvasWorkContent: FC<Props> = (props) => {
             const frameRate = work.gameWorkOptions.frameRate;
             const imageLoader = createImageLoader(work.gameWorkOptions.imageList, work.gameWorkOptions.imageRoot || "");
             imageLoader.load(imageList => {
-                if(loaderRef.current){
+                if (loaderRef.current) {
                     loaderRef.current.style.display = "none";
                 }
                 canvasWork = getCanvasWork(work.id.toString(), frameRate, layers, imageList);
