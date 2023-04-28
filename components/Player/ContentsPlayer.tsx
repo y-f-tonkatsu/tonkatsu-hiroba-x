@@ -108,7 +108,7 @@ const ContentsPlayer: FC<Props> = ({work, links, prevWorks, nextWorks}) => {
     );
     //サイド
     let desc:ReactNode[] = [];
-    work.description.split("\n\n").forEach((d, i) => {
+    work.description.split("\n").forEach((d, i) => {
         desc.push(d);
         desc.push(<br key={"desc_br_" + i}/>);
     });
