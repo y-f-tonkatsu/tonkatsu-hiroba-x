@@ -24,7 +24,7 @@ const canvasContents: CanvasContents[] = [
         displayObject: Mo02CellAutomaton
     },
     {
-        id: "190",
+        id: "193",
         displayObject: Game02Falling
     },
 ];
