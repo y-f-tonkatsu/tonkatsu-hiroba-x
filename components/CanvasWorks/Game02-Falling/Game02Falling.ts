@@ -198,8 +198,8 @@ export class Game02Falling extends DisplayObject {
 
         const eventListeners = [
             {target: canvas, type: "click", listener: onClick},
-            {target: canvas, type: "mousedown", listener: onMouseDown},
-            {target: canvas, type: "mouseup", listener: onMouseUpOrOut},
+            {target: canvas, type: "pointerdown", listener: onMouseDown},
+            {target: canvas, type: "pointerup", listener: onMouseUpOrOut},
             {target: canvas, type: "mouseout", listener: onMouseUpOrOut},
             {target: document, type: "keypress", listener: onKeyPress},
             {target: document, type: "keydown", listener: onKeyDown},
