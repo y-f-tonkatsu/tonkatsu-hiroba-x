@@ -1,4 +1,4 @@
-import {createRef, FC, RefObject, useEffect, useState} from "react";
+import {createRef, FC, RefObject, useEffect, useRef, useState} from "react";
 import styles from "./ContentsPlayer.module.scss";
 import {CanvasLayer} from "../../TonkatsuDisplayLib/Display/CanvasLayer";
 import {CanvasWork, getCanvasWork} from "../CanvasWorks/CanvasWork";
@@ -12,8 +12,6 @@ type Props = {
 const CanvasWorkContent: FC<Props> = (props) => {
 
     const {work} = props;
-
-    const [isLoading, setIsLoading] = useState<boolean>(false);
 
     //Canvas 要素とその ref のリストを作る
     const canvasRefs: RefObject<HTMLCanvasElement>[] = [];
@@ -52,7 +50,9 @@ const CanvasWorkContent: FC<Props> = (props) => {
         i++;
         return canvas;
     });
+    const loaderRef = createRef<HTMLImageElement>();
     const loader = <img
+        ref={loaderRef}
         src={"../../works/game/190_falling.jpg"}
         key="loader"
         alt={work.description}
@@ -64,7 +64,7 @@ const CanvasWorkContent: FC<Props> = (props) => {
             position: "absolute",
             top: 0,
             left: 0,
-            display: isLoading ? "block" : "none"
+            pointerEvents: "none"
         }}
     />;
 
@@ -94,9 +94,10 @@ const CanvasWorkContent: FC<Props> = (props) => {
         if (work.gameWorkOptions && work.gameWorkOptions.imageList && work.gameWorkOptions.imageList.length > 0) {
             const frameRate = work.gameWorkOptions.frameRate;
             const imageLoader = createImageLoader(work.gameWorkOptions.imageList, work.gameWorkOptions.imageRoot || "");
-            setIsLoading(true);
             imageLoader.load(imageList => {
-                setIsLoading(false);
+                if(loaderRef.current){
+                    loaderRef.current.style.display = "none";
+                }
                 canvasWork = getCanvasWork(work.id.toString(), frameRate, layers, imageList);
             }, () => {
                 if (canvasWork) return;

@@ -158,6 +158,7 @@ export class Game02Falling extends DisplayObject {
         }
 
         let canvas: HTMLCanvasElement;
+        console.log(this._gameOverLayer.canvas.current);
         if (this._gameOverLayer.canvas.current == null) {
             return;
         }
