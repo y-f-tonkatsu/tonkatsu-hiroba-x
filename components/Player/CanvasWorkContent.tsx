@@ -1,4 +1,4 @@
-import {FC, RefObject, useEffect, useRef} from "react";
+import {createRef, FC, RefObject, useEffect} from "react";
 import styles from "./ContentsPlayer.module.scss";
 import {CanvasLayer} from "../../TonkatsuDisplayLib/Display/CanvasLayer";
 import {CanvasWork, getCanvasWork} from "../CanvasWorks/CanvasWork";
@@ -29,7 +29,7 @@ const CanvasWorkContent: FC<Props> = (props) => {
     }
 
     for(let i = 0; i < layerSettings.length; i++){
-        canvasRefs.push(useRef<HTMLCanvasElement>(null))
+        canvasRefs[i] = createRef<HTMLCanvasElement>();
     }
     let i = 0;
     const canvases = layerSettings.map(layer => {
