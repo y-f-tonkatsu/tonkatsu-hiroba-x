@@ -28,8 +28,8 @@ const CanvasWorkContent: FC<Props> = (props) => {
         }]
     }
 
+    const canvasRef = useRef<HTMLCanvasElement>(null);
     const canvases = layerSettings.map(layer => {
-        const canvasRef = useRef<HTMLCanvasElement>(null);
         const canvas = <canvas
             key={"CanvasLayer_" + layer.name}
             ref={canvasRef}
