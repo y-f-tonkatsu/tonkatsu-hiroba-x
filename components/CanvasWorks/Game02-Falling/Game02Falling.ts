@@ -5,7 +5,6 @@ import {FieldComponent} from "./FieldComponent";
 import {BackgroundComponent} from "./BackgroundComponent";
 import {GameUIComponent} from "./GameUIComponent";
 import {EffectComponent} from "./EffectComponent";
-import {options} from "jest-cli/build/cli/args";
 
 export function rnd(n: number) {
     return Math.floor(Math.random() * n);
@@ -161,7 +160,6 @@ export class Game02Falling extends DisplayObject {
         let canvas: HTMLCanvasElement;
         if (this._gameOverLayer.canvas.current == null) {
             throw new Error("Canvas 要素を取得できない");
-            return;
         }
         canvas = this._gameOverLayer.canvas.current
 
@@ -170,14 +168,19 @@ export class Game02Falling extends DisplayObject {
                 this.reset();
             } else if (this._gameState === "play") {
                 if (e.offsetY > canvas.offsetHeight * 3 / 4) return;
-                if (e.offsetX > canvas.offsetWidth * 0.7) {
-                    this._fieldComponent.right();
-                } else if (e.offsetX > canvas.offsetWidth * 0.5) {
-                    this._fieldComponent.rotateRight();
-                } else if (e.offsetX > canvas.offsetWidth * 0.2) {
-                    this._fieldComponent.rotateLeft();
+                if (e.offsetY < canvas.offsetHeight / 4) {
+                    if (e.offsetX < canvas.offsetWidth * 0.5) {
+                        this._fieldComponent.rotateLeft();
+                    } else {
+                        this._fieldComponent.rotateRight();
+                    }
                 } else {
-                    this._fieldComponent.left();
+                    if (e.offsetX < canvas.offsetWidth * 0.5) {
+                        this._fieldComponent.left();
+                    } else {
+                        this._fieldComponent.right();
+                    }
+
                 }
             }
         }
@@ -190,7 +193,7 @@ export class Game02Falling extends DisplayObject {
             }
         }
 
-        const onMouseUpOrOut = (e: MouseEvent) => {
+        const onMouseUpOrOut = () => {
             if (this._gameState === "play") {
                 this._isDropping = false;
             }
