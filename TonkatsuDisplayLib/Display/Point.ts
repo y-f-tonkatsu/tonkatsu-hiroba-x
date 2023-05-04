@@ -1,3 +1,6 @@
+/**
+ * 二次元の点またはベクトルを表す。
+ */
 export class Point {
     x: number = 0;
     y: number = 0;
@@ -6,44 +9,94 @@ export class Point {
         this.set(x, y);
     }
 
+    /** 逆ベクトルを作って返す */
+    static reverse(point:Point) {
+        return new Point(-point.x, -point.y);
+    }
+
+    /**
+     * 2つの点を合成した新しい点を返す
+     */
     static combine(a: Point, b: Point) {
         return new Point(a.x + b.x, a.y + b.y);
     }
+
+    /**
+     * ベクトルを整数倍して返す
+     */
     static multiply(a: Point, b: number) {
         return new Point(a.x * b, a.y * b);
     }
 
+    /* よく使うものを作る static メソッド */
     static zero() {
         return new Point(0, 0);
     }
 
+    static up(){
+        return new Point(0, -1);
+    }
+
+    static upRight(){
+        return new Point(1, -1);
+    }
+
+    static right(){
+        return new Point(1, 0);
+    }
+
+    static downRight(){
+        return new Point(1, -1);
+    }
+
+    static down(){
+        return new Point(0, 1);
+    }
+
+    static downLeft(){
+        return new Point(-1, 1);
+    }
+
+    static left(){
+        return new Point(-1, 0);
+    }
+
+    static upLeft(){
+        return new Point(-1, -1);
+    }
+
+    /** 同じベクトルを作って返す */
     clone() {
         return new Point(this.x, this.y);
     }
 
-    reverse() {
-        return new Point(-this.x, -this.y);
-    }
-
+    /** 0ベクトルにする */
     reset(){
         this.x = 0;
         this.y = 0;
     }
 
+    /** 0ベクトルなら true */
     isZero() {
         return this.x === 0 && this.y === 0;
     }
 
+    /**
+     * x, y　の値を指定してセット
+     * @param x
+     * @param y
+     */
     set(x: number, y: number) {
         [this.x, this.y] = [x, y];
     }
 
-    substitute(point: Point) {
-        [this.x, this.y] = [point.x, point.y];
-    }
-
+    /* 四則演算 */
     add(target: Point) {
         [this.x, this.y] = [this.x + target.x, this.y + target.y];
+    }
+
+    substitute(point: Point) {
+        [this.x, this.y] = [point.x, point.y];
     }
 
     multiply(target: Point | number) {
@@ -54,6 +107,10 @@ export class Point {
         }
     }
 
+    /**
+     * 指定したベクトルと同一ベクトルなら true
+     * @param target
+     */
     equals(target: Point) {
         return this.x === target.x && this.y === target.y;
     }

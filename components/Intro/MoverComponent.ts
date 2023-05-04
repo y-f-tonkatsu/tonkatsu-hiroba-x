@@ -123,7 +123,7 @@ export class MoverComponent extends Component {
      */
     private randomMove2(tile: number, current: Point) {
         const front = this._prevDirection.isZero() ? new Point(0, 1) : this._prevDirection;
-        const back = front.reverse();
+        const back = Point.reverse(front);
         const sideA = new Point(front.y, front.x);
         const sideB = new Point(-front.y, -front.x);
         const canFront = this.canMove(tile, current, front);

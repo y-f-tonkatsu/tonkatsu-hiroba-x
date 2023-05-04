@@ -9,7 +9,7 @@ export class Transform {
     rotation: number = 0;
 
     /**
-     * 複数の Transform を合成する。
+     * 複数の Transform を合成した新しい Transform を作って返す。
      * @param targets 合成対象の Transform の配列
      */
     static combine(targets: Transform[]) {

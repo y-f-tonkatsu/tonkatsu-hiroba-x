@@ -58,7 +58,7 @@ export class Mo02CellAutomaton extends DisplayObject {
     randomWalk() {
         if (Math.random() > 0.9) {
             if (Math.random() > 0.8) {
-                this._prevWalk = this._prevWalk.reverse();
+                this._prevWalk = Point.reverse(this._prevWalk);
             } else {
                 this._prevWalk = new Point(this._prevWalk.y, this._prevWalk.x);
             }
@@ -94,6 +94,7 @@ export class Mo02CellAutomaton extends DisplayObject {
     override draw() {
         super.draw();
         const ctx = this.layer.context;
+        console.log(ctx);
 
         this._cell.forEach((raw, y) => {
             raw.forEach((dot, x) => {
