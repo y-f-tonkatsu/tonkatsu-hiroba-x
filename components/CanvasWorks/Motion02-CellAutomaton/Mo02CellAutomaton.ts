@@ -94,7 +94,6 @@ export class Mo02CellAutomaton extends DisplayObject {
     override draw() {
         super.draw();
         const ctx = this.layer.context;
-        console.log(ctx);
 
         this._cell.forEach((raw, y) => {
             raw.forEach((dot, x) => {
