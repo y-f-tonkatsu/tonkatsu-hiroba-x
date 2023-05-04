@@ -56,7 +56,7 @@ export class Component {
     update() {
     };
 
-    draw(layer?: CanvasLayer) {
+    draw(layer: CanvasLayer) {
     };
 
 }
