@@ -90,13 +90,17 @@ export class Point {
         [this.x, this.y] = [x, y];
     }
 
-    /* 四則演算 */
-    add(target: Point) {
-        [this.x, this.y] = [this.x + target.x, this.y + target.y];
-    }
-
+    /**
+     * 別の点に置き換える
+     */
     substitute(point: Point) {
         [this.x, this.y] = [point.x, point.y];
+    }
+
+    /* 四則演算 */
+
+    add(target: Point) {
+        [this.x, this.y] = [this.x + target.x, this.y + target.y];
     }
 
     multiply(target: Point | number) {

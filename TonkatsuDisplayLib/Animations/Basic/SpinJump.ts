@@ -23,7 +23,7 @@ export class TonkatsuSpinJumpAnimation extends Animation {
         transform.scale = new Point(this._scaleCorrection + this._height * 0.03, this._scaleCorrection + this._height * 0.03);
         transform.rotation += 0.15;
         if (this._height <= 0) {
-            transform.zero();
+            transform.reset();
             return true
         } else {
             return false;

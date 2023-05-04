@@ -14,7 +14,7 @@ export class JumpAnimation extends Animation {
         this._vy += this._gravity;
         transform.position.add(new Point(0, this._vy));
         if (transform.position.y >= 0) {
-            transform.zero();
+            transform.reset();
             return true
         } else {
             return false;

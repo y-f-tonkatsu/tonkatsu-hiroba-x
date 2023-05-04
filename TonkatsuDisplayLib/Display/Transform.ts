@@ -30,7 +30,7 @@ export class Transform {
      * サイズ: (1, 1)
      * 回転: 0
      */
-    zero() {
+    reset() {
         this.position = new Point();
         this.scale = new Point(1, 1);
         this.rotation = 0;

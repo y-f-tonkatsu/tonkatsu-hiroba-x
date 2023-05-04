@@ -128,12 +128,16 @@ export class DisplayObject {
     }
 
     update() {
+
         if (!this.isActive) return;
+
+        //_renderTransform をコンポーネントとの合算前にリセット
         this._renderTransform.substitute(this.transform);
         this._components.forEach(compo => {
             if (!compo.isActive) return;
             compo.update();
             if (compo.transform) {
+                //_renderTransform に全てのコンポーネントの transform を加算したものを算出してから draw に使う
                 this._renderTransform.add(compo.transform);
             }
         })
@@ -161,11 +165,11 @@ export class DisplayObject {
         })
     }
 
-    constructor(layer: CanvasLayer, options?:DisplayObjectOptions) {
+    constructor(layer: CanvasLayer, options?: DisplayObjectOptions) {
         this._layer = layer;
         this._layerList = [];
         this._imageFileList = [];
-        if(options){
+        if (options) {
             this.layerList = options.layerList;
             this.imageFileList = options.imageFileList;
         }
