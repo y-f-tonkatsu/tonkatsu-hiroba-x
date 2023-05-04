@@ -104,6 +104,9 @@ const CanvasWorkContent: FC<Props> = (props) => {
                 canvasWork = getCanvasWork(work.id.toString(), frameRate, layers, []);
             });
         } else {
+            if (loaderRef.current) {
+                loaderRef.current.style.display = "none";
+            }
             canvasWork = getCanvasWork(work.id.toString(), 24, layers, []);
         }
 
