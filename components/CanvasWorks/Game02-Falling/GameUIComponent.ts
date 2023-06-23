@@ -44,8 +44,8 @@ export class GameUIComponent extends Component {
 
     }
 
-    override draw() {
-        super.draw();
+    override draw(layer:CanvasLayer) {
+        super.draw(layer);
         this.drawNext();
         this.drawScore();
     }

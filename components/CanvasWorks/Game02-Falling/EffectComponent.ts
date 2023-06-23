@@ -40,8 +40,8 @@ export class EffectComponent extends Component {
         })
     }
 
-    override draw() {
-        super.draw();
+    override draw(layer:CanvasLayer) {
+        super.draw(layer);
         this._effects.forEach(effect => {
             effect.draw();
         })

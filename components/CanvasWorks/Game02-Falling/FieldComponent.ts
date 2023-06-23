@@ -469,8 +469,8 @@ export class FieldComponent extends Component {
 
     //描画
 
-    override draw() {
-        super.draw();
+    override draw(layer:CanvasLayer) {
+        super.draw(layer);
         const ctx = this._layer.context;
         ctx.save();
         ctx.translate(this._offsetSize.x, this._offsetSize.y);

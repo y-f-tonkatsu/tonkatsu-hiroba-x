@@ -39,8 +39,8 @@ export class BackgroundComponent extends Component {
 
     }
 
-    override draw() {
-        super.draw();
+    override draw(layer:CanvasLayer) {
+        super.draw(layer);
         const ctx = this._layer.context;
         const img = this.parent.imageFileList.filter(item => item.id == `bg`)[0].element;
         ctx.drawImage(img, 0, 0, this._layer.width, this._layer.height);

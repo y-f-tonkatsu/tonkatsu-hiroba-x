@@ -107,7 +107,7 @@ export class CoordinationComponent extends Component {
         this.parent.transform.position = pos;
 
     };
-    override draw(layer?:CanvasLayer) {
+    override draw(layer:CanvasLayer) {
         super.draw(layer);
     };
 

@@ -201,7 +201,7 @@ export class MoverComponent extends Component {
         super.update();
     }
 
-    override draw(layer?: CanvasLayer) {
+    override draw(layer: CanvasLayer) {
         super.draw(layer);
     }
 

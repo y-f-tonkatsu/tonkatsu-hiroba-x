@@ -118,8 +118,8 @@ export class CoordinatedFieldComponent extends Component {
         }
     }
 
-    override draw = () => {
-        super.draw();
+    override draw = (layer:CanvasLayer) => {
+        super.draw(layer);
 
         if (!this._isInitiated) {
             this._isInitiated = true;
