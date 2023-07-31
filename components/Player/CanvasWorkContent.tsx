@@ -1,4 +1,4 @@
-import {createRef, FC, RefObject, useCallback, useEffect, useState} from "react";
+import {createRef, FC, RefObject, useEffect, useState} from "react";
 import styles from "./ContentsPlayer.module.scss";
 import {CanvasLayer} from "../../TonkatsuDisplayLib/Display/CanvasLayer";
 import {CanvasWork, getCanvasWork} from "../CanvasWorks/CanvasWork";
@@ -15,7 +15,7 @@ const CanvasWorkContent: FC<Props> = (props) => {
     const [isLoadComplete, setIsLoadComplete] = useState<boolean>(false);
 
     //Canvas 要素とその ref のリストを作る
-    const canvasRefsCallbacks: ((node: HTMLCanvasElement) => void)[] = [];
+    const canvasRefs: RefObject<HTMLCanvasElement>[] = [];
     let layerSettings: {
         name: string,
         zIndex: number
@@ -29,20 +29,14 @@ const CanvasWorkContent: FC<Props> = (props) => {
         }]
     }
 
-    const canvasRefs:(HTMLCanvasElement | null)[] = [];
     for (let i = 0; i < layerSettings.length; i++) {
-        canvasRefsCallbacks[i] = useCallback((node: HTMLCanvasElement) => {
-            if(node !== null){
-                canvasRefs[i] = node;
-            }
-        }, []);
-        canvasRefs.push(null);
+        canvasRefs[i] = createRef<HTMLCanvasElement>();
     }
     let i = 0;
     const canvases = layerSettings.map(layer => {
         const canvas = <canvas
             key={"CanvasLayer_" + layer.name}
-            ref={canvasRefsCallbacks[i]}
+            ref={canvasRefs[i]}
             width={work.width}
             height={work.height}
             style={{
@@ -57,7 +51,9 @@ const CanvasWorkContent: FC<Props> = (props) => {
         i++;
         return canvas;
     });
+    const loaderRef = createRef<HTMLImageElement>();
     const loader = <img
+        ref={loaderRef}
         src={work.path}
         key="loader"
         alt={work.description}
@@ -76,12 +72,14 @@ const CanvasWorkContent: FC<Props> = (props) => {
     //CanvasWork 開始の副作用
     useEffect(() => {
 
-        if (canvasRefs.length === 0 || canvasRefs.filter(ref=>ref).length < canvasRefsCallbacks.length) return;
+        if (canvasRefs.length === 0) return;
+
         //Canvas の Ref を取得して CanvasLayer オブジェクトを作る
         let layers: CanvasLayer[] = [];
+        console.log("push", canvasRefs);
         canvasRefs.forEach(canvasRef => {
-            if (!canvasRef) return undefined;
-            const ctx = canvasRef.getContext("2d");
+            if (!canvasRef.current) return undefined;
+            const ctx = canvasRef.current.getContext("2d");
             if (!ctx) return undefined;
             layers.push(new CanvasLayer({
                 canvas: canvasRef,
@@ -109,6 +107,7 @@ const CanvasWorkContent: FC<Props> = (props) => {
             setIsLoadComplete(true);
             canvasWork = getCanvasWork(work.id.toString(), 24, layers, []);
         }
+
 
         return () => {
             //アンマウント

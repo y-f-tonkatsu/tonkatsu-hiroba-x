@@ -1,7 +1,7 @@
 import React from "react";
 
 export type CanvasLayerOption = {
-    canvas: HTMLCanvasElement;
+    canvas: React.RefObject<HTMLCanvasElement>;
     context: CanvasRenderingContext2D;
     width: number;
     height: number;
@@ -48,15 +48,15 @@ export class CanvasLayer {
         this._context = value;
     }
 
-    get canvas(): HTMLCanvasElement {
+    get canvas(): React.RefObject<HTMLCanvasElement> {
         return this._canvas;
     }
 
-    set canvas(value: HTMLCanvasElement) {
+    set canvas(value: React.RefObject<HTMLCanvasElement>) {
         this._canvas = value;
     }
 
-    private _canvas:HTMLCanvasElement;
+    private _canvas: React.RefObject<HTMLCanvasElement>;
     private _context: CanvasRenderingContext2D;
     private _width: number;
     private _height: number;
