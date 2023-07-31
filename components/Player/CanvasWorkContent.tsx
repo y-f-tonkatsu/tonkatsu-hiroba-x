@@ -76,7 +76,6 @@ const CanvasWorkContent: FC<Props> = (props) => {
 
         //Canvas の Ref を取得して CanvasLayer オブジェクトを作る
         let layers: CanvasLayer[] = [];
-        console.log("push", canvasRefs);
         canvasRefs.forEach(canvasRef => {
             if (!canvasRef.current) return undefined;
             const ctx = canvasRef.current.getContext("2d");

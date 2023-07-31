@@ -20,8 +20,6 @@ export const createImageLoader: (pathList: { id: string, path: string }[], root:
             targetList.forEach(target => {
                 const image = new Image();
                 image.onload = () => {
-                    console.log("load");
-                    console.log(image);
                     n++;
                     imageList.push({
                         element: image,
