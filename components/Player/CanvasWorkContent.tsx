@@ -1,4 +1,4 @@
-import {createRef, FC, RefObject, useEffect, useState} from "react";
+import {createRef, FC, RefObject, useEffect} from "react";
 import styles from "./ContentsPlayer.module.scss";
 import {CanvasLayer} from "../../TonkatsuDisplayLib/Display/CanvasLayer";
 import {CanvasWork, getCanvasWork} from "../CanvasWorks/CanvasWork";
@@ -12,7 +12,6 @@ type Props = {
 const CanvasWorkContent: FC<Props> = (props) => {
 
     const {work} = props;
-    const [isLoadComplete, setIsLoadComplete] = useState<boolean>(false);
 
     //Canvas 要素とその ref のリストを作る
     const canvasRefs: RefObject<HTMLCanvasElement>[] = [];
@@ -51,6 +50,9 @@ const CanvasWorkContent: FC<Props> = (props) => {
         i++;
         return canvas;
     });
+
+    //ローダー
+    //ref が null になるバグが発生したので、ひとまず不使用
     const loaderRef = createRef<HTMLImageElement>();
     const loader = <img
         ref={loaderRef}
@@ -72,7 +74,7 @@ const CanvasWorkContent: FC<Props> = (props) => {
     //CanvasWork 開始の副作用
     useEffect(() => {
 
-        if (canvasRefs.length === 0 || canvasRefs[0].current == null) return;
+        if (canvasRefs.length === 0) return;
 
         //Canvas の Ref を取得して CanvasLayer オブジェクトを作る
         let layers: CanvasLayer[] = [];
@@ -93,7 +95,6 @@ const CanvasWorkContent: FC<Props> = (props) => {
         //画像があったらロードして、完了したら CanvasWork を作る
         let canvasWork: CanvasWork | null;
         if (work.gameWorkOptions && work.gameWorkOptions.imageList && work.gameWorkOptions.imageList.length > 0) {
-            setIsLoadComplete(true);
             const frameRate = work.gameWorkOptions.frameRate;
             const imageLoader = createImageLoader(work.gameWorkOptions.imageList, work.gameWorkOptions.imageRoot || "");
             imageLoader.load(imageList => {
@@ -103,7 +104,9 @@ const CanvasWorkContent: FC<Props> = (props) => {
                 canvasWork = getCanvasWork(work.id.toString(), frameRate, layers, []);
             });
         } else {
-            setIsLoadComplete(true);
+            if (loaderRef.current) {
+                loaderRef.current.style.display = "none";
+            }
             canvasWork = getCanvasWork(work.id.toString(), 24, layers, []);
         }
 
@@ -114,7 +117,7 @@ const CanvasWorkContent: FC<Props> = (props) => {
                 canvasWork.destruct();
             }
         };
-    }, [isLoadComplete])
+    }, [])
 
 
     return (
@@ -131,7 +134,6 @@ const CanvasWorkContent: FC<Props> = (props) => {
             }}
         >
             {canvases}
-            {isLoadComplete ? null : loader}
         </div>
     );
 }
