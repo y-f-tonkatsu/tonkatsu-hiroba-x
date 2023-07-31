@@ -158,10 +158,10 @@ export class Game02Falling extends DisplayObject {
         }
 
         let canvas: HTMLCanvasElement;
-        if (this._gameOverLayer.canvas.current == null) {
+        if (this._gameOverLayer.canvas == null) {
             return;
         }
-        canvas = this._gameOverLayer.canvas.current
+        canvas = this._gameOverLayer.canvas
 
         const onClick = (e: MouseEvent) => {
             if (this._gameState === "gameOver") {

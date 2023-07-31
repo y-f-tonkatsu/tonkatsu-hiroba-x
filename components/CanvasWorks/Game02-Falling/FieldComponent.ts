@@ -422,7 +422,6 @@ export class FieldComponent extends Component {
                         r--;
                         while (r > 0) {
                             const current = this.getCell(x + v.x * r, y + v.y * r);
-                            console.log("flash!", x + v.x * r, y + v.y * r);
                             if (current) current.flash = true;
                             r--;
                         }
