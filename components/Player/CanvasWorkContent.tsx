@@ -72,7 +72,7 @@ const CanvasWorkContent: FC<Props> = (props) => {
     //CanvasWork 開始の副作用
     useEffect(() => {
 
-        if (canvasRefs.length === 0) return;
+        if (canvasRefs.length === 0 || canvasRefs[0].current == null) return;
 
         //Canvas の Ref を取得して CanvasLayer オブジェクトを作る
         let layers: CanvasLayer[] = [];
