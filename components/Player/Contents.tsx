@@ -108,11 +108,7 @@ function getTransitionContent(work: Work, transitAnimation: TransitAnimation) {
     //入ってくる方の要素を作る
     if (isCanvasWork(newWork)) {
         //アニメ作品の場合
-        newContent = (
-            <CanvasWorkContent
-                work={newWork}
-            />
-        );
+        newContent = null;
     } else {
         newContent = (
             <img
@@ -152,9 +148,7 @@ function getTransitionContent(work: Work, transitAnimation: TransitAnimation) {
 
     //消える方の要素を作る
     if (isCanvasWork(work)) {
-        oldContent = <CanvasWorkContent
-            work={work}
-        />
+        oldContent = null;
     } else {
         const klass = getKlass(work.category);
         oldContent = (
