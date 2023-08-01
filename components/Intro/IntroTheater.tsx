@@ -86,14 +86,14 @@ export const IntroTheater: NextPage<OpeningTheaterProps> = (props) => {
         setOpening(new TonkatsuIntro({
             layers: {
                 mainLayer: new CanvasLayer({
-                    canvas: canvasRef,
+                    canvas: canvasRef.current,
                     context: mainCtx,
                     width: theaterRect.width,
                     height: theaterRect.height,
                     autoRefresh: true
                 }),
                 bgLayer: new CanvasLayer({
-                    canvas: bgCanvasRef,
+                    canvas: bgCanvasRef.current,
                     context: bgCtx,
                     width: theaterRect.width,
                     height: theaterRect.height,
