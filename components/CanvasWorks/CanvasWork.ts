@@ -5,6 +5,7 @@ import {Mo02CellAutomaton} from "./Motion02-CellAutomaton/Mo02CellAutomaton";
 import {Game02Falling} from "./Game02-Falling/Game02Falling";
 import {ImageFile} from "../../TonkatsuDisplayLib/ImageLoader/ImageFile";
 import {GameLoop} from "../../TonkatsuDisplayLib/GameLoop/GameLoop";
+import {Game03TowerDefense} from "./Game03-TowerDefense/Game03TowerDefense";
 
 export type CanvasContents = { id: string, displayObject: typeof DisplayObject };
 export type CanvasWork = {
@@ -16,16 +17,20 @@ export type CanvasWork = {
  */
 const canvasContents: CanvasContents[] = [
     {
-        id: "181",
-        displayObject: Mo01Snow
+        id: "202",
+        displayObject: Game03TowerDefense
+    },
+    {
+        id: "193",
+        displayObject: Game02Falling
     },
     {
         id: "189",
         displayObject: Mo02CellAutomaton
     },
     {
-        id: "193",
-        displayObject: Game02Falling
+        id: "181",
+        displayObject: Mo01Snow
     },
 ];
 
