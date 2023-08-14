@@ -1,4 +1,3 @@
-import {Component} from "../Component";
 import {Size} from "../../Display/Size";
 import {DisplayObject} from "../../Display/DisplayObject";
 import {CanvasLayer} from "../../Display/CanvasLayer";
@@ -8,7 +7,9 @@ import {SpriteComponent} from "./SpriteComponent";
 import {images} from "next/dist/build/webpack/config/blocks/images";
 
 /**
- * 画像を表示するコンポーネント
+ * SpriteComponent の派生クラス。
+ * 画像リストの画像をフレームごとに更新してアニメーションを描画するコンポーネント。
+ * 各画像のサイズは同じである想定。
  */
 export class MovieClipComponent extends SpriteComponent {
     get currentFrame(): number {

@@ -6,6 +6,13 @@ import {CanvasLayer} from "../Display/CanvasLayer";
  * 表示オブジェクトのコンポーネント基本クラス
  * 親の表示クラスの update, draw メソッドで
  * すべてのコンポーネントの update, draw が呼ばれる
+ *
+ * DisplayObject の継承クラスに直接 update, draw を書かずに
+ * Component に特性をもたせることで、
+ * コンポジションによってゲームオブジェクトを作ることできる。
+ * 簡易的なゲームであれば DiplayObject に全てを書くことも
+ * TDL では許可している。
+ *
  * ※ draw メソッドは元の名前は render だったが、
  * Vercel 上で FC と区別が付かなくなるようで
  * ビルドエラーになるので draw にした

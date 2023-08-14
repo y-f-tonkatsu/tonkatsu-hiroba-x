@@ -3,7 +3,6 @@ import {Component} from "../BasicComponents/Component";
 import {CanvasLayer} from "./CanvasLayer";
 import {ImageFile} from "../ImageLoader/ImageFile";
 
-export type Render = (ctx: CanvasRenderingContext2D) => void;
 export type DisplayObjectOptions = {
     layerList: CanvasLayer[],
     imageFileList: ImageFile[]
@@ -14,12 +13,26 @@ export type DisplayObjectOptions = {
  * position は canvas 上の座標
  * ゲームループに加えると
  * フレームが更新されるたびに、
- * update, render が呼ばれる。
+ * update, draw が呼ばれる。
  * 複数フレームが一度に更新される場合は
- * update が複数, render が1回だけ呼ばれることもある。
- * update, render メソッド上で
+ * update が複数, draw が1回だけ呼ばれることもある。
+ * update, draw メソッド上で
  * children 及び components に含まれるオブジェクトの
- * update, render が再帰的に呼ばれる。
+ * update, draw が再帰的に呼ばれる。
+ * transform オブジェクトも持っているが、
+ * draw の具体的な処理は子孫クラスに委譲される。
+ *
+ * draw の対象になるレイヤーを layer プロパティで指定できる。
+ * コンスタラクターのオプションに layerList を渡すことでレイヤーを複数持たせることも可能。
+ * option で画像リスト(imageList) を渡すことも可能。
+ * レイヤーや画像をどう使うかは子孫クラスに委任。
+ *
+ * DisplayObject に直接 update, draw を実装することは許可されているが、
+ * Component クラスを実装して attachComponent する方が推奨される。
+ *
+ * ※ draw メソッドは元の名前は render だったが、
+ * Vercel 上で FC と区別が付かなくなるようで
+ * ビルドエラーになるので draw にした
  */
 export class DisplayObject {
     get imageFileList(): ImageFile[] {
@@ -105,6 +118,16 @@ export class DisplayObject {
     private _layerList: CanvasLayer[] = [];
     private _imageFileList: ImageFile[] = [];
 
+    constructor(layer: CanvasLayer, options?: DisplayObjectOptions) {
+        this._layer = layer;
+        this._layerList = [];
+        this._imageFileList = [];
+        if (options) {
+            this.layerList = options.layerList;
+            this.imageFileList = options.imageFileList;
+        }
+    }
+
     /**
      * 別の DisplayObject を children に加える
      * 対象オブジェクトの parent も設定される。
@@ -165,13 +188,4 @@ export class DisplayObject {
         })
     }
 
-    constructor(layer: CanvasLayer, options?: DisplayObjectOptions) {
-        this._layer = layer;
-        this._layerList = [];
-        this._imageFileList = [];
-        if (options) {
-            this.layerList = options.layerList;
-            this.imageFileList = options.imageFileList;
-        }
-    }
 }

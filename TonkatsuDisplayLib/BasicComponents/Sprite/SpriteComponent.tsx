@@ -6,7 +6,9 @@ import {ImageFile} from "../../ImageLoader/ImageFile";
 import {Point} from "../../Display/Point";
 
 /**
- * 画像を表示するコンポーネント
+ * 画像を表示するコンポーネント。
+ * 画像のサイズと中心点をプロパティとして持つ。
+ * 描画時は transform, size, centerPosition から描画位置を計算する。
  */
 export class SpriteComponent extends Component {
     protected _image: ImageFile;
