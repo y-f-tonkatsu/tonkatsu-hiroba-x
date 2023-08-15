@@ -29,8 +29,28 @@
       ],
       "imageList": [
         {
-          "id": "block1",
+          "id": "tile0",
           "path": "b1.png"
+        },
+        {
+          "id": "tile1",
+          "path": "b2.png"
+        },
+        {
+          "id": "tile2",
+          "path": "b3.png"
+        },
+        {
+          "id": "tile3",
+          "path": "b4.png"
+        },
+        {
+          "id": "tile4",
+          "path": "b5.png"
+        },
+        {
+          "id": "tile5",
+          "path": "b6.png"
         }
       ],
       "imageRoot": "../../works/game/204_td/"
