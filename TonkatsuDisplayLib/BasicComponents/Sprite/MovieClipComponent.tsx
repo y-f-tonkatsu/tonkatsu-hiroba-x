@@ -6,12 +6,28 @@ import {Point} from "../../Display/Point";
 import {SpriteComponent} from "./SpriteComponent";
 import {images} from "next/dist/build/webpack/config/blocks/images";
 
+export type MovieClipComponentOptions = {
+    parent: DisplayObject,
+    images: ImageFile[],
+    size: Size,
+    centerPosition?: Point | "center",
+    loop: boolean
+}
+
 /**
  * SpriteComponent の派生クラス。
  * 画像リストの画像をフレームごとに更新してアニメーションを描画するコンポーネント。
  * 各画像のサイズは同じである想定。
  */
 export class MovieClipComponent extends SpriteComponent {
+    get loop(): boolean {
+        return this._loop;
+    }
+
+    set loop(value: boolean) {
+        this._loop = value;
+    }
+
     get currentFrame(): number {
         return this._currentFrame;
     }
@@ -20,12 +36,13 @@ export class MovieClipComponent extends SpriteComponent {
         this._currentFrame = value;
     }
 
-    get totalFrames(){
+    get totalFrames() {
         return images.length
     }
 
     protected _images: ImageFile[];
-    private _currentFrame:number = 0;
+    private _loop: boolean = false;
+    private _currentFrame: number = 0;
 
     /**
      * 画像を表示するコンポーネント
@@ -34,14 +51,32 @@ export class MovieClipComponent extends SpriteComponent {
      * @param size 画像の表示サイズ。元画像と合わせる必要はない。
      * @param centerPosition 中心点の相対座標。デフォルトは(0, 0).
      */
-    constructor(parent: DisplayObject, images: ImageFile[], size: Size, centerPosition?: Point | "center") {
-        super(parent, images[0], size, centerPosition);
-        this._images = images;
+    constructor(options:MovieClipComponentOptions) {
+        super({
+            parent: options.parent,
+            image: options.images[0],
+            size: options.size,
+            centerPosition:options.centerPosition
+        });
+        this._images = options.images;
+        this._loop = options.loop;
     }
 
     update() {
         super.update();
-        this._currentFrame = Math.min(this._currentFrame + 1, this.totalFrames - 1);
+
+        if (this.totalFrames === 0) return;
+
+        this._currentFrame++;
+        if (this._loop) {
+            while (this._currentFrame > this.totalFrames - 1) {
+                this._currentFrame -= this.totalFrames;
+            }
+        } else {
+            if (this._currentFrame > this.totalFrames - 1) {
+                this._currentFrame = this.totalFrames - 1;
+            }
+        }
         this._image = this._images[this._currentFrame];
     }
 

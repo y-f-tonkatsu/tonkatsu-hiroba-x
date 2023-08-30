@@ -5,6 +5,13 @@ import {CanvasLayer} from "../../Display/CanvasLayer";
 import {ImageFile} from "../../ImageLoader/ImageFile";
 import {Point} from "../../Display/Point";
 
+export type SpriteComponentOptions = {
+    parent: DisplayObject,
+    image: ImageFile,
+    size: Size,
+    centerPosition?: Point | "center",
+}
+
 /**
  * 画像を表示するコンポーネント。
  * 画像のサイズと中心点をプロパティとして持つ。
@@ -22,14 +29,14 @@ export class SpriteComponent extends Component {
      * @param size 画像の表示サイズ。元画像と合わせる必要はない。
      * @param centerPosition 中心点の相対座標。デフォルトは(0, 0). 中央にセットするときは "center" を指定。
      */
-    constructor(parent: DisplayObject, image: ImageFile, size: Size, centerPosition?: Point | "center") {
-        super(parent);
-        this._image = image;
-        this._size = size;
-        if(centerPosition === "center"){
+    constructor(options:SpriteComponentOptions) {
+        super(options.parent);
+        this._image = options.image;
+        this._size = options.size;
+        if(options.centerPosition === "center"){
             this._centerPosition =new Point(this._size.width * 0.5, this._size.height * 0.5);
         } else {
-            this._centerPosition = centerPosition || new Point(0, 0);
+            this._centerPosition = options.centerPosition || new Point(0, 0);
         }
 
     }
