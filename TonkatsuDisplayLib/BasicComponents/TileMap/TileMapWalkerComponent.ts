@@ -1,7 +1,4 @@
 import {MovieClipComponent, MovieClipComponentOptions} from "../Sprite/MovieClipComponent";
-import {DisplayObject} from "../../Display/DisplayObject";
-import {ImageFile} from "../../ImageLoader/ImageFile";
-import {Size} from "../../Display/Size";
 import {Point} from "../../Display/Point";
 import {CanvasLayer} from "../../Display/CanvasLayer";
 

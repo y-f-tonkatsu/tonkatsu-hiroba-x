@@ -4,7 +4,6 @@ import {CanvasLayer} from "../../Display/CanvasLayer";
 import {ImageFile} from "../../ImageLoader/ImageFile";
 import {Point} from "../../Display/Point";
 import {SpriteComponent} from "./SpriteComponent";
-import {images} from "next/dist/build/webpack/config/blocks/images";
 
 export type MovieClipComponentOptions = {
     parent: DisplayObject,
@@ -37,7 +36,7 @@ export class MovieClipComponent extends SpriteComponent {
     }
 
     get totalFrames() {
-        return images.length
+        return this._images.length
     }
 
     protected _images: ImageFile[];
@@ -51,12 +50,12 @@ export class MovieClipComponent extends SpriteComponent {
      * @param size 画像の表示サイズ。元画像と合わせる必要はない。
      * @param centerPosition 中心点の相対座標。デフォルトは(0, 0).
      */
-    constructor(options:MovieClipComponentOptions) {
+    constructor(options: MovieClipComponentOptions) {
         super({
             parent: options.parent,
             image: options.images[0],
             size: options.size,
-            centerPosition:options.centerPosition
+            centerPosition: options.centerPosition
         });
         this._images = options.images;
         this._loop = options.loop;

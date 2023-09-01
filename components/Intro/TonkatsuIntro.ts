@@ -1,4 +1,6 @@
-import {CoordinatedFieldComponent} from "../../TonkatsuDisplayLib/BasicComponents/Coordination/CoordinatedFieldComponent";
+import {
+    CoordinatedFieldComponent
+} from "../../TonkatsuDisplayLib/BasicComponents/Coordination/CoordinatedFieldComponent";
 import {DisplayObject} from "../../TonkatsuDisplayLib/Display/DisplayObject";
 import {GameLoop} from "../../TonkatsuDisplayLib/GameLoop/GameLoop";
 import {MoverComponent} from "./MoverComponent";
@@ -128,13 +130,15 @@ export class TonkatsuIntro {
             img = imageList.filter(image => image.id === `logo${i}`)[0];
         }
         return new SpriteComponent(
-            tonChar,
-            img,
             {
-                width: fieldComponent.tileSize,
-                height: fieldComponent.tileSize
-            },
-            new Point(fieldComponent.tileSize * 0.5, fieldComponent.tileSize * 0.5)
+                parent: tonChar,
+                image: img,
+                size: {
+                    width: fieldComponent.tileSize,
+                    height: fieldComponent.tileSize
+                },
+                centerPosition: new Point(fieldComponent.tileSize * 0.5, fieldComponent.tileSize * 0.5)
+            }
         );
     }
 

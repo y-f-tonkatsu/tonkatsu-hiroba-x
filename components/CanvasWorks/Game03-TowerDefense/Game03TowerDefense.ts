@@ -1,8 +1,8 @@
 import {DisplayObject, DisplayObjectOptions} from "../../../TonkatsuDisplayLib/Display/DisplayObject";
 import {CanvasLayer} from "../../../TonkatsuDisplayLib/Display/CanvasLayer";
 import {TileMapComponent} from "../../../TonkatsuDisplayLib/BasicComponents/TileMap/TileMapComponent";
-import {TileMapWalkerComponent} from "../../../TonkatsuDisplayLib/BasicComponents/TileMap/TileMapWalkerComponent";
 import {Point} from "../../../TonkatsuDisplayLib/Display/Point";
+import {TileMapWalkerComponent} from "../../../TonkatsuDisplayLib/BasicComponents/TileMap/TileMapWalkerComponent";
 
 export class Game03TowerDefense extends DisplayObject {
 
@@ -33,7 +33,7 @@ export class Game03TowerDefense extends DisplayObject {
 
         const enemySprites = options.imageFileList.filter(file=>file.id.indexOf("enemy_1") === 0);
         const mainLayer = options.layerList[1];
-        const enemy = new DisplayObject(mapLayer);
+        const enemy = new DisplayObject(mainLayer);
         const walkerComponent = new TileMapWalkerComponent({
             parent: this,
             size: {width: 200, height: 200},
