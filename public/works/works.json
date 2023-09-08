@@ -1,6 +1,6 @@
 [
   {
-    "id": 204,
+    "id": 211,
     "title": "経路探索",
     "description": "",
     "category": "game",
@@ -59,6 +59,69 @@
       ],
       "imageRoot": "../../works/game/204_td/"
     }
+  },
+  {
+    "id": 210,
+    "title": "解剖学9: 骨",
+    "description": "よくある誤解:\n1.フランケンシュタインは怪物の名前ではない(主人公の名前)\n2.ドン・キホーテの乗騎ロシナンテはロバではない(ロバに乗っているのはサンチョ)\n3.タイタニック号が激突したのはタンスではなく氷山(タンスに激突したのはタラオ・フグタという日本人)",
+    "category": "painting",
+    "info": "Clip Studio Paint",
+    "path": "210_anatomy9.jpg",
+    "lastBuildDate": "Tue, 05 Sep 2023 21:24:00 +0900"
+  },
+  {
+    "id": 209,
+    "title": "解剖学8: 骨盤",
+    "description": "西洋の伝統的な禁欲主義は、古代ギリシャのドリンクバーの回し飲みに関する議論から生まれ、ローマに引き継がれる。ローマ帝国が版図を拡大した背景には、回し飲みの誘惑に耐えることで兵士の忍耐力が鍛えられていた点が非常に大きい。",
+    "category": "painting",
+    "info": "Clip Studio Paint",
+    "path": "209_anatomy8.jpg",
+    "lastBuildDate": "Mon, 28 Aug 2023 16:36:00 +0900"
+  },
+  {
+    "id": 208,
+    "title": "解剖学7: 頭蓋2",
+    "description": "シャツ山さんと貧困の問題について話し合っていたのだが、シャツ山さんはそういう問題にはまったくもって興味がないようであったので、生ゆば君は話題を変えて、シャツも買えないほどの貧困の問題について話した。翌日からシャツ山さんは国会議事堂の前で座り込みを始めた。",
+    "category": "painting",
+    "info": "Clip Studio Paint",
+    "path": "208_anatomy7.jpg",
+    "lastBuildDate": "Fri, 25 Aug 2023 15:47:00 +0900"
+  },
+  {
+    "id": 207,
+    "title": "解剖学6: 頭蓋1",
+    "description": "中国史上で王朝が滅ぶ際には必ず大規模なドリンクバーの回し飲みが発生する。歴代皇帝が治水を重視したのは王朝の崩壊を招く回し飲みを防ぐためである。このため中国では伝統的に皇帝の採用基準として学業よりも学生時代のアルバイト経験が重視される。",
+    "category": "painting",
+    "info": "Clip Studio Paint",
+    "path": "207_anatomy6.jpg",
+    "lastBuildDate": "Thu, 24 Aug 2023 17:08:00 +0900"
+  },
+  {
+    "id": 206,
+    "title": "解剖学5: 下肢",
+    "description": "プラトンの対話篇の多くは、詭弁を弄してドリンクバーの回し飲みを正当化するソフィストを、ソクラテスが論破するという筋書だ。回し飲みは悪であるという真理を否定する堕落した相対主義は、我々の心に常に潜んでいる。誤って使用された理性に立ち向かうとき、真の哲学があらわれる。",
+    "category": "painting",
+    "info": "Clip Studio Paint",
+    "path": "206_anatomy5.jpg",
+    "lastBuildDate": "Mon, 21 Aug 2023 21:48:00 +0900"
+  },
+  {
+    "id": 205,
+    "title": "解剖学4: ハリー・P・山田",
+    "description": "｢アーナンダよ、聞け。確かに『アイドル』は良い曲だが、飲食店でエンドレスループするのはどうかと思うのだ。｣",
+    "category": "painting",
+    "info": "Clip Studio Paint",
+    "path": "205_anatomy4.jpg",
+    "lastBuildDate": "Thu, 17 Aug 2023 15:02:00 +0900"
+  },
+  {
+    "id": 204,
+    "title": "解剖学3: 上肢",
+    "description": "後鳥羽上皇が銚子のボロいホテルに泊まってるらしくて「Wi-Fi がマジで遅いw南北朝時代のホテルか！ってくらい遅いww」と LINE で送ってきたのだが、南北朝時代ってたしか ISDN すらなかったはずで、さすがに言い過ぎではないだろうか。",
+    "category": "painting",
+    "info": "Clip Studio Paint",
+    "path": "204_anatomy3.jpg",
+    "lastBuildDate": "Tue, 15 Aug 2023 17:26:00 +0900"
   },
   {
     "id": 203,
