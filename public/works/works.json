@@ -5,7 +5,7 @@
     "description": "",
     "category": "game",
     "info": "TypeScript",
-    "path": "204_td.jpg",
+    "path": "211_td.jpg",
     "lastBuildDate": "Fri, 28 Apr 2023 14:01:00 +0900",
     "gameWorkOptions": {
       "frameRate": 30,
@@ -57,7 +57,7 @@
           "path": "e4.png"
         }
       ],
-      "imageRoot": "../../works/game/204_td/"
+      "imageRoot": "../../works/game/211_td/"
     }
   },
   {
