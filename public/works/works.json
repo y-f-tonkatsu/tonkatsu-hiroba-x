@@ -2,11 +2,11 @@
   {
     "id": 211,
     "title": "経路探索",
-    "description": "",
+    "description": "単純な経路探索AI. とりあえず実装してみただけでインタラクティブ要素は無し。",
     "category": "game",
     "info": "TypeScript",
     "path": "211_td.jpg",
-    "lastBuildDate": "Fri, 28 Apr 2023 14:01:00 +0900",
+    "lastBuildDate": "Fri, 08 Sep 2023 17:33:00 +0900",
     "gameWorkOptions": {
       "frameRate": 30,
       "canvasLayers": [
