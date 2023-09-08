@@ -2,6 +2,7 @@ import {Transform} from "./Transform";
 import {Component} from "../BasicComponents/Component";
 import {CanvasLayer} from "./CanvasLayer";
 import {ImageFile} from "../ImageLoader/ImageFile";
+import {child} from "@firebase/database";
 
 export type DisplayObjectOptions = {
     layerList: CanvasLayer[],
@@ -138,6 +139,10 @@ export class DisplayObject {
         this._children.push(displayObject);
     }
 
+    remove(displayObject:DisplayObject){
+        this._children = this._children.filter(child => child !== displayObject);
+    }
+
     /**
      * コンポーネントを追加する。
      * 対象コンポーネントの parent も設定される。
@@ -183,6 +188,8 @@ export class DisplayObject {
     };
 
     destruct() {
+        this.isActive = false;
+        this._components = [];
         this._children.forEach(child => {
             child.destruct();
         })

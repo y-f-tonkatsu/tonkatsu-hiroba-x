@@ -45,6 +45,7 @@ const CanvasWorkContent: FC<Props> = (props) => {
                 top: 0,
                 left: 0,
             }}
+            title={layer.name}
         >
         </canvas>;
         i++;
@@ -83,6 +84,7 @@ const CanvasWorkContent: FC<Props> = (props) => {
             const ctx = canvasRef.current.getContext("2d");
             if (!ctx) return undefined;
             layers.push(new CanvasLayer({
+                name: canvasRef.current.getAttribute("title") || "",
                 canvas: canvasRef.current,
                 context: ctx,
                 width: work.width,

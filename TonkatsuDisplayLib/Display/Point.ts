@@ -1,3 +1,5 @@
+import {Size} from "./Size";
+
 /**
  * 二次元の点またはベクトルを表す。
  */
@@ -24,8 +26,12 @@ export class Point {
     /**
      * ベクトルを整数倍して返す
      */
-    static multiply(a: Point, b: number) {
-        return new Point(a.x * b, a.y * b);
+    static multiply(a: Point, b: number | Size) {
+        if(typeof b === "number"){
+            return new Point(a.x * b, a.y * b);
+        } else {
+            return new Point(a.x * b.width, a.y * b.height);
+        }
     }
 
     /* よく使うものを作る static メソッド */
