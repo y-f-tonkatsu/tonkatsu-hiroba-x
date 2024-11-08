@@ -6,6 +6,7 @@ import PrevButton from "./PrevButton";
 import NextButton from "./NextButton";
 import BackButton from "./BackButton";
 import Contents from "./Contents";
+import PyoyiButton from "../Firebase/PyoyiButton";
 
 type Links = {
     list: string;
@@ -114,6 +115,7 @@ const ContentsPlayer: FC<Props> = ({work, links, prevWorks, nextWorks}) => {
     });
     const sideContent = (
         <div key="sideContent" className={styles.contentSide}>
+            <PyoyiButton contentId={work.id.toString()} />
             <h3 className={styles.labelSide}>Description</h3>
             <div className={styles.contentSideDescription}>{transitAnimation ? "" : desc}</div>
             <h3 className={styles.labelSide}>Tools</h3>
