@@ -56,7 +56,7 @@ export default function PyoyiButton({contentId}: PyoyiButtonProps) {
         };
     }, [contentId]);  // contentIdの変更を監視
     const getTimeoutDuration = (clicks: number) => {
-        return Math.max(1000 - clicks * 30, 10);
+        return Math.max( 10000 / (clicks * 3 + 10), 10);
     };
 
     const getPyoyiText = (count: number) => {
