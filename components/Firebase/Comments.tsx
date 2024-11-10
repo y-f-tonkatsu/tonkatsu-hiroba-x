@@ -126,6 +126,7 @@ const Comments: React.FC<CommentsProps> = ({contentId}) => {
             </div>
 
             <form onSubmit={handleSubmit} className={styles.form}>
+                <h3 className={styles.labelSideCenter}>コメントしよう！</h3>
                 <div className={styles.formGroup}>
                     <label className={styles.label}>おなまえ</label>
                     <input
@@ -160,7 +161,7 @@ const Comments: React.FC<CommentsProps> = ({contentId}) => {
                 </div>
 
                 <div className={styles.formGroup}>
-                    <label className={styles.label}>コメント本文</label>
+                    <label className={styles.label}>コメント本文 (予想入力されています)</label>
                     <textarea
                         value={comment}
                         onChange={handleCommentChange}
