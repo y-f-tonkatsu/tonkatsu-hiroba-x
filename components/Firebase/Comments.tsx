@@ -44,19 +44,20 @@ const Comments: React.FC<CommentsProps> = ({contentId}) => {
         setComment(generateComment());
     }, []);
 
+    const fetchComments = async () => {
+        const q = query(
+            collection(db, 'comment_threads', contentId, 'comments'),
+            orderBy('timestamp', 'desc')
+        );
+        const snapshot = await getDocs(q);
+        const fetchedComments = snapshot.docs.map(doc => ({
+            id: doc.id,
+            ...doc.data()
+        })) as Comment[];
+        setComments(fetchedComments);
+    };
+
     useEffect(() => {
-        const fetchComments = async () => {
-            const q = query(
-                collection(db, 'comment_threads', contentId, 'comments'),
-                orderBy('timestamp', 'desc')
-            );
-            const snapshot = await getDocs(q);
-            const fetchedComments = snapshot.docs.map(doc => ({
-                id: doc.id,
-                ...doc.data()
-            })) as Comment[];
-            setComments(fetchedComments);
-        };
 
         fetchComments();
     }, [contentId]);
@@ -83,6 +84,9 @@ const Comments: React.FC<CommentsProps> = ({contentId}) => {
             setTimeout(() => setCelebration(''), 2000);
 
             setComment(generateComment());
+
+            await fetchComments();
+
         } catch (error) {
             console.error('Error adding comment:', error);
         }
