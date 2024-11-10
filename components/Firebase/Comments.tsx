@@ -141,13 +141,15 @@ const Comments: React.FC<CommentsProps> = ({contentId}) => {
                 <div className={styles.iconSelector}>
                     <label className={styles.label}>アイコン</label>
                     {selectedIcon && (
-                        <div className={styles.iconPreview}>
-                            <img src={`/images/icons/${selectedIcon.filename}`} alt={selectedIcon.name}/>
+                        <div className={styles.iconPreviewContainer}>
+                            <div className={styles.iconPreview}>
+                                <img src={`/images/icons/${selectedIcon.filename}`} alt={selectedIcon.name}/>
+                            </div>
                             <div className={styles.iconName}>{selectedIcon.name}</div>
                         </div>
                     )}
                     <div className={styles.iconGrid}>
-                        {ICONS.map((icon) => (
+                    {ICONS.map((icon) => (
                             <div
                                 key={icon.filename}
                                 className={`${styles.iconItem} ${selectedIcon.filename === icon.filename ? styles.selectedIcon : ''}`}

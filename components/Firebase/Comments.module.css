@@ -188,6 +188,11 @@
     border: 2px solid #2563eb;
 }
 
+.iconPreviewContainer {
+    display: flex;
+    height: 140px;
+}
+
 .iconPreview {
     width: 100px;
     height: 100px;
@@ -203,10 +208,11 @@
 }
 
 .iconName {
-    text-align: center;
-    font-size: 0.875rem;
-    margin-top: 0.5rem;
-    color: #4b5563;
+    display: inline-block;
+    flex-grow: 1;
+    font-size: 1.4rem;
+    color: white;
+    margin: 10px 0 0 20px;
 }
 
 /* コメントリストのアイコン用スタイルを修正 */
