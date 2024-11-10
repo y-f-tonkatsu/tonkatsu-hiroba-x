@@ -45,7 +45,7 @@ export const ICONS = [
     },
     {
         "filename": "icon012.png",
-        "name": "ゴリラ"
+        "name": "夢を掴むゴリラ"
     },
     {
         "filename": "icon013.png",
