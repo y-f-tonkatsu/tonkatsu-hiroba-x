@@ -196,6 +196,7 @@
 .iconPreview {
     width: 100px;
     height: 100px;
+    min-width: 100px;
     margin: 1rem auto;
     border-radius: 50%;
     overflow: hidden;
