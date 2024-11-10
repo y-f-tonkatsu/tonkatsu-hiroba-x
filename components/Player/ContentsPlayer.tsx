@@ -7,6 +7,7 @@ import NextButton from "./NextButton";
 import BackButton from "./BackButton";
 import Contents from "./Contents";
 import PyoyiButton from "../Firebase/PyoyiButton";
+import Comments from "../Firebase/Comments";
 
 type Links = {
     list: string;
@@ -115,11 +116,14 @@ const ContentsPlayer: FC<Props> = ({work, links, prevWorks, nextWorks}) => {
     });
     const sideContent = (
         <div key="sideContent" className={styles.contentSide}>
-            <PyoyiButton contentId={work.id.toString()} />
+            <PyoyiButton contentId={work.id.toString()}/>
             <h3 className={styles.labelSide}>Description</h3>
             <div className={styles.contentSideDescription}>{transitAnimation ? "" : desc}</div>
             <h3 className={styles.labelSide}>Tools</h3>
             <div className={styles.contentSideDescription}>{transitAnimation ? "" : work.info}</div>
+            <h3 className={styles.labelSideCenter}>コメント</h3>
+            <Comments contentId={work.id.toString()}/>
+
         </div>
     );
     //コンテナ

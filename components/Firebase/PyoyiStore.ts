@@ -1,7 +1,6 @@
 import { doc, getDoc, updateDoc, setDoc, getFirestore } from 'firebase/firestore';
-import { firebaseApp } from './FirebaseApp';
+import { db } from './FirebaseApp';
 
-const db = getFirestore(firebaseApp);
 const COLLECTION_NAME = 'pyoyi_totals';
 
 interface PyoyiData {
