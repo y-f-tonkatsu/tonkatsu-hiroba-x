@@ -1,0 +1,89 @@
+body {
+    background-color: #1a1a1a;
+    color: #e0e0e0;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    line-height: 1.7;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+article {
+    background-color: #242424;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+h1 {
+    color: #ffffff;
+    font-size: 2.2rem;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid #404040;
+}
+
+h2 {
+    color: #ffffff;
+    font-size: 1.6rem;
+    margin-top: 3rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid #404040;
+}
+
+p {
+    margin-bottom: 1.5rem;
+}
+
+/* 引用部分のスタイル */
+q {
+    display: block;
+    background-color: #2a2a2a;
+    border-left: 4px solid #4a4a4a;
+    margin: 2rem 0;
+    padding: 1.5rem;
+    font-style: italic;
+    border-radius: 0 8px 8px 0;
+    color: #cccccc;
+}
+
+/* サイドノート */
+aside {
+    background-color: #2a2a2a;
+    padding: 1rem;
+    margin-bottom: 2rem;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    color: #999999;
+}
+
+/* リンクスタイル */
+a {
+    color: #66b3ff;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+a:hover {
+    color: #99ccff;
+}
+
+/* レスポンシブ対応 */
+@media (max-width: 600px) {
+    body {
+        padding: 1rem;
+    }
+
+    article {
+        padding: 1rem;
+    }
+
+    h1 {
+        font-size: 1.8rem;
+    }
+
+    h2 {
+        font-size: 1.4rem;
+    }
+}
