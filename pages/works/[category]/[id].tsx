@@ -16,7 +16,7 @@ export const ID_NO_CONTENTS: number = 0;
 type Props = {
     id: number;
     works: Work[][];
-    timelineCategory: CategoryID
+    timelineCategory: CategoryID;
 };
 type PageWithLayout = NextPage<Props> & {
     getLayout?: (page: ReactElement) => ReactNode
@@ -54,7 +54,6 @@ const WorksPage: PageWithLayout = ({id, works, timelineCategory}) => {
         const url = `${AppData.baseUrl}/works/${timelineCategory}/${work.id}`;
         head = (
             <Head>
-
                 <title key="title">{title}</title>
                 <meta key="description" name="description" content={work.description}/>
                 <link key="canonical" rel="canonical" href={url}/>
@@ -66,7 +65,6 @@ const WorksPage: PageWithLayout = ({id, works, timelineCategory}) => {
                 <meta key="ogImage" property="og:image" content={`${AppData.baseUrl}${work.path}`}/>
                 <meta key="ogImageWidth" property="og:image:width" content={work.width.toString()}/>
                 <meta key="ogImageHeight" property="og:image:height" content={work.height.toString()}/>
-
             </Head>
         );
         player = createPlayer(allWorks, work, index, timelineCategory);
@@ -106,7 +104,12 @@ const scripts = (
 /**
  * コンテンツデータからプレイヤーコンポーネントを作る
  */
-const createPlayer = (allWorks: Work[], work: Work, index: number, timelineCategory: CategoryID) => {
+const createPlayer = (
+    allWorks: Work[],
+    work: Work,
+    index: number,
+    timelineCategory: CategoryID,
+) => {
     let next, prev;
     let prevWorks = [allWorks[index + 1], allWorks[index + 2]];
     let nextWorks = [allWorks[index - 1], allWorks[index - 2]];
@@ -117,6 +120,8 @@ const createPlayer = (allWorks: Work[], work: Work, index: number, timelineCateg
         prev: prev,
         next: next,
     }
+
+    // 他のカテゴリの場合...
     return (
         <ContentsPlayer
             key="ContentsPlayer"
@@ -180,34 +185,27 @@ export const getStaticPaths: GetStaticPaths = async () => {
  * SSG設定
  */
 export const getStaticProps: GetStaticProps = async (context) => {
-
-    //列を表す2重配列 Cols × Works
+    // 列を表す2重配列 Cols × Works
     const cols: Work[][] = (new Array(NUM_COLS)).fill([]).map(() => ([]));
-    //各列の高さの合計を集計
     const heights: number[] = (new Array(NUM_COLS)).fill(0);
 
-    //一番低い cols から work を順に追加していく
     const params = context.params || {};
     const category = isCategory(params.category) ? params.category : "all";
     const works = category === "all" ? worksJson : worksJson.filter(work => category === work.category);
     works.forEach(work => {
-        //一番低い列のインデックスを取得
         let n = heights.indexOf(Math.min(...heights));
-        //追加と高さの記録
         heights[n] += work.thumbHeight * (240 / work.thumbWidth);
         cols[n].push(work)
     });
 
-    //props を作る
     const id = typeof params.id === "string" ? parseInt(params.id) : ID_NO_CONTENTS;
-    const props: Props = {
-        id: id,
-        works: cols,
-        timelineCategory: category
-    }
 
     return {
-        props
+        props: {
+            id,
+            works: cols,
+            timelineCategory: category,
+        }
     }
 }
 

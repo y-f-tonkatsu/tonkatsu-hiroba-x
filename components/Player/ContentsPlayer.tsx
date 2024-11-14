@@ -1,6 +1,6 @@
 import styles from "./ContentsPlayer.module.scss"
 import {Work} from "../../types/Work";
-import {FC, ReactNode, useState} from "react";
+import {FC, ReactNode, useEffect, useState} from "react";
 import {useRouter} from "next/router";
 import PrevButton from "./PrevButton";
 import NextButton from "./NextButton";
@@ -31,10 +31,6 @@ export type TransitAnimation = {
 
 /**
  * コンテンツ単体表示コンポーネント
- * @param work 表示するコンテンツ
- * @param links TLに戻る、PREV/NEXT の各 URL
- * @param prevWorks プリロード対象のコンテンツ
- * @param nextWorks プリロード対象のコンテンツ
  */
 const ContentsPlayer: FC<Props> = ({work, links, prevWorks, nextWorks}) => {
 
@@ -109,7 +105,7 @@ const ContentsPlayer: FC<Props> = ({work, links, prevWorks, nextWorks}) => {
         </div>
     );
     //サイド
-    let desc:ReactNode[] = [];
+    let desc: ReactNode[] = [];
     work.description.split("\n").forEach((d, i) => {
         desc.push(d);
         desc.push(<br key={"desc_br_" + i}/>);
@@ -128,8 +124,7 @@ const ContentsPlayer: FC<Props> = ({work, links, prevWorks, nextWorks}) => {
     );
     //コンテナ
     const mainContainer = (
-        <div key="mainContainer" className={`${styles.containerMain}`}
-        >
+        <div key="mainContainer" id={"mainContainer"} className={`${styles.containerMain}`}>
             {[mainContent, sideContent]}
         </div>
     );
@@ -142,7 +137,21 @@ const ContentsPlayer: FC<Props> = ({work, links, prevWorks, nextWorks}) => {
             as="image"
             href={work.path}
         />
-    })
+    });
+
+    // ページ遷移完了時にスクロールをリセット
+    useEffect(() => {
+
+        const handleRouteChange = () => {
+            document.querySelector('#mainContainer')?.scrollTo(0, 0);
+        };
+
+        router.events.on('routeChangeComplete', handleRouteChange);
+
+        return () => {
+            router.events.off('routeChangeComplete', handleRouteChange);
+        };
+    }, [router]);
 
     return (
         <div key="ContainerPlayer" className={styles.containerPlayer}>

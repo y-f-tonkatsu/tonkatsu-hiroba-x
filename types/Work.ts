@@ -1,4 +1,5 @@
 import {GameWorkOptions} from "./GameWorkOptions";
+import {JSXElement} from "@babel/types";
 
 export type Work = {
     id: number,

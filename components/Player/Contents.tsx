@@ -4,6 +4,7 @@ import {motion} from "framer-motion";
 import {TransitAnimation} from "./ContentsPlayer";
 import {FC} from "react";
 import CanvasWorkContent from "./CanvasWorkContent";
+import {getWritingWorks} from "../WritingWorks/WritingWorks";
 
 type Props = {
     work: Work;
@@ -54,6 +55,8 @@ function getNoTransitionContent(work: Work) {
         content = <CanvasWorkContent
             work={work}
         />
+    } else if (work.category == "writing") {
+        content = (<div className={"writing"}>{getWritingWorks(work.id)}</div>);
     } else {
         content = (
             <img key={`${work.path}`}
@@ -109,6 +112,8 @@ function getTransitionContent(work: Work, transitAnimation: TransitAnimation) {
     if (isCanvasWork(newWork)) {
         //アニメ作品の場合
         newContent = null;
+    } else if (newWork.category == "writing") {
+        newContent = (<div className={"writing"}>{getWritingWorks(newWork.id)}</div>);
     } else {
         newContent = (
             <img
@@ -149,6 +154,8 @@ function getTransitionContent(work: Work, transitAnimation: TransitAnimation) {
     //消える方の要素を作る
     if (isCanvasWork(work)) {
         oldContent = null;
+    } else if (work.category == "writing") {
+        oldContent = (<div className={"writing"}>{getWritingWorks(work.id)}</div>);
     } else {
         const klass = getKlass(work.category);
         oldContent = (
@@ -192,7 +199,7 @@ function getTransitionContent(work: Work, transitAnimation: TransitAnimation) {
  * work がモーションやゲームのような Canvas コンテンツがどうかを判定する。
  * ただし、リンクが張ってあるだけのものは false を返す。
  */
-function isCanvasWork(work: Work):boolean {
+function isCanvasWork(work: Work): boolean {
     return work.category === "animation" ||
         (work.category === "game" && typeof work.link === "undefined");
 }
