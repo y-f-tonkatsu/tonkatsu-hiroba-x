@@ -37,6 +37,11 @@ a {
   padding: 2rem;
   text-align: left;
 
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+
   article {
     max-width: 800px;
     background-color: #242424;
