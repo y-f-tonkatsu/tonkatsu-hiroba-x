@@ -35,6 +35,7 @@ a {
   line-height: 1.7;
   margin: 0 auto;
   padding: 2rem;
+  text-align: left;
 
   article {
     max-width: 800px;
@@ -64,6 +65,13 @@ a {
 
   p {
     margin-bottom: 1.5rem;
+  }
+
+  q:before{
+    content: none;
+  }
+  q:after{
+    content: none;
   }
 
   /* 引用部分のスタイル */
@@ -99,6 +107,10 @@ a {
     color: #99ccff;
   }
 
+  br {
+    display: block;
+  }
+
   /* レスポンシブ対応 */
   @media (max-width: 600px) {
     body {
@@ -116,5 +128,10 @@ a {
     h2 {
       font-size: 1.4rem;
     }
+
+    br {
+      display: none;
+    }
   }
+
 }

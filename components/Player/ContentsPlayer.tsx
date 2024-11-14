@@ -110,12 +110,13 @@ const ContentsPlayer: FC<Props> = ({work, links, prevWorks, nextWorks}) => {
         desc.push(d);
         desc.push(<br key={"desc_br_" + i}/>);
     });
+    const infoLabel = work.category === "writing"? "Info" : "Tools";
     const sideContent = (
         <div key="sideContent" className={styles.contentSide}>
             <PyoyiButton contentId={work.id.toString()}/>
             <h3 className={styles.labelSide}>Description</h3>
             <div className={styles.contentSideDescription}>{transitAnimation ? "" : desc}</div>
-            <h3 className={styles.labelSide}>Tools</h3>
+            <h3 className={styles.labelSide}>{infoLabel}</h3>
             <div className={styles.contentSideDescription}>{transitAnimation ? "" : work.info}</div>
             <h3 className={styles.labelSideCenter}>コメント</h3>
             <Comments contentId={work.id.toString()}/>
