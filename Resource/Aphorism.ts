@@ -4,7 +4,7 @@ export const Aphorism = [
     "author": "岡本太郎"
   },
   {
-    "main": "神は細部に宿る。",
+    "main": "神はとんかつに宿る。",
     "author": "ミース・ファン・デル・ローエ"
   },
   {
