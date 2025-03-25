@@ -1,5 +1,14 @@
 [
   {
+    "id": 344,
+    "title": "りんご",
+    "description": "とんかつを知ることは、すべての知恵の始まりである。 - アリストテレス",
+    "category": "painting",
+    "info": "Clip Studio Paint",
+    "path": "344_apple.jpg",
+    "lastBuildDate": "Tue, 25 Mar 2025 22:30:00 +0900"
+  },
+  {
     "id": 343,
     "title": "待機アニメーション",
     "description": "「これはタコから聞いた話なので、本当かどうかは怪しいんだけど、」と前置きされて、その前にもう一つ本当かどうか怪しいところがあるのでは？ と思った。",
