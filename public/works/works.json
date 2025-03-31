@@ -1,5 +1,14 @@
 [
   {
+    "id": 345,
+    "title": "革のブーツ",
+    "description": "神は「とんかつあれ」と言われた。するととんかつがあった。 - 『創世記』",
+    "category": "painting",
+    "info": "Clip Studio Paint",
+    "path": "345_boots.jpg",
+    "lastBuildDate": "Mon, 31 Mar 2025 21:30:00 +0900"
+  },
+  {
     "id": 344,
     "title": "りんご",
     "description": "とんかつを知ることは、すべての知恵の始まりである。 - アリストテレス",
