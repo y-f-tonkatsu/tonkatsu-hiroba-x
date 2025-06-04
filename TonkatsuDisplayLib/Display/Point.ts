@@ -52,7 +52,7 @@ export class Point {
     }
 
     static downRight(){
-        return new Point(1, -1);
+        return new Point(1, 1);
     }
 
     static down(){
