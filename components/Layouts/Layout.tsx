@@ -14,14 +14,14 @@ export const Layout = ({children}: { children: ReactElement[] }) => {
         <>
             <Head>
 
-                <title key="title">{AppData.title}</title>
+                <title key="title">{AppData.title + " - ホーム"}</title>
                 <meta key="author" name="author" content={AppData.author}/>
                 <meta key="description" name="description" content={AppData.description}/>
 
                 <link key="canonical" rel="canonical" href={AppData.baseUrl}/>
                 <link key="icon" rel="icon" href={favicon.src}/>
 
-                <meta key="ogTitle" property="og:title" content={AppData.title}/>
+                <meta key="ogTitle" property="og:title" content={AppData.title + " - ホーム"}/>
                 <meta key="ogUrl" property="og:url" content={AppData.baseUrl}/>
                 <meta key="ogType" property="og:type" content="website"/>
                 <meta key="ogDescription" property="og:description" content={AppData.description}/>
@@ -29,10 +29,18 @@ export const Layout = ({children}: { children: ReactElement[] }) => {
                 <meta key="ogImageWidth" property="og:image:width" content="1920"/>
                 <meta key="ogImageHeight" property="og:image:height" content="1080"/>
                 <meta key="ogSiteName" property="og:site_name" content={AppData.title}/>
-                <meta key="fbAdmins" property="fb:admins" content="100001501165698"/>
-                <meta key="fbAppID" property="fb:app_id" content="303809516397647"/>
-                <meta key="twitterCard" name="twitter:card" content="summary"/>
-                <meta key="twitterSite" name="twitter:site" content="@TonkatsuHiroba"/>
+
+                <script
+                    type="application/ld+json"
+                    dangerouslySetInnerHTML={{
+                        __html: JSON.stringify({
+                            "@context": "https://schema.org",
+                            "@type": "WebSite",
+                            "name": "とんかつひろば",
+                            "url": "https://www.tonkatsuhiroba.com/"
+                        }),
+                    }}
+                />
             </Head>
 
             <div className={styles.containerLayout}>
