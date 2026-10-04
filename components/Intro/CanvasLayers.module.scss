@@ -1,0 +1,14 @@
+@import "../../styles/vars";
+
+.containerCanvas {
+  position: sticky;
+  pointer-events: none;
+  width: 100%;
+  z-index: $zIndex_opening_canvas;
+}
+
+.canvasLayer {
+  left: 120px;
+  top: 0;
+  pointer-events: none;
+}

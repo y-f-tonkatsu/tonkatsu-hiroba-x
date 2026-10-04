@@ -1,0 +1,61 @@
+@import "../../styles/vars";
+
+/* グロウのためのコンテナ */
+
+.containerLight {
+  filter: drop-shadow(-6px -6px 8px #ffdd22);
+}
+
+.containerLight:hover {
+  filter: drop-shadow(-6px -6px 4px #ffdd22);
+}
+
+@media (max-width: #{$media_s}px) {
+  .containerLight {
+    filter: drop-shadow(-3px -3px 4px #ffdd22);
+  }
+
+  .containerLight:hover {
+    filter: drop-shadow(-3px -3px 2px #ffdd22);
+  }
+}
+
+
+/* ラベル */
+
+.labelNavBar {
+  writing-mode: vertical-rl;
+  font-size: 1.4rem;
+  color: #eec;
+  margin: 0.8rem auto;
+
+  filter: drop-shadow(3px 3px 1px #a0a0ee);
+
+  font-family: corporate-logo-ver2, sans-serif;
+  font-weight: 500;
+  font-style: normal;
+
+}
+
+.labelNavBar:hover {
+  color: #ff9;
+  filter: drop-shadow(4px 4px 0px #5050cc);
+}
+
+.itemNavBar{
+}
+
+@media (max-width: #{$media_s}px) {
+
+  .itemNavBar{
+    width: 20vw;
+  }
+
+  .labelNavBar {
+    writing-mode: horizontal-tb;
+    margin: 0.4rem 1rem;
+    text-align: center;
+    vertical-align: middle;
+    min-width: 5rem;
+  }
+}

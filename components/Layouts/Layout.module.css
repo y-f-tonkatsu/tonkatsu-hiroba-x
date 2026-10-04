@@ -1,0 +1,44 @@
+@charset "UTF-8";
+/* 全体のレイアウト */
+.containerLayout {
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
+}
+
+.contentNavbar {
+  min-width: 120px;
+  width: 120px;
+  height: 100%;
+  flex-grow: 0;
+  background: #112;
+  display: flex;
+  flex-flow: column;
+}
+
+.contentMain {
+  flex-grow: 1;
+  display: flex;
+  flex-flow: column;
+  padding: 0;
+  margin: 0;
+}
+
+@media (max-width: 1020px) {
+  .containerLayout {
+    flex-direction: column;
+  }
+
+  .contentNavbar {
+    width: 100vw;
+    min-height: 3rem;
+    flex-direction: row;
+    flex-flow: row;
+    overflow-x: auto;
+  }
+}
+
+/*# sourceMappingURL=Layout.module.css.map */
